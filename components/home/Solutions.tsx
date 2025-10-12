@@ -39,17 +39,19 @@ export default function Solutions() {
                 key={solution.subtitle}
                 className="flex flex-col gap-4 rounded-2xl border border-primary/10 bg-white p-6 shadow-sm"
               >
-                <div className="text-xl font-semibold text-accent">
-                  {solution.subtitle}
+                <div className="min-h-[6rem] space-y-2">
+                  <div className="text-xl font-semibold text-accent">
+                    {solution.subtitle}
+                  </div>
+                  <h3 className="text-md font-semibold leading-snug text-primary">
+                    {lines.map((line, index) => (
+                      <Fragment key={index}>
+                        {line}
+                        {index !== lines.length - 1 && <br />}
+                      </Fragment>
+                    ))}
+                  </h3>
                 </div>
-                <h3 className="text-md font-semibold text-primary">
-                  {lines.map((line, index) => (
-                    <Fragment key={index}>
-                      {line}
-                      {index !== lines.length - 1 && <br />}
-                    </Fragment>
-                  ))}
-                </h3>
                 <p className="text-base leading-relaxed text-text/80">
                   {solution.description}
                 </p>

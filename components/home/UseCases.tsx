@@ -54,7 +54,7 @@ const USE_CASES = [
     ),
   },
   {
-    title: "資料・レポート作成補助システム",
+    title: "資料作成補助システム",
     description:
       "日報や報告書の作成工数を80%削減。データに基づいた高品質な資料を誰でも作成でき、品質の平準化に貢献します。",
     icon: (
@@ -95,12 +95,14 @@ export default function UseCases() {
               key={useCase.title}
               className="flex flex-col gap-4 rounded-2xl border border-primary/10 bg-white p-6 shadow-sm"
             >
-              <div className="flex h-12 w-12 items-center justify-center rounded-full bg-primary/10 text-primary">
-                {useCase.icon}
+              <div className="min-h-[4rem] space-y-3">
+                <div className="flex h-12 w-12 items-center justify-center rounded-full bg-primary/10 text-primary">
+                  {useCase.icon}
+                </div>
+                <h3 className="text-lg font-semibold leading-snug text-primary">
+                  {useCase.title}
+                </h3>
               </div>
-              <h3 className="text-lg font-semibold text-primary">
-                {useCase.title}
-              </h3>
               <p className="text-sm leading-relaxed text-text/80">
                 {useCase.description}
               </p>
