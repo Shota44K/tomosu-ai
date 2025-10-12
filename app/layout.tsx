@@ -24,9 +24,9 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="ja">
-      <body className={`${notoSans.variable} antialiased`}>
+      <body className={`${notoSans.variable} bg-white text-text antialiased`}>
         <Header />
-        <div className="bg-base text-text min-h-screen">
+        <div className="bg-white">
           {children}
         </div>
         <Footer />

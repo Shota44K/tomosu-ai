@@ -5,7 +5,7 @@ import { useState } from "react";
 
 const NAV_LINKS = [
   { href: "/#services", label: "サービス" },
-  { href: "/#pricing", label: "料金" },
+  { href: "/#pricing", label: "開発費用" },
   { href: "/company", label: "会社概要" },
   { href: "/#contact", label: "お問い合わせ" },
   { href: "/#faq", label: "FAQ" },

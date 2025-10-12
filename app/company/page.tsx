@@ -5,7 +5,6 @@ const COMPANY_INFO = [
   { label: "所在地", value: "〒XXX-XXXX 〇〇県〇〇市〇〇 X-X-X" },
   { label: "設立", value: "2025年10月" },
   { label: "代表者", value: "甲浦 翔太" },
-  { label: "連絡先", value: "shota.koura@tomosu-ai.com" },
 ];
 
 export const metadata: Metadata = {
@@ -16,30 +15,35 @@ export const metadata: Metadata = {
 
 export default function CompanyPage() {
   return (
-    <main className="bg-base text-text">
-      <section className="bg-primary text-white">
-        <div className="mx-auto max-w-6xl px-4 py-20 sm:px-6 md:px-8 lg:px-12">
-          <p className="text-sm font-semibold text-white/80">Company</p>
-          <h1 className="mt-4 text-3xl font-bold md:text-4xl">
-            会社概要
-          </h1>
-        </div>
-      </section>
-      <section className="bg-white/90">
-        <div className="mx-auto max-w-6xl px-4 py-16 sm:px-6 md:px-8 lg:px-12">
-          <dl className="mt-8 grid gap-4 text-sm text-text/80">
-            {COMPANY_INFO.map((item) => (
-              <div
-                key={item.label}
-                className="flex flex-col gap-1 rounded-2xl border border-primary/10 bg-white p-6 shadow-sm md:flex-row md:items-center md:justify-between"
-              >
-                <dt className="font-semibold text-text md:w-40">{item.label}</dt>
-                <dd className="md:flex-1">{item.value}</dd>
-              </div>
-            ))}
-          </dl>
-        </div>
-      </section>
-    </main>
+    <div className="min-h-full bg-white text-text">
+      <main>
+        <section className="bg-primary text-white">
+          <div className="mx-auto max-w-6xl px-4 pt-20 pb-10 sm:px-6 md:px-8 lg:px-12">
+            <h1 className="mt-4 text-3xl font-bold md:text-4xl">
+              会社概要
+            </h1>
+          </div>
+        </section>
+        <section className="bg-white">
+          <div className="mx-auto max-w-4xl px-4 pt-4 pb-18 sm:px-6 md:px-8 lg:px-12 lg:pb-31 lg:pt-26 xl:pt-26 xl:py-34">
+            <dl className="mt-9 divide-y divide-primary/10 border-t border-primary/10 text-sm text-text">
+              {COMPANY_INFO.map((item) => (
+                <div
+                  key={item.label}
+                  className="grid gap-2 py-5 md:grid-cols-[140px_minmax(0,1fr)] md:gap-10"
+                >
+                  <dt className="text-sm font-medium text-text/70">
+                    {item.label}
+                  </dt>
+                  <dd className="text-base text-text">
+                    {item.value}
+                  </dd>
+                </div>
+              ))}
+            </dl>
+          </div>
+        </section>
+      </main>
+    </div>
   );
 }
