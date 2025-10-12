@@ -2,7 +2,7 @@ const USE_CASES = [
   {
     title: "AIお問合せ対応システム",
     description:
-      "よくある質問への回答を自動化し、顧客満足度（一次解決率）の向上と、担当者の対応時間の短縮を実現します。",
+      "問い合わせ対応への回答を自動化し、顧客満足度の向上と担当者の対応時間の短縮を実現。",
     icon: (
       <svg
         xmlns="http://www.w3.org/2000/svg"
@@ -29,7 +29,7 @@ const USE_CASES = [
   {
     title: "社内ナレッジ検索システム",
     description:
-      "社内の膨大な資料から、必要な情報をAIが瞬時に探し出します。探す時間を90%削減し、業務の属人化を解消します。",
+      "社内の膨大な資料から、必要な情報をAIが瞬時に探し出す。業務の効率性及び属人化を解消。",
     icon: (
       <svg
         xmlns="http://www.w3.org/2000/svg"
@@ -56,7 +56,7 @@ const USE_CASES = [
   {
     title: "資料作成補助システム",
     description:
-      "日報や報告書の作成工数を80%削減。データに基づいた高品質な資料を誰でも作成でき、品質の平準化に貢献します。",
+      "営業提案資料の作成工数を削減。過去提案資料に基づいた高品質な資料の作成をサポート。",
     icon: (
       <svg
         xmlns="http://www.w3.org/2000/svg"
@@ -87,9 +87,9 @@ export default function UseCases() {
     <section id="usecases" className="bg-base">
       <div className="mx-auto max-w-4xl px-4 py-16">
         <h2 className="text-2xl font-bold text-primary md:text-3xl">
-          貴社の業務課題を、AIで解決します。
+          AIシステム開発事例
         </h2>
-        <div className="mt-10 grid gap-8 md:grid-cols-3">
+        <div className="mt-10 grid gap-5 md:grid-cols-3">
           {USE_CASES.map((useCase) => (
             <article
               key={useCase.title}
@@ -112,7 +112,7 @@ export default function UseCases() {
         <div className="mt-10 text-center">
           <a
             href="#contact"
-            className="inline-flex items-center justify-center rounded-full bg-primary px-6 py-3 text-base font-semibold text-white shadow transition hover:bg-primary/90"
+            className="inline-flex min-w-[12rem] items-center justify-center rounded-full bg-primary px-8 py-3.5 text-base font-semibold text-white shadow transition hover:bg-primary/90"
           >
             相談する
           </a>

@@ -13,11 +13,11 @@ export default function Header() {
     <header className="fixed inset-x-0 top-0 z-50 bg-base/90 backdrop-blur border-b border-primary/10">
       <nav className="mx-auto flex max-w-6xl items-center justify-between px-4 py-3">
         <div className="flex items-center gap-3">
-          <img
+          {/* <img
             src="https://via.placeholder.com/48x48"
             alt="tomosu-AI ロゴ"
             className="h-12 w-12 rounded-full border border-primary/20 bg-white"
-          />
+          /> */}
           <span className="text-lg font-semibold tracking-tight">tomosu-AI</span>
         </div>
         <div className="hidden items-center gap-6 text-sm font-medium md:flex">

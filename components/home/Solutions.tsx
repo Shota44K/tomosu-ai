@@ -30,7 +30,7 @@ export default function Solutions() {
             そのお悩み、弊社がすべて解決します
           </h2>
         </div>
-        <div className="mt-12 grid gap-8 md:grid-cols-3">
+        <div className="mt-12 grid gap-5 md:grid-cols-3">
           {SOLUTIONS.map((solution) => {
             const lines = solution.title.split("<br>");
 
@@ -62,7 +62,7 @@ export default function Solutions() {
         <div className="mt-10 text-center">
           <a
             href="#contact"
-            className="inline-flex items-center justify-center rounded-full bg-primary px-6 py-3 text-base font-semibold text-white shadow transition hover:bg-primary/90"
+            className="inline-flex min-w-[12rem] items-center justify-center rounded-full bg-primary px-8 py-3.5 text-base font-semibold text-white shadow transition hover:bg-primary/90"
           >
             相談する
           </a>

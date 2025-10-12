@@ -3,7 +3,7 @@ export default function Services() {
     <section id="services" className="bg-base">
       <div className="mx-auto max-w-4xl px-4 py-16">
         <h2 className="text-2xl font-bold text-primary md:text-3xl">
-          「効果を確認してから、投資を決める AIシステム開発」
+          効果を確認してから、投資を決める
         </h2>
         <div className="mt-8 grid gap-8 md:grid-cols-2">
           <article className="rounded-2xl border border-primary/10 bg-white p-6 shadow-sm">

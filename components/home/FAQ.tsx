@@ -39,7 +39,7 @@ export default function FAQ() {
         <div className="mt-10 text-center">
           <a
             href="#contact"
-            className="inline-flex items-center justify-center rounded-full bg-primary px-6 py-3 text-base font-semibold text-white shadow transition hover:bg-primary/90"
+            className="inline-flex min-w-[12rem] items-center justify-center rounded-full bg-primary px-8 py-3.5 text-base font-semibold text-white shadow transition hover:bg-primary/90"
           >
             相談する
           </a>
@@ -48,4 +48,3 @@ export default function FAQ() {
     </section>
   );
 }
-

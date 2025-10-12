@@ -5,9 +5,6 @@ export default function ContactForm() {
         <h2 className="text-2xl font-bold text-primary md:text-3xl">
           まずはお気軽にお問合せください
         </h2>
-        <p className="mt-4 text-sm text-text/80">
-          まだ具体的なプランが決まっていなくても構いません。「こんなことはできる？」といった漠然としたご相談も可能です。まずはお気軽にお問合せください。
-        </p>
         <form
           name="contact"
           method="POST"
@@ -59,7 +56,7 @@ export default function ContactForm() {
           </div>
           <div>
             <label htmlFor="phone" className="block text-sm font-semibold text-text">
-              電話番号（任意）
+              電話番号 <span className="text-accent">*</span>
             </label>
             <input
               id="phone"
@@ -73,7 +70,7 @@ export default function ContactForm() {
               htmlFor="message"
               className="block text-sm font-semibold text-text"
             >
-              ご相談内容（任意）
+              ご相談内容 <span className="text-accent">*</span>
             </label>
             <textarea
               id="message"
@@ -85,7 +82,7 @@ export default function ContactForm() {
           <div className="text-center">
             <button
               type="submit"
-              className="inline-flex items-center justify-center rounded-full bg-primary px-6 py-3 text-base font-semibold text-white shadow transition hover:bg-primary/90"
+              className="inline-flex min-w-[12rem] items-center justify-center rounded-full bg-primary px-8 py-3.5 text-base font-semibold text-white shadow transition hover:bg-primary/90"
             >
               送信する
             </button>
@@ -101,4 +98,3 @@ export default function ContactForm() {
     </section>
   );
 }
-

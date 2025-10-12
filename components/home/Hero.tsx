@@ -126,15 +126,15 @@ export default function Hero() {
 
       // --- フェーズ3: 鮮明化 ---
       tl.to(primaryBlob, {
-        filter: 'blur(40px)',
+        filter: 'blur(80px)',
         width: '25rem',
         height: '25rem',
-        opacity: 0.85,
+        opacity: 0.95,
         duration: prefersReducedMotion ? 0.8 : 1.1,
         ease: 'power2.out',
       });
 
-      // --- フェーズ5: 最終の呼吸 ---
+      // --- フェーズ5: 最終 心臓の鼓動のように少し丸が膨らんだり、しぼんだりを繰り返す ---
       tl.eventCallback('onComplete', () => {
         floatTweens.forEach((t) => t.kill());
         breathingTween = gsap.to(primaryBlob, {
@@ -171,7 +171,7 @@ export default function Hero() {
     <section
       id="hero"
       ref={sectionRef}
-      className="relative overflow-hidden bg-base text-primary"
+      className="relative -mt-28 overflow-hidden bg-base text-primary"
       aria-label="Hero"
     >
       <div className="pointer-events-none absolute inset-0">
@@ -180,7 +180,8 @@ export default function Hero() {
           className="absolute -left-24 -top-40 h-[28rem] w-[28rem] rounded-full blur-[70px]"
           style={{
             opacity: 0,
-            background: 'radial-gradient(55% 55% at 50% 50%, rgba(0, 89, 79, 0.75), transparent)',
+            background:
+              'radial-gradient(55% 55% at 50% 50%, rgba(0, 89, 79, 0.85), rgba(20, 132, 118, 0.38) 65%, transparent 100%)',
           }}
         />
         <div
@@ -188,7 +189,8 @@ export default function Hero() {
           className="absolute -right-48 top-[-4rem] h-[32rem] w-[32rem] rounded-full blur-[80px]"
           style={{
             opacity: 0,
-            background: 'radial-gradient(60% 60% at 50% 50%, rgba(139, 197, 63, 0.68), transparent)',
+            background:
+              'radial-gradient(60% 60% at 42% 45%, rgba(139, 197, 63, 0.72), rgba(0, 89, 79, 0.42) 55%, transparent 100%)',
           }}
         />
         <div
@@ -196,7 +198,8 @@ export default function Hero() {
           className="absolute left-1/2 top-1/2 h-[30rem] w-[30rem] -translate-x-1/2 -translate-y-1/2 rounded-full blur-[90px]"
           style={{
             opacity: 0,
-            background: 'radial-gradient(50% 50% at 50% 50%, rgba(0, 89, 79, 0.58), transparent)',
+            background:
+              'radial-gradient(50% 50% at 50% 50%, rgba(0, 89, 79, 0.62), rgba(16, 124, 108, 0.4) 60%, rgba(139, 197, 63, 0.24) 85%, transparent 100%)',
           }}
         />
         <div
@@ -204,7 +207,8 @@ export default function Hero() {
           className="absolute left-[12%] bottom-[-6rem] h-[24rem] w-[24rem] rounded-full blur-[85px]"
           style={{
             opacity: 0,
-            background: 'radial-gradient(55% 55% at 50% 50%, rgba(0, 89, 79, 0.4), transparent)',
+            background:
+              'radial-gradient(55% 55% at 48% 52%, rgba(38, 124, 111, 0.5), rgba(0, 89, 79, 0.34) 60%, rgba(139, 197, 63, 0.22) 85%, transparent 100%)',
           }}
         />
       </div>
@@ -218,7 +222,7 @@ export default function Hero() {
             ref={titleRef}
             className="whitespace-pre-wrap text-3xl font-bold leading-tight tracking-tight text-primary md:text-5xl"
           >
-            AIシステム開発の失敗リスクをゼロに
+            AIシステム開発のリスクをゼロに
             {'\n'}
             効果が見えるまで費用負担なし
           </h1>
@@ -226,20 +230,20 @@ export default function Hero() {
             data-animate="hero-lead"
             className="max-w-xl text-base text-text/80 md:text-lg"
           >
-            PoC成功まで固定費ゼロ。要件整理から運用まで伴走し、成果が出たら課金する成功報酬モデルで導入障壁を取り除きます。
+            中堅・中小企業の経営課題をAIで解決するパートナー<br />
           </p>
           <div className="flex flex-col gap-4 sm:flex-row" data-animate="hero-cta">
             <a
               href="#contact"
-              className="inline-flex items-center justify-center rounded-full bg-primary px-6 py-3 text-base font-semibold text-white shadow-lg transition hover:bg-primary/90 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary/80"
+              className="inline-flex w-[12rem] items-center justify-center rounded-full bg-primary px-8 py-3.5 text-base font-semibold text-white shadow-lg transition hover:bg-primary/90 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary/80"
             >
               相談する
             </a>
             <a
               href="#services"
-              className="inline-flex items-center justify-center rounded-full border border-primary px-6 py-3 text-base font-semibold text-primary transition hover:bg-primary/10 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary/40"
+              className="inline-flex w-[12rem] items-center justify-center rounded-full border border-primary px-6 py-3 text-base font-semibold text-primary transition hover:bg-primary/10 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary/40"
             >
-              サービスを見る
+              システム開発プロセス
             </a>
           </div>
         </div>

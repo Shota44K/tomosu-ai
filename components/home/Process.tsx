@@ -30,7 +30,7 @@ export default function Process() {
     <section id="process" className="bg-white/90">
       <div className="mx-auto max-w-4xl px-4 py-16">
         <h2 className="text-2xl font-bold text-primary md:text-3xl">
-          システム開発までの流れ。
+          システム開発・導入までの流れ。
         </h2>
         <div className="mt-10 grid gap-4 md:grid-cols-4">
           {STEPS.map((item) => (
@@ -55,7 +55,7 @@ export default function Process() {
         <div className="mt-10 text-center">
           <a
             href="#contact"
-            className="inline-flex items-center justify-center rounded-full bg-primary px-6 py-3 text-base font-semibold text-white shadow transition hover:bg-primary/90"
+            className="inline-flex min-w-[12rem] items-center justify-center rounded-full bg-primary px-8 py-3.5 text-base font-semibold text-white shadow transition hover:bg-primary/90"
           >
             相談する
           </a>
