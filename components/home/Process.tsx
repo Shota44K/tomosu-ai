@@ -42,7 +42,7 @@ export default function Process() {
                 <span className="text-sm font-semibold text-accent">
                   {item.step}
                 </span>
-                <h3 className="text-lg font-semibold leading-snug text-primary">
+                <h3 className="text-xl font-semibold leading-snug text-primary">
                   {item.title}
                 </h3>
               </div>

@@ -86,7 +86,7 @@ export default function UseCases() {
   return (
     <section id="usecases" className="bg-base">
       <div className="mx-auto max-w-4xl px-4 py-16">
-        <h2 className="text-2xl font-bold text-primary md:text-3xl">
+        <h2 className="text-3xl font-bold text-primary md:text-3xl">
           AIシステム開発事例
         </h2>
         <div className="mt-10 grid gap-5 md:grid-cols-3">
@@ -99,7 +99,7 @@ export default function UseCases() {
                 <div className="flex h-12 w-12 items-center justify-center rounded-full bg-primary/10 text-primary">
                   {useCase.icon}
                 </div>
-                <h3 className="text-lg font-semibold leading-snug text-primary">
+                <h3 className="text-xl font-semibold leading-snug text-primary">
                   {useCase.title}
                 </h3>
               </div>

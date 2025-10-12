@@ -23,15 +23,10 @@ export default function CompanyPage() {
           <h1 className="mt-4 text-3xl font-bold md:text-4xl">
             会社概要
           </h1>
-          <p className="mt-6 text-base text-white/80">
-            tomosu-AIは、中堅・中小企業の経営課題をAIで解決することをミッションに、
-            試作品の無償開発から本開発・運用までを伴走するパートナーです。
-          </p>
         </div>
       </section>
       <section className="bg-white/90">
         <div className="mx-auto max-w-4xl px-4 py-16">
-          <h2 className="text-2xl font-bold text-primary md:text-3xl">基本情報</h2>
           <dl className="mt-8 grid gap-4 text-sm text-text/80">
             {COMPANY_INFO.map((item) => (
               <div
@@ -43,43 +38,6 @@ export default function CompanyPage() {
               </div>
             ))}
           </dl>
-        </div>
-      </section>
-      <section className="bg-base">
-        <div className="mx-auto max-w-4xl px-4 py-16">
-          <h2 className="text-2xl font-bold text-primary md:text-3xl">提供価値</h2>
-          <div className="mt-8 space-y-6">
-            <article className="rounded-2xl border border-primary/10 bg-white p-6 shadow-sm">
-              <h3 className="text-lg font-semibold text-primary">事業内容</h3>
-              <p className="mt-3 text-sm leading-relaxed text-text/80">
-                中堅・中小企業向けに、生成AIや機械学習を活用した業務システムの
-                企画・開発・運用をワンストップで提供しています。無料相談から開始し、
-                短期間で効果検証ができる試作品開発を通じて投資判断を支援します。
-              </p>
-            </article>
-            <article className="rounded-2xl border border-primary/10 bg-white p-6 shadow-sm">
-              <h3 className="text-lg font-semibold text-primary">強み</h3>
-              <ul className="mt-3 space-y-2 text-sm leading-relaxed text-text/80">
-                <li>大手コンサルティングファーム出身メンバーによる経営課題の深い理解</li>
-                <li>企画から運用まで一気通貫で対応する小規模精鋭チーム</li>
-                <li>試作品無償提供によるリスクゼロの投資判断プロセス</li>
-              </ul>
-            </article>
-            <article className="rounded-2xl border border-primary/10 bg-white p-6 shadow-sm">
-              <h3 className="text-lg font-semibold text-primary">お問い合わせ</h3>
-              <p className="mt-3 text-sm leading-relaxed text-text/80">
-                サービス内容に関するご質問や取材のご依頼は、
-                <a
-                  href="mailto:shota.koura@tomosu-ai.com"
-                  className="text-primary underline underline-offset-4"
-                >
-                  shota.koura@tomosu-ai.com
-                </a>
-                までご連絡ください。
-                また、Webサイトの「相談する」ボタンからもお問い合わせいただけます。
-              </p>
-            </article>
-          </div>
         </div>
       </section>
     </main>

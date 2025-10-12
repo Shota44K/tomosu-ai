@@ -18,7 +18,7 @@ const FAQ_ITEMS = [
 
 export default function FAQ() {
   return (
-    <section id="faq" className="bg-base">
+    <section id="faq" className="bg-white/90">
       <div className="mx-auto max-w-4xl px-4 py-16">
         <h2 className="text-2xl font-bold text-primary md:text-3xl">
           よくあるご質問
@@ -29,10 +29,10 @@ export default function FAQ() {
               key={item.question}
               className="rounded-2xl border border-primary/10 bg-white p-6 shadow-sm"
             >
-              <h3 className="text-lg font-semibold text-primary">
+              <h3 className="text-xl font-semibold text-primary">
                 {item.question}
               </h3>
-              <p className="mt-3 text-sm text-text/80">{item.answer}</p>
+              <p className="mt-3 text-base text-text/80">{item.answer}</p>
             </article>
           ))}
         </div>
