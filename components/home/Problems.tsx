@@ -7,7 +7,7 @@ export default function Problems() {
 
   return (
     <section id="problems" className="bg-white/80">
-      <div className="mx-auto max-w-5xl px-4 py-16">
+      <div className="mx-auto max-w-4xl px-4 py-16">
         <h2 className="text-2xl font-bold text-primary md:text-3xl text-center">
           AIシステムの開発・導入で、こんなお悩みはありませんか？
         </h2>

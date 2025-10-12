@@ -1,7 +1,7 @@
 export default function Pricing() {
   return (
     <section id="pricing" className="bg-white/90">
-      <div className="mx-auto max-w-6xl px-4 py-16">
+      <div className="mx-auto max-w-4xl px-4 py-16">
         <h2 className="text-2xl font-bold text-primary md:text-3xl">
           試作品AIシステム無償開発と大手の約1/5 低価格な本開発
         </h2>
@@ -39,4 +39,3 @@ export default function Pricing() {
     </section>
   );
 }
-

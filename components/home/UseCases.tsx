@@ -85,7 +85,7 @@ const USE_CASES = [
 export default function UseCases() {
   return (
     <section id="usecases" className="bg-base">
-      <div className="mx-auto max-w-6xl px-4 py-16">
+      <div className="mx-auto max-w-4xl px-4 py-16">
         <h2 className="text-2xl font-bold text-primary md:text-3xl">
           貴社の業務課題を、AIで解決します。
         </h2>
@@ -119,4 +119,3 @@ export default function UseCases() {
     </section>
   );
 }
-

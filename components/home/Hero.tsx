@@ -242,7 +242,7 @@ export default function Hero() {
         />
       </div>
 
-      <div className="relative mx-auto flex min-h-[70vh] max-w-6xl flex-col gap-10 px-4 pb-24 pt-32 md:flex-row md:items-center">
+      <div className="relative mx-auto flex min-h-[70vh] max-w-4xl px-4 pb-24 pt-32 md:flex-row md:items-center">
         <div className="flex-1 space-y-6 md:flex-[1.6]">
           <span className="inline-flex items-center gap-2 rounded-full bg-primary/10 px-4 py-1 text-sm font-medium text-primary">
             オーダーメイドAIシステム開発

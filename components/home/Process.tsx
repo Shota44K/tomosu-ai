@@ -1,13 +1,13 @@
 const STEPS = [
   {
     step: "STEP 1",
-    title: "無料相談（30分）",
+    title: "無料相談",
     description:
       "まずはお気軽に、現状の課題やAIで実現したいことをお聞かせください。",
   },
   {
     step: "STEP 2",
-    title: "試作品AIシステム開発（無料）",
+    title: "AIシステム試作開発（無料）",
     description:
       "貴社専用の試作品AIシステムを開発。実際に触って効果を確かめていただけます。",
   },
@@ -28,7 +28,7 @@ const STEPS = [
 export default function Process() {
   return (
     <section id="process" className="bg-white/90">
-      <div className="mx-auto max-w-6xl px-4 py-16">
+      <div className="mx-auto max-w-4xl px-4 py-16">
         <h2 className="text-2xl font-bold text-primary md:text-3xl">
           システム開発までの流れ。
         </h2>
@@ -60,4 +60,3 @@ export default function Process() {
     </section>
   );
 }
-

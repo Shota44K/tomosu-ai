@@ -24,7 +24,7 @@ const SOLUTIONS = [
 export default function Solutions() {
   return (
     <section id="solutions" className="bg-base">
-      <div className="mx-auto max-w-6xl px-4 py-16">
+      <div className="mx-auto max-w-4xl px-4 py-16">
         <div className="mx-auto max-w-3xl text-center">
           <h2 className="text-2xl font-bold text-primary md:text-3xl">
             そのお悩み、弊社がすべて解決します
@@ -69,4 +69,3 @@ export default function Solutions() {
     </section>
   );
 }
-
