@@ -1,0 +1,495 @@
+ディレクトリ完成しました。
+
+以下のHPのトップページは next jsのどのフォルダになんというファイル名で格納するといいですか？
+
+<!DOCTYPE html>
+<html lang="ja">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>tomosu-AI | 中堅・中小企業のためのAIパートナー</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@400;500;700&display=swap"
+      rel="stylesheet"
+    />
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+      tailwind.config = {
+        theme: {
+          extend: {
+            colors: {
+              primary: "#00594F",
+              accent: "#8BC53F",
+              base: "#F5F5F3",
+              text: "#222222",
+            },
+            fontFamily: {
+              sans: ["Noto Sans JP", "sans-serif"],
+            },
+          },
+        },
+      };
+    </script>
+  </head>
+  <body class="font-sans bg-base text-text">
+    <header class="fixed inset-x-0 top-0 z-50 bg-base/90 backdrop-blur border-b border-primary/10">
+      <nav class="mx-auto flex max-w-6xl items-center justify-between px-4 py-3">
+        <div class="flex items-center gap-3">
+          <img src="https://via.placeholder.com/48x48" alt="tomosu-AI ロゴ" class="h-12 w-12 rounded-full border border-primary/20 bg-white" />
+          <span class="text-lg font-semibold tracking-tight">tomosu-AI</span>
+        </div>
+        <div class="hidden items-center gap-6 text-sm font-medium md:flex">
+          <a href="#services" class="transition hover:text-primary">サービス</a>
+          <a href="#pricing" class="transition hover:text-primary">料金</a>
+          <a href="#company" class="transition hover:text-primary">会社概要</a>
+          <a href="#contact" class="transition hover:text-primary">お問い合わせ</a>
+          <a href="#faq" class="transition hover:text-primary">FAQ</a>
+          <a href="#contact" class="inline-flex items-center gap-2 rounded-full bg-primary px-5 py-2 text-sm font-semibold text-white shadow transition hover:bg-primary/90">
+            相談する
+          </a>
+        </div>
+        <button class="md:hidden inline-flex items-center justify-center rounded-full border border-primary/40 p-2 text-primary" aria-label="メニュー">
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" class="h-5 w-5">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M4 6h16M4 12h16M4 18h16" />
+          </svg>
+        </button>
+      </nav>
+    </header>
+
+    <main class="pt-28">
+      <section id="hero" class="relative overflow-hidden">
+        <div class="mx-auto flex max-w-6xl flex-col gap-12 px-4 py-16 md:flex-row md:items-center">
+          <div class="flex-1 space-y-6 md:flex-[1.5]">
+            <span class="inline-flex items-center gap-2 rounded-full bg-primary/10 px-4 py-1 text-sm font-medium text-primary">
+              オーダーメイドAIシステム開発
+            </span>
+            <h1 class="text-3xl font-bold leading-tight text-primary md:text-5xl" data-animate="hero-title">
+              AIシステム開発の<br>失敗リスクをゼロに。<br>効果が見えるまで費用負担なし。
+            </h1>
+            <div class="flex flex-col gap-4 sm:flex-row" data-animate="hero-cta">
+              <a href="#contact" class="inline-flex items-center justify-center rounded-full bg-primary px-6 py-3 text-base font-semibold text-white shadow-lg transition hover:bg-primary/90">
+                相談する
+              </a>
+              <a href="#services" class="inline-flex items-center justify-center rounded-full border border-primary px-6 py-3 text-base font-semibold text-primary transition hover:bg-primary/10">
+                サービスを見る
+              </a>
+            </div>
+          </div>
+          <div class="relative flex-1 md:flex-[0.5]" aria-hidden="true">
+            <div class="aspect-square w-full max-w-xs rounded-3xl bg-white/70 p-8 shadow-lg md:ml-auto">
+              <div class="relative h-full w-full overflow-hidden rounded-2xl bg-primary/5">
+                <div class="absolute inset-0 flex items-center justify-center text-primary/20">
+                  <span class="text-6xl font-bold">AI</span>
+                </div>
+                <div class="absolute left-6 top-6 h-12 w-12 rounded-full bg-accent/60" data-animate-shape="one"></div>
+                <div class="absolute right-8 bottom-8 h-16 w-16 rounded-2xl bg-primary/60" data-animate-shape="two"></div>
+                <div class="absolute left-1/2 top-1/3 h-10 w-10 -translate-x-1/2 rotate-12 rounded-lg bg-accent/40" data-animate-shape="three"></div>
+                <div class="absolute left-12 bottom-16 h-20 w-20 rounded-full border-4 border-primary/20" data-animate-shape="four"></div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section id="problems" class="bg-white/80">
+        <div class="mx-auto max-w-5xl px-4 py-16">
+          <h2 class="text-2xl font-bold text-primary md:text-3xl text-center">AIシステムの開発・導入で、こんな壁はありませんか？</h2>
+          <ul class="mt-6 space-y-4 text-base md:text-lg text-xl">
+            <li class="flex items-start gap-3 text-gray-700">
+              <span class="mt-1 text-accent">•</span>
+              何から始めればよいか、見当がつかない
+            </li>
+            <li class="flex items-start gap-3 text-gray-700">
+              <span class="mt-1 text-accent">•</span>
+              成果が出るか分からないものに、投資ができない
+            </li>
+            <li class="flex items-start gap-3 text-gray-700">
+              <span class="mt-1 text-accent">•</span>
+              業務にフィットしたAIシステムを開発・導入したいが、高額な開発費は避けたい
+            </li>
+          </ul>
+          <!-- <div class="mt-10 text-center">
+            <a href="#contact" class="inline-flex items-center justify-center rounded-full bg-primary px-6 py-3 text-base font-semibold text-white shadow transition hover:bg-primary/90">相談する</a>
+          </div> -->
+        </div>
+      </section>
+
+      <section id="solutions" class="bg-base">
+        <div class="mx-auto max-w-6xl px-4 py-16">
+          <div class="mx-auto max-w-3xl text-center">
+            <h2 class="text-2xl font-bold text-primary md:text-3xl">そのお悩み、弊社がすべて解決します。</h2>
+          </div>
+          <div class="mt-12 grid gap-8 md:grid-cols-3">
+            <article class="flex flex-col gap-4 rounded-2xl border border-primary/10 bg-white p-6 shadow-sm">
+              <div class="text-sm font-semibold text-accent">約束1：リスクゼロ</div>
+              <h3 class="text-xl font-semibold text-primary">効果を確認できるまで、費用はいただきません。</h3>
+              <p class="text-sm leading-relaxed text-text/80">
+                「AIは本当に効果があるのか？」「高い投資をして失敗したくない」。そういったお声にお応えするため、約1ヶ月をかけ、試作品AIシステムを無償で開発します。AIが経営課題にどれだけ貢献できるかを「実際に動くもの」を通してご判断ください。効果をご確認いただけたなかった場合、費用は一切いただきません。
+              </p>
+            </article>
+            <article class="flex flex-col gap-4 rounded-2xl border border-primary/10 bg-white p-6 shadow-sm">
+              <div class="text-sm font-semibold text-accent">約束2：圧倒的な低価格</div>
+              <h3 class="text-xl font-semibold text-primary">大手Sierの1/5水準(※)、平均開発費用500万円。</h3>
+              <p class="text-sm leading-relaxed text-text/80">
+                大手開発企業にて発生する営業・管理といった中間コストをカットし、低価格開発を実現します。また、小規模な開発体制の利点を活かし、お客様との直接対話を重視し、低価格でありながら高品質・ハイスピードな開発を実現します。
+              </p>
+            </article>
+            <article class="flex flex-col gap-4 rounded-2xl border border-primary/10 bg-white p-6 shadow-sm">
+              <div class="text-sm font-semibold text-accent">約束3：AI活用案を伴に構想</div>
+              <h3 class="text-xl font-semibold text-primary">大手コンサルファーム出身者が経営課題を解決するAI活用案を貴社と共に構想します。</h3>
+              <p class="text-sm leading-relaxed text-text/80">
+                数々の企業のDXを推進してきた経験を基に、御社のビジネスを深く理解し、AIの最新の技術動向を踏まえ、どこにAIを活用すれば投資効果が最大化するのかを伴に構想します。ビジネスを成功に導くパートナーとして、技術だけでなく経営の視点から最適なAI活用をご提案します。
+              </p>
+            </article>
+          </div>
+          <div class="mt-10 text-center">
+            <a href="#contact" class="inline-flex items-center justify-center rounded-full bg-primary px-6 py-3 text-base font-semibold text-white shadow transition hover:bg-primary/90">相談する</a>
+          </div>
+        </div>
+      </section>
+
+      <section id="process" class="bg-white/90">
+        <div class="mx-auto max-w-6xl px-4 py-16">
+          <h2 class="text-2xl font-bold text-primary md:text-3xl">システム開発までの流れ。</h2>
+          <div class="mt-10 grid gap-8 md:grid-cols-4">
+            <div class="flex flex-col gap-4 rounded-2xl border border-primary/10 bg-white p-6 shadow-sm">
+              <span class="text-sm font-semibold text-accent">STEP 1</span>
+              <h3 class="text-lg font-semibold text-primary">無料相談（30分）</h3>
+              <p class="text-sm leading-relaxed text-text/80">まずはお気軽に、現状の課題やAIで実現したいことをお聞かせください。</p>
+            </div>
+            <div class="flex flex-col gap-4 rounded-2xl border border-primary/10 bg-white p-6 shadow-sm">
+              <span class="text-sm font-semibold text-accent">STEP 2</span>
+              <h3 class="text-lg font-semibold text-primary">無料お試し開発（約1か月）</h3>
+              <p class="text-sm leading-relaxed text-text/80">貴社専用の試作品AIシステムを開発。実際に触って効果を確かめていただけます。</p>
+            </div>
+            <div class="flex flex-col gap-4 rounded-2xl border border-primary/10 bg-white p-6 shadow-sm">
+              <span class="text-sm font-semibold text-accent">STEP 3</span>
+              <h3 class="text-lg font-semibold text-primary">効果判定（評価基準に基づく判定）</h3>
+              <p class="text-sm leading-relaxed text-text/80">事前に合意した評価基準に基づき、本開発に進むかをご判断いただきます。</p>
+            </div>
+            <div class="flex flex-col gap-4 rounded-2xl border border-primary/10 bg-white p-6 shadow-sm">
+              <span class="text-sm font-semibold text-accent">STEP 4</span>
+              <h3 class="text-lg font-semibold text-primary">本開発と運用開始</h3>
+              <p class="text-sm leading-relaxed text-text/80">導入完了まで責任を持って開発し、運用をスタートします。</p>
+            </div>
+          </div>
+          <div class="mt-10 text-center">
+            <a href="#contact" class="inline-flex items-center justify-center rounded-full bg-primary px-6 py-3 text-base font-semibold text-white shadow transition hover:bg-primary/90">相談する</a>
+          </div>
+        </div>
+      </section>
+
+      <section id="usecases" class="bg-base">
+        <div class="mx-auto max-w-6xl px-4 py-16">
+          <h2 class="text-2xl font-bold text-primary md:text-3xl">貴社の業務課題を、AIで解決します。</h2>
+          <div class="mt-10 grid gap-8 md:grid-cols-3">
+            <article class="flex flex-col gap-4 rounded-2xl border border-primary/10 bg-white p-6 shadow-sm">
+              <div class="flex h-12 w-12 items-center justify-center rounded-full bg-primary/10 text-primary">
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" class="h-6 w-6">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h5" />
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M17 2v6h6" />
+                </svg>
+              </div>
+              <h3 class="text-lg font-semibold text-primary">AIお問合せ対応システム</h3>
+              <p class="text-sm leading-relaxed text-text/80">よくある質問への回答を自動化し、顧客満足度（一次解決率）の向上と、担当者の対応時間の短縮を実現します。</p>
+            </article>
+            <article class="flex flex-col gap-4 rounded-2xl border border-primary/10 bg-white p-6 shadow-sm">
+              <div class="flex h-12 w-12 items-center justify-center rounded-full bg-primary/10 text-primary">
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" class="h-6 w-6">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M21 21H3V3" />
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M7 7h10v10H7z" />
+                </svg>
+              </div>
+              <h3 class="text-lg font-semibold text-primary">社内ナレッジ検索システム</h3>
+              <p class="text-sm leading-relaxed text-text/80">社内の膨大な資料から、必要な情報をAIが瞬時に探し出します。探す時間を90%削減し、業務の属人化を解消します。</p>
+            </article>
+            <article class="flex flex-col gap-4 rounded-2xl border border-primary/10 bg-white p-6 shadow-sm">
+              <div class="flex h-12 w-12 items-center justify-center rounded-full bg-primary/10 text-primary">
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" class="h-6 w-6">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M5 4h9l5 5v11a0 0 0 0 1 0 0H5a0 0 0 0 1 0 0z" />
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M9 4v4H5" />
+                </svg>
+              </div>
+              <h3 class="text-lg font-semibold text-primary">資料・レポート作成補助システム</h3>
+              <p class="text-sm leading-relaxed text-text/80">日報や報告書の作成工数を80%削減。データに基づいた高品質な資料を誰でも作成でき、品質の平準化に貢献します。</p>
+            </article>
+          </div>
+          <div class="mt-10 text-center">
+            <a href="#contact" class="inline-flex items-center justify-center rounded-full bg-primary px-6 py-3 text-base font-semibold text-white shadow transition hover:bg-primary/90">相談する</a>
+          </div>
+        </div>
+      </section>
+
+      <section id="cta" class="bg-primary text-white">
+        <div class="mx-auto flex max-w-5xl flex-col items-center justify-between gap-6 px-4 py-16 text-center md:flex-row md:text-left">
+          <div>
+            <h2 class="text-2xl font-bold md:text-3xl">まずは、AI活用の第一歩をリスクゼロで踏み出してみませんか？</h2>
+            <p class="mt-3 text-base text-white/90">「AIで経営課題を解決できるかもしれない」その可能性を、私たちが形にします。</p>
+          </div>
+          <a href="#contact" class="inline-flex items-center justify-center rounded-full bg-white px-6 py-3 text-base font-semibold text-primary shadow transition hover:bg-white/90">相談する</a>
+        </div>
+      </section>
+
+      <section id="services" class="bg-base">
+        <div class="mx-auto max-w-6xl px-4 py-16">
+          <h2 class="text-2xl font-bold text-primary md:text-3xl">「効果を確認してから、投資を決める AIシステム開発」</h2>
+          <div class="mt-8 grid gap-8 md:grid-cols-2">
+            <article class="rounded-2xl border border-primary/10 bg-white p-6 shadow-sm">
+              <h3 class="text-xl font-semibold text-primary">試作品AIシステム開発（無償）について</h3>
+              <dl class="mt-4 space-y-3 text-sm text-text/80">
+                <div>
+                  <dt class="font-semibold text-text">目的</dt>
+                  <dd>投資ご判断の前に、AIが本当に自社の課題解決に役立つのかを、実際に動く「試作品AIシステム」にてご判断いただけます。</dd>
+                </div>
+                <div>
+                  <dt class="font-semibold text-text">期間</dt>
+                  <dd>約1か月（最短4週間）</dd>
+                </div>
+                <div>
+                  <dt class="font-semibold text-text">ご提供内容</dt>
+                  <dd class="space-y-1">
+                    <p>課題ヒアリングと、最も効果的なユースケース1件の選定</p>
+                    <p>貴社の実データ（一部）を活用したAI試作品の開発</p>
+                    <p>効果測定（KPI）のための評価設計</p>
+                  </dd>
+                </div>
+                <div>
+                  <dt class="font-semibold text-text">本プランに含まれないもの</dt>
+                  <dd class="space-y-1">
+                    <p>独自のデザインを施した大規模なUI開発</p>
+                    <p>基幹システムとの大規模なデータ連携</p>
+                    <p>AIの学習に必要な大規模なデータ整備・クレンジング作業</p>
+                  </dd>
+                </div>
+                <div>
+                  <dt class="font-semibold text-text">お客様にご協力いただくこと</dt>
+                  <dd class="space-y-1">
+                    <p>週1回程度（1時間）のオンラインでのお打ち合わせ</p>
+                    <p>AIが学習・参考にするためのデータと評価用データのご準備とご提供（範囲は事前協議）</p>
+                  </dd>
+                </div>
+              </dl>
+            </article>
+            <article class="rounded-2xl border border-primary/10 bg-white p-6 shadow-sm">
+              <h3 class="text-xl font-semibold text-primary">本開発・運用について</h3>
+              <div class="mt-4 space-y-4 text-sm text-text/80">
+                <div>
+                  <h4 class="font-semibold text-text">ご契約後の流れ</h4>
+                  <p>試作品AIシステムで効果を実感いただけた後、ご契約となります。要件定義から設計、開発、テスト、そして運用開始まで、一貫してサポートします。</p>
+                </div>
+                <div>
+                  <h4 class="font-semibold text-text">本開発に含まれる主な成果物</h4>
+                  <ul class="mt-2 space-y-1">
+                    <li>要件定義書、評価設計書</li>
+                    <li>結合テスト、受入テスト計画・報告書</li>
+                    <li>運用状況を可視化するダッシュボード（初期版）</li>
+                    <li>運用ルールを定めた規程類</li>
+                    <li>従業員向け研修（2回）</li>
+                  </ul>
+                </div>
+                <div>
+                  <h4 class="font-semibold text-text">保守・運用サポート</h4>
+                  <p>システム公開後も、安定稼働のための保守や、ビジネス環境の変化に応じた機能改善などを、月額制のサポート（別途お見積り）にてご支援します。</p>
+                </div>
+              </div>
+            </article>
+          </div>
+        </div>
+      </section>
+
+      <section id="pricing" class="bg-white/90">
+        <div class="mx-auto max-w-6xl px-4 py-16">
+          <h2 class="text-2xl font-bold text-primary md:text-3xl">試作品AIシステム無償開発と大手の約1/5 低価格な本開発</h2>
+          <div class="mt-8 grid gap-8 md:grid-cols-2">
+            <article class="rounded-2xl border border-primary/10 bg-white p-6 shadow-sm">
+              <h3 class="text-xl font-semibold text-primary">tomosu-AIの料金体系</h3>
+              <ul class="mt-4 space-y-2 text-sm text-text/80">
+                <li><span class="font-semibold text-text">効果実感AI 試作品開発：</span> 0 円（最短4週間・対象範囲は事前に合意します）</li>
+                <li><span class="font-semibold text-text">本開発費用：</span> 平均開発費 500 万円（詳細は別途お見積り）</li>
+                <li><span class="font-semibold text-text">月次運用・保守費用：</span> 別途お見積り（システムの要件やサポート範囲に応じて最適なプランをご提案します）</li>
+              </ul>
+            </article>
+            <article class="rounded-2xl border border-primary/10 bg-white p-6 shadow-sm">
+              <h3 class="text-xl font-semibold text-primary">なぜ大手の1/5の価格を実現できるのか？</h3>
+              <p class="mt-4 text-sm leading-relaxed text-text/80">コンサルティングから開発、運用まで、外部委託せずすべて自社で完結。不要なマージンを徹底的にカットし低価格でのAIシステム開発を実現しています。</p>
+            </article>
+          </div>
+          <div class="mt-10 text-center">
+            <a href="#contact" class="inline-flex items-center justify-center rounded-full bg-primary px-6 py-3 text-base font-semibold text-white shadow transition hover:bg-primary/90">相談する</a>
+          </div>
+        </div>
+      </section>
+
+      <section id="company" class="bg-base">
+        <div class="mx-auto max-w-4xl px-4 py-16">
+          <h2 class="text-2xl font-bold text-primary md:text-3xl">会社概要</h2>
+          <dl class="mt-8 grid gap-4 text-sm text-text/80">
+            <div class="flex flex-col gap-1 md:flex-row md:items-center md:justify-between">
+              <dt class="font-semibold text-text md:w-40">会社名</dt>
+              <dd class="md:flex-1">tomosu-AI</dd>
+            </div>
+            <div class="flex flex-col gap-1 md:flex-row md:items-center md:justify-between">
+              <dt class="font-semibold text-text md:w-40">所在地</dt>
+              <dd class="md:flex-1">〒XXX-XXXX 〇〇県〇〇市〇〇 X-X-X</dd>
+            </div>
+            <div class="flex flex-col gap-1 md:flex-row md:items-center md:justify-between">
+              <dt class="font-semibold text-text md:w-40">設立</dt>
+              <dd class="md:flex-1">2025年10月</dd>
+            </div>
+            <div class="flex flex-col gap-1 md:flex-row md:items-center md:justify-between">
+              <dt class="font-semibold text-text md:w-40">代表者</dt>
+              <dd class="md:flex-1">甲浦 翔太</dd>
+            </div>
+            <div class="flex flex-col gap-1 md:flex-row md:items-center md:justify-between">
+              <dt class="font-semibold text-text md:w-40">連絡先</dt>
+              <dd class="md:flex-1">shota.koura@tomosu-ai.com</dd>
+            </div>
+          </dl>
+        </div>
+      </section>
+
+      <section id="contact" class="bg-white/90">
+        <div class="mx-auto max-w-4xl px-4 py-16">
+          <h2 class="text-2xl font-bold text-primary md:text-3xl">まずはお気軽にお問合せください</h2>
+          <p class="mt-4 text-sm text-text/80">まだ具体的なプランが決まっていなくても構いません。「こんなことはできる？」といった漠然としたご相談も可能です。まずはお気軽にお問合せください。</p>
+          <form name="contact" method="POST" data-netlify="true" class="mt-10 space-y-6">
+            <input type="hidden" name="form-name" value="contact" />
+            <div>
+              <label for="company-name" class="block text-sm font-semibold text-text">会社名 <span class="text-accent">*</span></label>
+              <input id="company-name" name="company" type="text" required class="mt-2 w-full rounded-xl border border-primary/20 bg-white px-4 py-3 text-sm shadow-sm focus:border-primary focus:outline-none focus:ring-2 focus:ring-primary/30" />
+            </div>
+            <div>
+              <label for="name" class="block text-sm font-semibold text-text">お名前 <span class="text-accent">*</span></label>
+              <input id="name" name="name" type="text" required class="mt-2 w-full rounded-xl border border-primary/20 bg-white px-4 py-3 text-sm shadow-sm focus:border-primary focus:outline-none focus:ring-2 focus:ring-primary/30" />
+            </div>
+            <div>
+              <label for="email" class="block text-sm font-semibold text-text">メールアドレス <span class="text-accent">*</span></label>
+              <input id="email" name="email" type="email" required class="mt-2 w-full rounded-xl border border-primary/20 bg-white px-4 py-3 text-sm shadow-sm focus:border-primary focus:outline-none focus:ring-2 focus:ring-primary/30" />
+            </div>
+            <div>
+              <label for="phone" class="block text-sm font-semibold text-text">電話番号（任意）</label>
+              <input id="phone" name="phone" type="tel" class="mt-2 w-full rounded-xl border border-primary/20 bg-white px-4 py-3 text-sm shadow-sm focus:border-primary focus:outline-none focus:ring-2 focus:ring-primary/30" />
+            </div>
+            <div>
+              <label for="message" class="block text-sm font-semibold text-text">ご相談内容（任意）</label>
+              <textarea id="message" name="message" rows="5" class="mt-2 w-full rounded-xl border border-primary/20 bg-white px-4 py-3 text-sm shadow-sm focus:border-primary focus:outline-none focus:ring-2 focus:ring-primary/30"></textarea>
+            </div>
+            <div class="text-center">
+              <button type="submit" class="inline-flex items-center justify-center rounded-full bg-primary px-6 py-3 text-base font-semibold text-white shadow transition hover:bg-primary/90">送信する</button>
+            </div>
+          </form>
+          <div class="mt-8 rounded-2xl border border-primary/10 bg-primary/5 p-6 text-sm text-text/80">
+            <p class="font-semibold text-primary">送信後メッセージ</p>
+            <p class="mt-2 text-text/80">お問い合わせいただき、誠にありがとうございます。1営業日以内に、担当者よりメールにてご連絡いたします。</p>
+          </div>
+        </div>
+      </section>
+
+      <section id="faq" class="bg-base">
+        <div class="mx-auto max-w-4xl px-4 py-16">
+          <h2 class="text-2xl font-bold text-primary md:text-3xl">よくあるご質問</h2>
+          <div class="mt-8 space-y-6">
+            <article class="rounded-2xl border border-primary/10 bg-white p-6 shadow-sm">
+              <h3 class="text-lg font-semibold text-primary">Q1. 無料で開発する試作品AIシステムは、本番で使うものと同等ですか？</h3>
+              <p class="mt-3 text-sm text-text/80">A1. いいえ、異なります。試作品は、本格導入の前に効果を判断いただくためのシステムです。対象範囲を主要なユースケースに絞り、最短4週間の期間で開発します。</p>
+            </article>
+            <article class="rounded-2xl border border-primary/10 bg-white p-6 shadow-sm">
+              <h3 class="text-lg font-semibold text-primary">Q2. セキュリティは大丈夫でしょうか？</h3>
+              <p class="mt-3 text-sm text-text/80">A2. ご安心ください。貴社の基準に合致したセキュリティを担保したAIシステムを開発いたします。</p>
+            </article>
+            <article class="rounded-2xl border border-primary/10 bg-white p-6 shadow-sm">
+              <h3 class="text-lg font-semibold text-primary">Q3. IT導入補助金などの制度は利用できますか？</h3>
+              <p class="mt-3 text-sm text-text/80">A3. クラウド利用料など、一部の費用は補助金の対象となる可能性があります。開発するAIシステムにより異なりますので、詳細は面談を通してご説明させていただきます。</p>
+            </article>
+          </div>
+          <div class="mt-10 text-center">
+            <a href="#contact" class="inline-flex items-center justify-center rounded-full bg-primary px-6 py-3 text-base font-semibold text-white shadow transition hover:bg-primary/90">相談する</a>
+          </div>
+        </div>
+      </section>
+    </main>
+
+    <footer class="bg-primary text-white">
+      <div class="mx-auto flex max-w-6xl flex-col gap-6 px-4 py-10 md:flex-row md:items-start md:justify-between">
+        <div class="space-y-3">
+          <div class="flex items-center gap-3">
+            <img src="https://via.placeholder.com/48x48" alt="tomosu-AI ロゴ" class="h-10 w-10 rounded-full border border-white/20 bg-white" />
+            <span class="text-lg font-semibold">tomosu-AI</span>
+          </div>
+          <p class="text-sm text-white/70">中堅・中小企業の経営課題をAIで解決する、身近なパートナー。</p>
+        </div>
+        <div class="grid grid-cols-2 gap-6 text-sm text-white/80 md:grid-cols-4">
+          <div>
+            <p class="font-semibold text-white">サービス</p>
+            <ul class="mt-2 space-y-1">
+              <li><a href="#services" class="transition hover:text-white">サービス概要</a></li>
+              <li><a href="#usecases" class="transition hover:text-white">ユースケース</a></li>
+            </ul>
+          </div>
+          <div>
+            <p class="font-semibold text-white">リソース</p>
+            <ul class="mt-2 space-y-1">
+              <li><a href="#faq" class="transition hover:text-white">よくあるご質問</a></li>
+              <li><a href="#pricing" class="transition hover:text-white">料金について</a></li>
+            </ul>
+          </div>
+          <div>
+            <p class="font-semibold text-white">会社情報</p>
+            <ul class="mt-2 space-y-1">
+              <li><a href="#company" class="transition hover:text-white">会社概要</a></li>
+              <li><a href="mailto:shota.koura@tomosu-ai.com" class="transition hover:text-white">メールで問い合わせ</a></li>
+            </ul>
+          </div>
+          <div>
+            <p class="font-semibold text-white">CTA</p>
+            <ul class="mt-2 space-y-1">
+              <li><a href="#contact" class="transition hover:text-white">30分相談フォーム</a></li>
+            </ul>
+          </div>
+        </div>
+        <div class="flex flex-col items-start gap-4">
+          <a href="#contact" class="inline-flex items-center justify-center rounded-full bg-white px-5 py-2 text-sm font-semibold text-primary shadow transition hover:bg-white/90">相談する</a>
+          <p class="text-xs text-white/60">© 2025 tomosu-AI. All Rights Reserved.</p>
+        </div>
+      </div>
+    </footer>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js" integrity="sha512-0+WBsWeFaDVn1YMl7rD8/nvT3swB7FzQ+kN5HqVXcAClXY13se/HJ8wjffe9cpvZ0SvVoa4DpaGC8tI/b3iv4w==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+    <script>
+      document.addEventListener("DOMContentLoaded", () => {
+        const timeline = gsap.timeline({ defaults: { duration: 0.8, ease: "power2.out" } });
+        timeline
+          .from('[data-animate="hero-title"]', { y: 30, opacity: 0 })
+          .from('[data-animate="hero-subtitle"]', { y: 30, opacity: 0 }, "-=0.4")
+          .from('[data-animate="hero-cta"]', { y: 30, opacity: 0 }, "-=0.4");
+
+        const shapes = document.querySelectorAll('[data-animate-shape]');
+        shapes.forEach((shape, index) => {
+          gsap.fromTo(
+            shape,
+            { y: gsap.utils.random(-20, 20), x: gsap.utils.random(-20, 20), opacity: 0 },
+            {
+              opacity: 1,
+              x: 0,
+              y: 0,
+              duration: 1,
+              delay: 0.6 + index * 0.1,
+              ease: "elastic.out(1, 0.7)",
+            }
+          );
+
+          gsap.to(shape, {
+            x: () => gsap.utils.random(-10, 10),
+            y: () => gsap.utils.random(-10, 10),
+            duration: 3 + index,
+            repeat: -1,
+            yoyo: true,
+            ease: "sine.inOut",
+          });
+        });
+      });
+    </script>
+  </body>
+</html>
