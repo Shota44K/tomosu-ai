@@ -18,7 +18,7 @@ export default function CompanyPage() {
   return (
     <main className="bg-base text-text">
       <section className="bg-primary text-white">
-        <div className="mx-auto max-w-4xl px-4 py-20">
+        <div className="mx-auto max-w-6xl px-4 py-20 sm:px-6 md:px-8 lg:px-12">
           <p className="text-sm font-semibold text-white/80">Company</p>
           <h1 className="mt-4 text-3xl font-bold md:text-4xl">
             会社概要
@@ -26,7 +26,7 @@ export default function CompanyPage() {
         </div>
       </section>
       <section className="bg-white/90">
-        <div className="mx-auto max-w-4xl px-4 py-16">
+        <div className="mx-auto max-w-6xl px-4 py-16 sm:px-6 md:px-8 lg:px-12">
           <dl className="mt-8 grid gap-4 text-sm text-text/80">
             {COMPANY_INFO.map((item) => (
               <div
@@ -43,4 +43,3 @@ export default function CompanyPage() {
     </main>
   );
 }
-

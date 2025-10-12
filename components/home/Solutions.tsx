@@ -24,7 +24,7 @@ const SOLUTIONS = [
 export default function Solutions() {
   return (
     <section id="solutions" className="bg-base">
-      <div className="mx-auto max-w-4xl px-4 py-16">
+      <div className="mx-auto max-w-6xl px-4 py-16 sm:px-6 md:px-8 lg:px-12">
         <div className="mx-auto max-w-3xl text-center">
           <h2 className="text-2xl font-bold text-primary md:text-3xl">
             そのお悩み、弊社がすべて解決します
@@ -37,13 +37,13 @@ export default function Solutions() {
             return (
               <article
                 key={solution.subtitle}
-                className="flex flex-col gap-4 rounded-2xl border border-primary/10 bg-white p-6 shadow-sm"
+                className="flex flex-col gap-3 rounded-2xl border border-primary/10 bg-white p-5 shadow-sm md:gap-4 md:p-"
               >
-                <div className="min-h-[6rem] space-y-2">
-                  <div className="text-xl font-semibold text-accent">
+                <div className="space-y-1 md:min-h-[4rem] md:space-y-2">
+                  <div className="text-lg font-semibold text-accent md:text-xl">
                     {solution.subtitle}
                   </div>
-                  <h3 className="text-md font-semibold leading-snug text-primary">
+                  <h3 className="text-base font-semibold leading-snug text-primary md:text-md">
                     {lines.map((line, index) => (
                       <Fragment key={index}>
                         {line}
@@ -52,7 +52,7 @@ export default function Solutions() {
                     ))}
                   </h3>
                 </div>
-                <p className="text-base leading-relaxed text-text/80">
+                <p className="text-sm leading-relaxed text-text/80">
                   {solution.description}
                 </p>
               </article>

@@ -36,10 +36,12 @@ export default function Services() {
 
   return (
     <section id="services" className="bg-base">
-      <div className="mx-auto max-w-4xl px-4 py-16">
+      <div className="mx-auto max-w-6xl px-4 py-16 sm:px-6 md:px-8 lg:px-12">
         <div>
           <h2 className="mt-3 text-2xl font-bold text-primary md:text-3xl">
-            試作品開発(無償)から本開発・運用までのステップ
+            <span className="hidden md:inline">試作品開発(無償)から本開発・運用までのステップ</span>
+            <span className="block md:hidden">試作品開発(無償)から</span>
+            <span className="block md:hidden">本開発・運用までのステップ</span>
           </h2>
         </div>
 
@@ -110,6 +112,14 @@ export default function Services() {
           </article>
         </div>
       </div>
+      <div className="mt-10 text-center">
+          <a
+            href="#contact"
+            className="inline-flex min-w-[12rem] items-center justify-center rounded-full bg-primary px-8 py-3.5 text-base font-semibold text-white shadow transition hover:bg-primary/90"
+          >
+            相談する
+          </a>
+        </div>
     </section>
   );
 }

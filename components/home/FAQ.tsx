@@ -19,7 +19,7 @@ const FAQ_ITEMS = [
 export default function FAQ() {
   return (
     <section id="faq" className="bg-white/90">
-      <div className="mx-auto max-w-4xl px-4 py-16">
+      <div className="mx-auto max-w-6xl px-4 py-16 sm:px-6 md:px-8 lg:px-12">
         <h2 className="text-2xl font-bold text-primary md:text-3xl">
           よくあるご質問
         </h2>

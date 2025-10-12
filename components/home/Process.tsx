@@ -28,7 +28,7 @@ const STEPS = [
 export default function Process() {
   return (
     <section id="process" className="bg-white/90">
-      <div className="mx-auto max-w-4xl px-4 py-16">
+      <div className="mx-auto max-w-6xl px-4 py-16 sm:px-6 md:px-8 lg:px-12">
         <h2 className="text-2xl font-bold text-primary md:text-3xl">
           システム開発・導入までの流れ。
         </h2>
@@ -36,13 +36,13 @@ export default function Process() {
           {STEPS.map((item) => (
             <div
               key={item.step}
-              className="flex flex-col gap-4 rounded-2xl border border-primary/10 bg-white p-6 shadow-sm"
+              className="flex flex-col gap-3 rounded-2xl border border-primary/10 bg-white p-5 shadow-sm md:gap-4 md:p-6"
             >
-              <div className="min-h-[5rem] space-y-2">
+              <div className="space-y-1 md:min-h-[5rem] md:space-y-2">
                 <span className="text-sm font-semibold text-accent">
                   {item.step}
                 </span>
-                <h3 className="text-xl font-semibold leading-snug text-primary">
+                <h3 className="text-lg font-semibold leading-snug text-primary md:text-xl">
                   {item.title}
                 </h3>
               </div>

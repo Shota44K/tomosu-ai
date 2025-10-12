@@ -14,7 +14,7 @@ const PRICE_HIGHLIGHTS = [
 export default function Pricing() {
   return (
     <section id="pricing" className="bg-white/90">
-      <div className="mx-auto max-w-4xl px-4 py-16">
+      <div className="mx-auto max-w-6xl px-4 py-16 sm:px-6 md:px-8 lg:px-12">
         <div>
           <h2 className="text-2xl font-bold text-primary md:text-3xl">
             無償の試作と低価格な本開発で導入リスクを最小化
