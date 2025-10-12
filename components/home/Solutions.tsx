@@ -27,7 +27,9 @@ export default function Solutions() {
       <div className="mx-auto max-w-6xl px-4 py-16 sm:px-6 md:px-8 lg:px-12">
         <div className="mx-auto max-w-3xl text-center">
           <h2 className="text-2xl font-bold text-primary md:text-3xl">
-            そのお悩み、弊社がすべて解決します
+            <span className="hidden md:inline">そのお悩み、弊社がすべて解決します</span>
+            <span className="block md:hidden">そのお悩み、</span>
+            <span className="block md:hidden">弊社がすべて解決します</span>
           </h2>
         </div>
         <div className="mt-12 grid gap-5 md:grid-cols-3">

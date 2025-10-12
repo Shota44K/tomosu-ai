@@ -13,8 +13,10 @@ export default function Footer() {
               <span className="text-lg font-semibold">tomosu-AI</span>
             </div>
             <p className="text-sm text-white/70">
-            AIシステム開発のリスクをゼロに、効果が見えるまで費用負担なし<br />
-            中堅・中小企業の経営課題をAIで解決するパートナー
+              <span className="hidden md:inline">AIシステム開発のリスクをゼロに、効果が見えるまで費用負担なし</span>
+              <span className="block md:hidden">AIシステム開発のリスクをゼロに、</span>
+              <span className="block md:hidden">効果が見えるまで費用負担なし</span>
+              <span className="block md:hidden">中堅・中小企業の経営課題をAIで解決</span>
             </p>
           </div>
           <nav

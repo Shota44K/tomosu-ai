@@ -30,7 +30,7 @@ export default function Process() {
     <section id="process" className="bg-white/90">
       <div className="mx-auto max-w-6xl px-4 py-16 sm:px-6 md:px-8 lg:px-12">
         <h2 className="text-2xl font-bold text-primary md:text-3xl">
-          システム開発・導入までの流れ。
+          システム開発・導入までの流れ
         </h2>
         <div className="mt-10 grid gap-4 md:grid-cols-4">
           {STEPS.map((item) => (

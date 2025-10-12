@@ -17,7 +17,9 @@ export default function Pricing() {
       <div className="mx-auto max-w-6xl px-4 py-16 sm:px-6 md:px-8 lg:px-12">
         <div>
           <h2 className="text-2xl font-bold text-primary md:text-3xl">
-            無償の試作と低価格な本開発で導入リスクを最小化
+            <span className="hidden md:inline">無償の試作と低価格な本開発で導入リスクを最小化</span>
+            <span className="block md:hidden">無償の試作と低価格な本開発で</span>
+            <span className="block md:hidden">導入リスクを最小化</span>
           </h2>
         </div>
 

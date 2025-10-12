@@ -111,7 +111,6 @@ export default function Services() {
             </div>
           </article>
         </div>
-      </div>
       <div className="mt-10 text-center">
           <a
             href="#contact"
@@ -120,6 +119,7 @@ export default function Services() {
             相談する
           </a>
         </div>
+      </div>
     </section>
   );
 }

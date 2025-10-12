@@ -4,7 +4,9 @@ export default function CTA() {
       <div className="mx-auto flex max-w-6xl flex-col items-center justify-between gap-6 px-4 py-16 text-center sm:px-6 md:px-8 lg:px-12 md:flex-row md:text-left">
         <div>
           <h2 className="text-2xl font-bold md:text-3xl">
-            <span>AIシステム開発のリスクをゼロに効果が見えるまで費用負担なし</span>
+            <span className="hidden xl:inline">AIシステム開発のリスクをゼロに効果が見えるまで費用負担なし</span>
+            <span className="block xl:hidden">AIシステム開発のリスクをゼロに</span>
+            <span className="block xl:hidden">効果が見えるまで費用負担なし</span>
           </h2>
           <p className="mt-3 text-base text-white/90">
             <span className="hidden md:inline">
