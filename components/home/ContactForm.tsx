@@ -1,4 +1,106 @@
+'use client';
+
+import { ChangeEvent, FocusEvent, FormEvent, useState } from 'react';
+
+type ContactFields = {
+  company: string;
+  name: string;
+  email: string;
+  phone: string;
+  message: string;
+};
+
+type FieldName = keyof ContactFields;
+
+const initialFormState: ContactFields = {
+  company: '',
+  name: '',
+  email: '',
+  phone: '',
+  message: '',
+};
+
+const generalErrorMessage = '必須項目です。';
+const requiredFields: FieldName[] = ['company', 'name', 'email', 'phone', 'message'];
+
 export default function ContactForm() {
+  const [formData, setFormData] = useState<ContactFields>(initialFormState);
+  const [errors, setErrors] = useState<Partial<Record<FieldName, string>>>({});
+  const [touched, setTouched] = useState<Partial<Record<FieldName, boolean>>>({});
+
+  const getFieldClasses = (field: FieldName) =>
+    [
+      'mt-2 w-full rounded-xl border bg-white px-4 py-3 text-sm shadow-sm focus:outline-none focus:ring-2',
+      errors[field]
+        ? 'border-[#C00000] focus:border-[#C00000] focus:ring-[#C00000]/30'
+        : 'border-primary/20 focus:border-primary focus:ring-primary/30',
+    ].join(' ');
+
+  const updateTouched = (field: FieldName) =>
+    setTouched((prev) => ({
+      ...prev,
+      [field]: true,
+    }));
+
+  const validateField = (field: FieldName, value: string) => {
+    const trimmedValue = value.trim();
+    setErrors((prev) => {
+      if (!trimmedValue) {
+        return {
+          ...prev,
+          [field]: generalErrorMessage,
+        };
+      }
+
+      if (!prev[field]) {
+        return prev;
+      }
+
+      const { [field]: _, ...rest } = prev;
+      return rest;
+    });
+  };
+
+  const handleChange = (event: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
+    const { name, value } = event.target;
+    const field = name as FieldName;
+
+    setFormData((prev) => ({
+      ...prev,
+      [field]: value,
+    }));
+
+    if (touched[field]) {
+      validateField(field, value);
+    }
+  };
+
+  const handleBlur = (event: FocusEvent<HTMLInputElement | HTMLTextAreaElement>) => {
+    const { name, value } = event.target;
+    const field = name as FieldName;
+    updateTouched(field);
+    validateField(field, value);
+  };
+
+  const handleSubmit = (event: FormEvent<HTMLFormElement>) => {
+    const nextTouched: Partial<Record<FieldName, boolean>> = {};
+    const nextErrors: Partial<Record<FieldName, string>> = {};
+
+    requiredFields.forEach((field) => {
+      nextTouched[field] = true;
+      if (!formData[field].trim()) {
+        nextErrors[field] = generalErrorMessage;
+      }
+    });
+
+    setTouched(nextTouched);
+    setErrors(nextErrors);
+
+    if (Object.keys(nextErrors).length > 0) {
+      event.preventDefault();
+    }
+  };
+
   return (
     <section id="contact" className="bg-base">
       <div className="mx-auto max-w-6xl px-4 py-16 sm:px-6 md:px-8 lg:px-12">
@@ -9,74 +111,144 @@ export default function ContactForm() {
           name="contact"
           method="POST"
           data-netlify="true"
+          noValidate
           className="mt-10 space-y-6"
+          onSubmit={handleSubmit}
         >
           <input type="hidden" name="form-name" value="contact" />
           <div>
             <label
               htmlFor="company-name"
-              className="block text-sm font-semibold text-text"
+              className="flex items-end justify-between text-sm font-semibold text-text"
             >
-              会社名 <span className="text-accent">*</span>
+              <span>
+                会社名 <span className="text-[#C00000]">*</span>
+              </span>
+              {touched.company && errors.company ? (
+                <span id="company-error" className="text-xs font-medium text-[#C00000]">
+                  {errors.company}
+                </span>
+              ) : null}
             </label>
             <input
               id="company-name"
               name="company"
               type="text"
               required
-              className="mt-2 w-full rounded-xl border border-primary/20 bg-white px-4 py-3 text-sm shadow-sm focus:border-primary focus:outline-none focus:ring-2 focus:ring-primary/30"
+              value={formData.company}
+              onChange={handleChange}
+              onBlur={handleBlur}
+              aria-invalid={errors.company ? 'true' : 'false'}
+              aria-describedby={errors.company ? 'company-error' : undefined}
+              className={getFieldClasses('company')}
             />
           </div>
           <div>
-            <label htmlFor="name" className="block text-sm font-semibold text-text">
-              お名前 <span className="text-accent">*</span>
+            <label
+              htmlFor="name"
+              className="flex items-end justify-between text-sm font-semibold text-text"
+            >
+              <span>
+                お名前 <span className="text-[#C00000]">*</span>
+              </span>
+              {touched.name && errors.name ? (
+                <span id="name-error" className="text-xs font-medium text-[#C00000]">
+                  {errors.name}
+                </span>
+              ) : null}
             </label>
             <input
               id="name"
               name="name"
               type="text"
               required
-              className="mt-2 w-full rounded-xl border border-primary/20 bg-white px-4 py-3 text-sm shadow-sm focus:border-primary focus:outline-none focus:ring-2 focus:ring-primary/30"
+              value={formData.name}
+              onChange={handleChange}
+              onBlur={handleBlur}
+              aria-invalid={errors.name ? 'true' : 'false'}
+              aria-describedby={errors.name ? 'name-error' : undefined}
+              className={getFieldClasses('name')}
             />
           </div>
           <div>
             <label
               htmlFor="email"
-              className="block text-sm font-semibold text-text"
+              className="flex items-end justify-between text-sm font-semibold text-text"
             >
-              メールアドレス <span className="text-accent">*</span>
+              <span>
+                メールアドレス <span className="text-[#C00000]">*</span>
+              </span>
+              {touched.email && errors.email ? (
+                <span id="email-error" className="text-xs font-medium text-[#C00000]">
+                  {errors.email}
+                </span>
+              ) : null}
             </label>
             <input
               id="email"
               name="email"
               type="email"
               required
-              className="mt-2 w-full rounded-xl border border-primary/20 bg-white px-4 py-3 text-sm shadow-sm focus:border-primary focus:outline-none focus:ring-2 focus:ring-primary/30"
+              value={formData.email}
+              onChange={handleChange}
+              onBlur={handleBlur}
+              aria-invalid={errors.email ? 'true' : 'false'}
+              aria-describedby={errors.email ? 'email-error' : undefined}
+              className={getFieldClasses('email')}
             />
           </div>
           <div>
-            <label htmlFor="phone" className="block text-sm font-semibold text-text">
-              電話番号 <span className="text-accent">*</span>
+            <label
+              htmlFor="phone"
+              className="flex items-end justify-between text-sm font-semibold text-text"
+            >
+              <span>
+                電話番号 <span className="text-[#C00000]">*</span>
+              </span>
+              {touched.phone && errors.phone ? (
+                <span id="phone-error" className="text-xs font-medium text-[#C00000]">
+                  {errors.phone}
+                </span>
+              ) : null}
             </label>
             <input
               id="phone"
               name="phone"
               type="tel"
-              className="mt-2 w-full rounded-xl border border-primary/20 bg-white px-4 py-3 text-sm shadow-sm focus:border-primary focus:outline-none focus:ring-2 focus:ring-primary/30"
+              required
+              value={formData.phone}
+              onChange={handleChange}
+              onBlur={handleBlur}
+              aria-invalid={errors.phone ? 'true' : 'false'}
+              aria-describedby={errors.phone ? 'phone-error' : undefined}
+              className={getFieldClasses('phone')}
             />
           </div>
           <div>
             <label
               htmlFor="message"
-              className="block text-sm font-semibold text-text"
+              className="flex items-end justify-between text-sm font-semibold text-text"
             >
-              ご相談内容 <span className="text-accent">*</span>
+              <span>
+                ご相談内容 <span className="text-[#C00000]">*</span>
+              </span>
+              {touched.message && errors.message ? (
+                <span id="message-error" className="text-xs font-medium text-[#C00000]">
+                  {errors.message}
+                </span>
+              ) : null}
             </label>
             <textarea
               id="message"
               name="message"
               rows={5}
-              className="mt-2 w-full rounded-xl border border-primary/20 bg-white px-4 py-3 text-sm shadow-sm focus:border-primary focus:outline-none focus:ring-2 focus:ring-primary/30"
+              required
+              value={formData.message}
+              onChange={handleChange}
+              onBlur={handleBlur}
+              aria-invalid={errors.message ? 'true' : 'false'}
+              aria-describedby={errors.message ? 'message-error' : undefined}
+              className={getFieldClasses('message')}
             />
           </div>
           <div className="text-center">

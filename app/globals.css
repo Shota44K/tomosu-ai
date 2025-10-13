@@ -10,6 +10,10 @@
 }
 
 @layer base {
+  html {
+    overflow-y: scroll;
+  }
+
   body {
     background-color: var(--color-base);
     color: var(--color-text);

@@ -2,7 +2,7 @@ import type { Metadata } from "next";
 
 const COMPANY_INFO = [
   { label: "会社名", value: "tomosu-AI" },
-  { label: "所在地", value: "〒XXX-XXXX 〇〇県〇〇市〇〇 X-X-X" },
+  { label: "所在地", value: "〒160-0023 東京都新宿区西新宿3丁目5-12" },
   { label: "設立", value: "2025年10月" },
   { label: "代表者", value: "甲浦 翔太" },
 ];
@@ -11,6 +11,10 @@ export const metadata: Metadata = {
   title: "会社概要 | tomosu-AI",
   description:
     "tomosu-AIの会社概要ページです。所在地、設立、提供サービスの体制などをご紹介します。",
+  robots: {
+    index: false,
+    follow: true,
+  },
 };
 
 export default function CompanyPage() {
@@ -25,7 +29,7 @@ export default function CompanyPage() {
           </div>
         </section>
         <section className="bg-white">
-          <div className="mx-auto max-w-4xl px-4 pt-4 pb-18 sm:px-6 md:px-8 lg:px-12 lg:pb-31 lg:pt-26 xl:pt-26 xl:py-34">
+          <div className="mx-auto max-w-6xl px-4 pt-4 pb-18 sm:px-6 md:px-8 lg:px-12 lg:pb-31 lg:pt-26 xl:pt-26 xl:py-34">
             <dl className="mt-9 divide-y divide-primary/10 border-t border-primary/10 text-sm text-text">
               {COMPANY_INFO.map((item) => (
                 <div

@@ -5,9 +5,7 @@ import { useState } from "react";
 
 const NAV_LINKS = [
   { href: "/#services", label: "サービス" },
-  { href: "/#pricing", label: "開発費用" },
   { href: "/company", label: "会社概要" },
-  { href: "/#contact", label: "お問い合わせ" },
   { href: "/#faq", label: "FAQ" },
 ];
 
@@ -28,14 +26,18 @@ export default function Header() {
         className={`fixed inset-x-0 top-0 z-50 border-b border-primary/10 ${isMenuOpen ? "bg-base" : "bg-base/90"} backdrop-blur`}
       >
         <nav className="mx-auto flex max-w-6xl items-center justify-between px-4 py-3 sm:px-6 md:px-8 lg:px-12">
-          <div className="flex items-center gap-3">
-            {/* <img
-              src="https://via.placeholder.com/48x48"
+          <Link
+            href="/"
+            className="flex items-center gap-3"
+            aria-label="tomosu-AI ホームへ移動"
+          >
+            <img
+              src="/logo.svg"
               alt="tomosu-AI ロゴ"
-              className="h-12 w-12 rounded-full border border-primary/20 bg-white"
-            /> */}
+              className="h-12 w-12 rounded-full border border-primary/20 bg-white p-1.5"
+            />
             <span className="text-lg font-semibold tracking-tight">tomosu-AI</span>
-          </div>
+          </Link>
           <div className="hidden items-center gap-6 text-sm font-medium md:flex">
             {NAV_LINKS.map((link) => (
               <Link

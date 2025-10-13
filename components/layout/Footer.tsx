@@ -1,17 +1,23 @@
+import Link from "next/link";
+
 export default function Footer() {
   return (
     <footer className="bg-primary text-white">
       <div className="mx-auto max-w-6xl px-4 py-12 sm:px-6 md:px-8 lg:px-12">
         <div className="flex flex-col gap-10 md:grid md:grid-cols-[minmax(0,1.1fr)_minmax(0,1fr)] md:items-start md:gap-16">
           <div className="space-y-4">
-            <div className="flex items-center gap-3">
+            <Link
+              href="/"
+              className="flex items-center gap-3"
+              aria-label="tomosu-AI ホームへ移動"
+            >
               <img
-                src="https://via.placeholder.com/48x48"
+                src="/logo.svg"
                 alt="tomosu-AI ロゴ"
-                className="h-10 w-10 rounded-full border border-white/20 bg-white"
+                className="h-10 w-10 rounded-full border border-white/20 bg-white p-1"
               />
               <span className="text-lg font-semibold">tomosu-AI</span>
-            </div>
+            </Link>
             <p className="text-sm text-white/70">
               <span className="hidden md:inline">AIシステム開発のリスクをゼロに、効果が見えるまで費用負担なし</span>
               <span className="block md:hidden">AIシステム開発のリスクをゼロに、</span>
