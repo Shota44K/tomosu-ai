@@ -83,7 +83,7 @@ export default function ContactForm() {
 
     try {
       setSubmitting(true);
-      const res = await fetch('/', {
+      const res = await fetch('/form.html', {
         method: 'POST',
         headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
         body: encode({
