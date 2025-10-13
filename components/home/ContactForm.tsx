@@ -107,7 +107,7 @@ export default function ContactForm() {
         <form
           name="contact"
           method="POST"
-          action="/thanks.html"
+          action="/form.html"
           target="ntl_submit"
           data-netlify="true"
           data-netlify-honeypot="bot-field"
