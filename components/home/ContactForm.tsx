@@ -1,7 +1,19 @@
 'use client';
 
-import { ChangeEvent, FocusEvent, FormEvent, useState } from 'react';
+import { ChangeEvent, FocusEvent, FormEvent, useEffect, useRef, useState } from 'react';
 import Script from 'next/script';
+
+type Grecaptcha = {
+  ready(callback: () => void): void;
+  render(container: HTMLElement | string, parameters: { sitekey: string; [key: string]: unknown }): number;
+  reset(id?: number): void;
+};
+
+declare global {
+  interface Window {
+    grecaptcha?: Grecaptcha;
+  }
+}
 
 type ContactFields = {
   company: string;
@@ -22,7 +34,57 @@ export default function ContactForm() {
   const [touched, setTouched] = useState<Partial<Record<FieldName, boolean>>>({});
   const [submitting, setSubmitting] = useState(false);
   const [showModal, setShowModal] = useState(false);
+  const recaptchaRef = useRef<HTMLDivElement | null>(null);
+  const [captchaId, setCaptchaId] = useState<number | null>(null);
   const siteKey = process.env.NEXT_PUBLIC_SITE_RECAPTCHA_KEY ?? '';
+
+  useEffect(() => {
+    if (typeof window === 'undefined') return;
+    if (!siteKey || captchaId !== null) return;
+
+    let cancelled = false;
+    let intervalId: number | undefined;
+
+    const attemptRender = () => {
+      if (cancelled) return true;
+      const grecaptcha = window.grecaptcha;
+      if (!recaptchaRef.current || !grecaptcha) return false;
+
+      const renderWidget = () => {
+        if (!recaptchaRef.current || cancelled) return;
+        try {
+          const id = grecaptcha.render(recaptchaRef.current, { sitekey: siteKey });
+          if (!cancelled) setCaptchaId(id);
+        } catch (err) {
+          console.error('Failed to render reCAPTCHA widget', err);
+        }
+      };
+
+      if (typeof grecaptcha.ready === 'function') {
+        grecaptcha.ready(renderWidget);
+      } else {
+        renderWidget();
+      }
+
+      return true;
+    };
+
+    if (!attemptRender()) {
+      intervalId = window.setInterval(() => {
+        if (attemptRender() && intervalId !== undefined) {
+          window.clearInterval(intervalId);
+          intervalId = undefined;
+        }
+      }, 300);
+    }
+
+    return () => {
+      cancelled = true;
+      if (intervalId !== undefined) {
+        window.clearInterval(intervalId);
+      }
+    };
+  }, [siteKey, captchaId]);
 
   const getFieldClasses = (field: FieldName) =>
     [
@@ -63,6 +125,9 @@ export default function ContactForm() {
     setFormData(initialFormState);
     setErrors({});
     setTouched({});
+    if (typeof window !== 'undefined' && window.grecaptcha) {
+      window.grecaptcha.reset(captchaId ?? undefined);
+    }
   };
 
   const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
@@ -219,9 +284,9 @@ export default function ContactForm() {
 
           {/* カスタム reCAPTCHA v2 ウィジェット */}
           <div
-            className="g-recaptcha rounded-xl border border-primary/10 bg-white p-4"
-            data-sitekey={siteKey}
-          ></div>
+            ref={recaptchaRef}
+            className="rounded-xl border border-primary/10 bg-white p-4"
+          />
 
           <div className="text-center">
             <button
