@@ -1,6 +1,7 @@
 'use client';
 
 import { ChangeEvent, FocusEvent, FormEvent, useState } from 'react';
+import Script from 'next/script';
 
 type ContactFields = {
   company: string;
@@ -57,6 +58,9 @@ export default function ContactForm() {
     validateField(field, e.target.value);
   };
 
+  const encode = (data: Record<string, string>) =>
+    new URLSearchParams(data).toString();
+
   const resetForm = () => {
     setFormData(initialFormState);
     setErrors({});
@@ -79,20 +83,18 @@ export default function ContactForm() {
 
     try {
       setSubmitting(true);
-      const formEl = e.currentTarget;
-      const fd = new FormData(formEl);
-
-      if (!fd.has('form-name')) fd.append('form-name', 'contact');
-
-      const body = new URLSearchParams();
-      fd.forEach((value, key) => {
-        body.append(key, typeof value === 'string' ? value : String(value));
-      });
-
-      const res = await fetch(formEl.action || '/form.html', {
+      const res = await fetch('/form.html', {
         method: 'POST',
         headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
-        body: body.toString(),
+        body: encode({
+          'form-name': 'contact',
+          company: formData.company,
+          name: formData.name,
+          email: formData.email,
+          phone: formData.phone,
+          message: formData.message,
+          'bot-field': '', // honeypot（空）
+        }),
       });
 
       if (!res.ok) throw new Error(`Netlify submission failed: ${res.status}`);
@@ -110,16 +112,15 @@ export default function ContactForm() {
 
   return (
     <section id="contact" className="bg-base">
+      <Script src="https://www.google.com/recaptcha/api.js" strategy="afterInteractive" />
       <div className="mx-auto max-w-6xl px-4 py-16 sm:px-6 md:px-8 lg:px-12">
         <h2 className="text-2xl font-bold text-primary md:text-3xl">まずはお気軽にお問合せください</h2>
 
         <form
           name="contact"
           method="POST"
-          action="/form.html"
           data-netlify="true"
-          netlify-honeypot="bot-field"
-          data-netlify-recaptcha="true"
+          data-netlify-honeypot="bot-field"
           noValidate
           className="mt-10 space-y-6"
           onSubmit={handleSubmit}
@@ -215,7 +216,7 @@ export default function ContactForm() {
             />
           </div>
 
-          {/* Netlify reCAPTCHA v2 placeholder（公開時にスクリプトが挿入されます） */}
+          {/* reCAPTCHA は疎通確定後に有効化 */}
           <div data-netlify-recaptcha="true" className="rounded-xl border border-primary/10 bg-white p-4"></div>
 
           <div className="text-center">
