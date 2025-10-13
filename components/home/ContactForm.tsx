@@ -12,6 +12,18 @@ type ContactFields = {
 };
 type FieldName = keyof ContactFields;
 
+type Grecaptcha = {
+  ready?: (cb: () => void) => void;
+  execute?: (siteKey: string, opts: { action: string }) => Promise<string>;
+  reset?: () => void;
+};
+
+declare global {
+  interface Window {
+    grecaptcha?: Grecaptcha;
+  }
+}
+
 const initialFormState: ContactFields = { company:'', name:'', email:'', phone:'', message:'' };
 const generalErrorMessage = '必須項目です。';
 const requiredFields: FieldName[] = ['company','name','email','phone','message']; // 仕様上「電話番号を任意」にするなら 'phone' を外し、input の required も外してください。
@@ -111,7 +123,7 @@ export default function ContactForm() {
     formRef.current?.setAttribute('action', '/form.html');
 
     if (typeof window !== 'undefined') {
-      (window as any).grecaptcha?.reset?.();
+      window.grecaptcha?.reset?.();
     }
   };
 
