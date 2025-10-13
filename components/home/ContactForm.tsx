@@ -260,7 +260,8 @@ export default function ContactForm() {
               className={getFieldClasses('message')}
             />
           </div>
-          <div data-netlify-recaptcha="true" className="rounded-xl border border-primary/10 bg-white p-4"></div>
+          {/* <div data-netlify-recaptcha="true" className="rounded-xl border border-primary/10 bg-white p-4"></div> */}
+          <div className="rounded-xl border border-primary/10 bg-white p-4"></div>
           <div className="text-center">
             <button
               type="submit"
