@@ -34,7 +34,7 @@ export default function Header() {
             <img
               src="/logo.svg"
               alt="tomosu-AI ロゴ"
-              className="h-12 w-12 rounded-full border border-primary/20 bg-white p-1.5"
+              className="h-12 w-12 rounded-full border border-primary/20 bg-white p-1"
             />
             <span className="text-lg font-semibold tracking-tight">tomosu-AI</span>
           </Link>

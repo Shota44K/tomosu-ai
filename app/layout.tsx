@@ -12,9 +12,13 @@ const notoSans = Noto_Sans_JP({
 });
 
 export const metadata: Metadata = {
-  title: "tomosu-AI | 中堅・中小企業のためのAIパートナー",
+  title: "tomosu-AI | 無償でのAI試作品システム開発_中堅・中小企業のためのAI開発パートナー",
   description:
-    "tomosu-AIは中堅・中小企業の経営課題をAIで解決するパートナーとして、試作品の無償開発から本開発・運用までを支援します。",
+    "tomosu-AIは中堅・中小企業の経営課題をAIで解決するパートナーとして、試作品AIシステムの無償開発から本開発・運用までを支援します。",
+  icons: {
+    icon: "/logo.svg",
+    shortcut: "/logo.svg",
+  },
 };
 
 export default function RootLayout({
