@@ -242,7 +242,8 @@ export default function ContactForm() {
             onClick={() => setShowModal(false)}
           >
             <div
-              className="w-[min(90vw,24rem)] rounded-2xl bg-white p-6 shadow-xl"
+              className="rounded-2xl bg-white p-6 shadow-xl"
+              style={{ width: 'min(24rem, calc(100vw - 2rem))' }}
               onClick={(event) => event.stopPropagation()}
             >
               <h3 className="text-lg font-bold text-primary">送信ありがとうございました</h3>
