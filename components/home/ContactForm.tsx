@@ -1,6 +1,7 @@
 'use client';
 
 import { ChangeEvent, FocusEvent, FormEvent, useState } from 'react';
+import Script from 'next/script';
 
 type ContactFields = {
   company: string;
@@ -56,8 +57,9 @@ export default function ContactForm() {
         return prev;
       }
 
-      const { [field]: _, ...rest } = prev;
-      return rest;
+      const nextErrors = { ...prev };
+      delete nextErrors[field];
+      return nextErrors;
     });
   };
 
@@ -103,6 +105,7 @@ export default function ContactForm() {
 
   return (
     <section id="contact" className="bg-base">
+      <Script src="https://www.google.com/recaptcha/api.js" strategy="afterInteractive" />
       <div className="mx-auto max-w-6xl px-4 py-16 sm:px-6 md:px-8 lg:px-12">
         <h2 className="text-2xl font-bold text-primary md:text-3xl">
           まずはお気軽にお問合せください
@@ -111,11 +114,17 @@ export default function ContactForm() {
           name="contact"
           method="POST"
           data-netlify="true"
+          data-netlify-honeypot="bot-field"
           noValidate
           className="mt-10 space-y-6"
           onSubmit={handleSubmit}
         >
           <input type="hidden" name="form-name" value="contact" />
+          <div className="hidden" aria-hidden="true">
+            <label>
+              <input name="bot-field" type="text" tabIndex={-1} autoComplete="off" />
+            </label>
+          </div>
           <div>
             <label
               htmlFor="company-name"
@@ -251,6 +260,7 @@ export default function ContactForm() {
               className={getFieldClasses('message')}
             />
           </div>
+          <div data-netlify-recaptcha="true" className="rounded-xl border border-primary/10 bg-white p-4"></div>
           <div className="text-center">
             <button
               type="submit"

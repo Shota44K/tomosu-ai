@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="ja">
+  <head>
+    <meta charset="utf-8" />
+    <title>Netlify Contact Form</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+  </head>
+  <body>
+    <form
+      name="contact"
+      method="POST"
+      data-netlify="true"
+      data-netlify-honeypot="bot-field"
+      class="contact-form"
+    >
+      <input type="hidden" name="form-name" value="contact" />
+      <p class="hidden" aria-hidden="true">
+        <label>
+          Bot field: <input name="bot-field" type="text" tabindex="-1" autocomplete="off" />
+        </label>
+      </p>
+      <p>
+        <label>会社名 *</label>
+        <input name="company" type="text" required />
+      </p>
+      <p>
+        <label>お名前 *</label>
+        <input name="name" type="text" required />
+      </p>
+      <p>
+        <label>メールアドレス *</label>
+        <input name="email" type="email" required />
+      </p>
+      <p>
+        <label>電話番号 *</label>
+        <input name="phone" type="tel" required />
+      </p>
+      <p>
+        <label>ご相談内容 *</label>
+        <textarea name="message" rows="5" required></textarea>
+      </p>
+      <div data-netlify-recaptcha="true"></div>
+      <p>
+        <button type="submit">送信する</button>
+      </p>
+    </form>
+    <script src="https://www.google.com/recaptcha/api.js"></script>
+  </body>
+</html>
