@@ -213,7 +213,7 @@ export default function Hero() {
         />
       </div>
 
-      <div className="relative mx-auto flex min-h-[70vh] max-w-6xl px-4 pb-24 pt-32 sm:px-6 md:px-8 lg:px-12 md:flex-row md:items-center">
+      <div className="relative mx-auto flex min-h-[70vh] max-w-6xl px-4 pb-24 pt-32 sm:px-6 md:px-8 lg:px-12 lg:pb-28 lg:pt-40 xl:pb-32 xl:pt-44 md:flex-row md:items-center">
         <div className="flex-[4] space-y-6 md:flex-[1.6]">
           <span className="inline-flex items-center gap-2 rounded-full bg-primary/10 px-4 py-1 text-sm font-medium text-primary">
             オーダーメイドAIシステム開発
@@ -246,7 +246,8 @@ export default function Hero() {
               href="#services"
               className="inline-flex w-[12rem] items-center justify-center rounded-full border border-primary px-6 py-3 text-base font-semibold text-primary transition hover:bg-primary/10 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary/40"
             >
-              システム開発プロセス
+              <span className="hidden md:inline">システム開発プロセス</span>
+              <span className="md:hidden">開発プロセス</span>
             </a>
           </div>
         </div>

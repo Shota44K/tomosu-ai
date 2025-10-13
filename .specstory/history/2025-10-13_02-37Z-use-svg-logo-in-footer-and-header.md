@@ -447,3 +447,93 @@ Tool use: **apply_patch**
 
 ---
 
+_**User (2025-10-12 10:07Z)**_
+
+こちらですが、PCやタブレットは現状通り「システム開発プロセス」で良いのですが、スマホ端末で開いた場合だけ「開発プロセス」となるように変更できますか？
+
+---
+
+_**Assistant (gpt-5-codex)**_
+
+<think><details><summary>Thought Process</summary>**Preparing implementation plan for responsive text change**
+
+I'll restate the user’s request in Japanese and propose a simple plan to update the hero CTA text with responsive spans using Tailwind CSS in the `components/home/Hero.tsx` file, then ask for approval before proceeding.</details></think>
+
+---
+
+ご指示内容を業界標準の表現で復唱します：`components/home/Hero.tsx` の CTA ボタン文言について、デスクトップおよびタブレットでは従来の「システム開発プロセス」を維持しつつ、スマートフォン表示時のみ「開発プロセス」に切り替えるレスポンシブ対応を行う。
+
+---
+
+### 実装計画案（承認前）
+
+**1. システム構成の概要**  
+- Next.js（React）アプリ。Tailwind CSS によるレスポンシブ制御。
+
+**2. 主要コンポーネントと責務**  
+- `Hero` コンポーネント内の CTA ボタンが文言切り替えを担う。
+
+**3. データフローと処理**  
+- JSX 内で Tailwind の表示制御クラス（例: `hidden sm:inline-flex` 等）を用い、画面幅に応じて表示するテキストを分ける。
+
+**4. 想定される技術的課題と対策**  
+- DOM 内に2つの文言が共存するためアクセシビリティを確保 → どちらも同じ意味のテキストなので問題は小さいが、表示切り替えクラスを適切に指定し重複表示を避ける。
+
+**5. タスクと実装順序**  
+- T1: `Hero.tsx` の該当アンカー内で文言を2つの `<span>` に分割 (`sm:hidden` / `hidden sm:inline`)。  
+- 動作確認: スマホ幅（~640px）で「開発プロセス」、それ以上で「システム開発プロセス」と表示されること。
+
+この方針で進めてもよろしいでしょうか？
+
+---
+
+_**User (2025-10-12 10:07Z)**_
+
+はい。
+
+---
+
+_**Assistant (gpt-5-codex)**_
+
+Tool use: **apply_patch**
+
+<details>
+        <summary>Apply patch for /home/shota/tomosu-ai/components/home/Hero.tsx</summary>
+      
+
+```diff
+*** Begin Patch
+*** Update File: /home/shota/tomosu-ai/components/home/Hero.tsx
+@@
+             <a
+               href="#services"
+               className="inline-flex w-[12rem] items-center justify-center rounded-full border border-primary px-6 py-3 text-base font-semibold text-primary transition hover:bg-primary/10 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary/40"
+             >
+-              システム開発プロセス
++              <span className="sm:hidden">開発プロセス</span>
++              <span className="hidden sm:inline">システム開発プロセス</span>
+             </a>
+*** End Patch
+```
+
+---
+
+変更内容と理由（初心者向け解説付き）:
+- `Hero.tsx` の CTA ボタン内で文言を `<span>` に分割し、Tailwind のレスポンシブ表示クラスを使用してスマホ表示時のみ「開発プロセス」、`sm`（640px）以上では従来どおり「システム開発プロセス」を表示するようにしました。Tailwind では `sm:hidden` や `hidden sm:inline` といったユーティリティで画面幅に応じた表示切り替えが簡単に行えます。
+
+実装箇所:
+```245:251:components/home/Hero.tsx
+            <a
+              href="#services"
+              className="inline-flex w-[12rem] items-center justify-center rounded-full border border-primary px-6 py-3 text-base font-semibold text-primary transition hover:bg-primary/10 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary/40"
+            >
+              <span className="sm:hidden">開発プロセス</span>
+              <span className="hidden sm:inline">システム開発プロセス</span>
+            </a>
+```
+
+テスト:
+- UI の文言切り替えのみのため自動テストは実施していません。Docker 環境でブラウザのデバイスツールを使い、幅 640px 未満で「開発プロセス」、640px 以上で「システム開発プロセス」と表示されることをご確認ください。
+
+---
+

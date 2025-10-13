@@ -239,8 +239,12 @@ export default function ContactForm() {
           <div
             role="dialog" aria-modal="true"
             className="fixed inset-0 z-50 flex items-center justify-center bg-black/40"
+            onClick={() => setShowModal(false)}
           >
-            <div className="w-full max-w-md rounded-2xl bg-white p-6 shadow-xl">
+            <div
+              className="w-[min(90vw,24rem)] rounded-2xl bg-white p-6 shadow-xl"
+              onClick={(event) => event.stopPropagation()}
+            >
               <h3 className="text-lg font-bold text-primary">送信ありがとうございました</h3>
               <p className="mt-2 text-sm text-text/80">
                 1営業日以内に、担当者よりメールにてご連絡いたします。
