@@ -22,7 +22,9 @@ export default function ContactForm() {
   const [touched, setTouched] = useState<Partial<Record<FieldName, boolean>>>({});
   const [submitting, setSubmitting] = useState(false);
   const [showModal, setShowModal] = useState(false);
+  const formRef = useRef<HTMLFormElement>(null);
   const iframeInitialized = useRef(false);
+  const failSafeTimer = useRef<number | null>(null);
 
   const getFieldClasses = (field: FieldName) =>
     [
@@ -59,9 +61,6 @@ export default function ContactForm() {
     validateField(field, e.target.value);
   };
 
-  const encode = (data: Record<string, string>) =>
-    new URLSearchParams(data).toString();
-
   const resetForm = () => {
     setFormData(initialFormState);
     setErrors({});
@@ -85,9 +84,22 @@ export default function ContactForm() {
 
     setShowModal(false);
     setSubmitting(true);
+
+    const u = `/form.html?submit=${Date.now()}`;
+    formRef.current?.setAttribute('action', u);
+
+    if (failSafeTimer.current) window.clearTimeout(failSafeTimer.current);
+    failSafeTimer.current = window.setTimeout(() => {
+      setSubmitting(false);
+    }, 8000);
   };
 
   const handleIframeLoad = () => {
+    if (failSafeTimer.current) {
+      window.clearTimeout(failSafeTimer.current);
+      failSafeTimer.current = null;
+    }
+
     if (!iframeInitialized.current) {
       iframeInitialized.current = true;
       return;
@@ -96,6 +108,11 @@ export default function ContactForm() {
     setSubmitting(false);
     resetForm();
     setShowModal(true);
+    formRef.current?.setAttribute('action', '/form.html');
+
+    if (typeof window !== 'undefined') {
+      (window as any).grecaptcha?.reset?.();
+    }
   };
 
   return (
@@ -105,6 +122,7 @@ export default function ContactForm() {
         <h2 className="text-2xl font-bold text-primary md:text-3xl">まずはお気軽にお問合せください</h2>
 
         <form
+          ref={formRef}
           name="contact"
           method="POST"
           action="/form.html"
@@ -245,7 +263,7 @@ export default function ContactForm() {
         <iframe
           name="ntl_submit"
           title="netlify hidden submission"
-          className="hidden"
+          style={{ position: 'absolute', left: '-9999px', width: 1, height: 1, border: 0, opacity: 0 }}
           onLoad={handleIframeLoad}
         />
       </div>
