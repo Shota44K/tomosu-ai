@@ -1,6 +1,6 @@
 'use client';
 
-import { ChangeEvent, FocusEvent, FormEvent, useState } from 'react';
+import { ChangeEvent, FocusEvent, FormEvent, useRef, useState } from 'react';
 import Script from 'next/script';
 
 type ContactFields = {
@@ -22,6 +22,7 @@ export default function ContactForm() {
   const [touched, setTouched] = useState<Partial<Record<FieldName, boolean>>>({});
   const [submitting, setSubmitting] = useState(false);
   const [showModal, setShowModal] = useState(false);
+  const iframeInitialized = useRef(false);
 
   const getFieldClasses = (field: FieldName) =>
     [
@@ -67,9 +68,7 @@ export default function ContactForm() {
     setTouched({});
   };
 
-  const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
-    e.preventDefault();
-
+  const handleSubmit = (e: FormEvent<HTMLFormElement>) => {
     // クライアント側必須チェック
     const nextTouched: Partial<Record<FieldName, boolean>> = {};
     const nextErrors: Partial<Record<FieldName, string>> = {};
@@ -79,35 +78,24 @@ export default function ContactForm() {
     });
     setTouched(nextTouched);
     setErrors(nextErrors);
-    if (Object.keys(nextErrors).length > 0) return;
-
-    try {
-      setSubmitting(true);
-      const res = await fetch('/form.html', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
-        body: encode({
-          'form-name': 'contact',
-          company: formData.company,
-          name: formData.name,
-          email: formData.email,
-          phone: formData.phone,
-          message: formData.message,
-          'bot-field': '', // honeypot（空）
-        }),
-      });
-
-      if (!res.ok) throw new Error(`Netlify submission failed: ${res.status}`);
-
-      // 送信成功：モーダル表示＋フォームリセット
-      resetForm();
-      setShowModal(true);
-    } catch (err) {
-      alert('送信に失敗しました。時間をおいて再度お試しください。');
-      // 必要に応じてログ送信など
-    } finally {
-      setSubmitting(false);
+    if (Object.keys(nextErrors).length > 0) {
+      e.preventDefault();
+      return;
     }
+
+    setShowModal(false);
+    setSubmitting(true);
+  };
+
+  const handleIframeLoad = () => {
+    if (!iframeInitialized.current) {
+      iframeInitialized.current = true;
+      return;
+    }
+
+    setSubmitting(false);
+    resetForm();
+    setShowModal(true);
   };
 
   return (
@@ -119,6 +107,8 @@ export default function ContactForm() {
         <form
           name="contact"
           method="POST"
+          action="/thanks.html"
+          target="ntl_submit"
           data-netlify="true"
           data-netlify-honeypot="bot-field"
           noValidate
@@ -216,8 +206,7 @@ export default function ContactForm() {
             />
           </div>
 
-          {/* reCAPTCHA は疎通確定後に有効化 */}
-          {/* <div data-netlify-recaptcha="true" className="rounded-xl border border-primary/10 bg-white p-4"></div> */}
+          <div data-netlify-recaptcha="true" className="rounded-xl border border-primary/10 bg-white p-4"></div>
 
           <div className="text-center">
             <button
@@ -252,6 +241,13 @@ export default function ContactForm() {
             </div>
           </div>
         )}
+
+        <iframe
+          name="ntl_submit"
+          title="netlify hidden submission"
+          className="hidden"
+          onLoad={handleIframeLoad}
+        />
       </div>
     </section>
   );
