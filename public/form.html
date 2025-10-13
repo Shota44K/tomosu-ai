@@ -18,8 +18,10 @@
     <form
       name="contact"
       method="POST"
+      action="/form.html"
       data-netlify="true"
-      data-netlify-honeypot="bot-field"
+      netlify-honeypot="bot-field"
+      data-netlify-recaptcha="true"
       class="contact-form"
     >
       <input type="hidden" name="form-name" value="contact" />
@@ -53,6 +55,5 @@
         <button type="submit">送信する</button>
       </p>
     </form>
-    <script src="https://www.google.com/recaptcha/api.js"></script>
   </body>
 </html>
