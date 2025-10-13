@@ -122,7 +122,6 @@ export default function ContactForm() {
           action="/form.html"
           data-netlify="true"
           netlify-honeypot="bot-field"
-          data-netlify-recaptcha="true"
           noValidate
           className="mt-10 space-y-6"
           onSubmit={handleSubmit}
@@ -220,7 +219,6 @@ export default function ContactForm() {
 
           {/* カスタム reCAPTCHA v2 ウィジェット */}
           <div
-            data-netlify-recaptcha="true"
             className="g-recaptcha rounded-xl border border-primary/10 bg-white p-4"
             data-sitekey={siteKey}
           ></div>
