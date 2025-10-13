@@ -50,10 +50,17 @@
         <label>ご相談内容 *</label>
         <textarea name="message" rows="5" required></textarea>
       </p>
-      <div data-netlify-recaptcha="true"></div>
+      <!-- Replace YOUR_SITE_RECAPTCHA_KEY with the actual v2 site key -->
+      <div
+        class="g-recaptcha"
+        data-netlify-recaptcha="true"
+        data-sitekey="YOUR_SITE_RECAPTCHA_KEY"
+        data-theme="light"
+      ></div>
       <p>
         <button type="submit">送信する</button>
       </p>
     </form>
+    <script src="https://www.google.com/recaptcha/api.js" async defer></script>
   </body>
 </html>

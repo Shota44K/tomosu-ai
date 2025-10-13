@@ -22,6 +22,7 @@ export default function ContactForm() {
   const [touched, setTouched] = useState<Partial<Record<FieldName, boolean>>>({});
   const [submitting, setSubmitting] = useState(false);
   const [showModal, setShowModal] = useState(false);
+  const siteKey = process.env.NEXT_PUBLIC_SITE_RECAPTCHA_KEY ?? '';
 
   const getFieldClasses = (field: FieldName) =>
     [
@@ -58,9 +59,6 @@ export default function ContactForm() {
     validateField(field, e.target.value);
   };
 
-  const encode = (data: Record<string, string>) =>
-    new URLSearchParams(data).toString();
-
   const resetForm = () => {
     setFormData(initialFormState);
     setErrors({});
@@ -83,18 +81,20 @@ export default function ContactForm() {
 
     try {
       setSubmitting(true);
-      const res = await fetch('/form.html', {
+      const formEl = e.currentTarget;
+      const fd = new FormData(formEl);
+
+      if (!fd.has('form-name')) fd.append('form-name', 'contact');
+
+      const body = new URLSearchParams();
+      fd.forEach((value, key) => {
+        body.append(key, typeof value === 'string' ? value : String(value));
+      });
+
+      const res = await fetch(formEl.action || '/form.html', {
         method: 'POST',
         headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
-        body: encode({
-          'form-name': 'contact',
-          company: formData.company,
-          name: formData.name,
-          email: formData.email,
-          phone: formData.phone,
-          message: formData.message,
-          'bot-field': '', // honeypot（空）
-        }),
+        body: body.toString(),
       });
 
       if (!res.ok) throw new Error(`Netlify submission failed: ${res.status}`);
@@ -119,8 +119,10 @@ export default function ContactForm() {
         <form
           name="contact"
           method="POST"
+          action="/form.html"
           data-netlify="true"
-          data-netlify-honeypot="bot-field"
+          netlify-honeypot="bot-field"
+          data-netlify-recaptcha="true"
           noValidate
           className="mt-10 space-y-6"
           onSubmit={handleSubmit}
@@ -216,8 +218,12 @@ export default function ContactForm() {
             />
           </div>
 
-          {/* reCAPTCHA は疎通確定後に有効化 */}
-          <div data-netlify-recaptcha="true" className="rounded-xl border border-primary/10 bg-white p-4"></div>
+          {/* カスタム reCAPTCHA v2 ウィジェット */}
+          <div
+            data-netlify-recaptcha="true"
+            className="g-recaptcha rounded-xl border border-primary/10 bg-white p-4"
+            data-sitekey={siteKey}
+          ></div>
 
           <div className="text-center">
             <button
