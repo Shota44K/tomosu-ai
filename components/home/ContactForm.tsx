@@ -1,7 +1,6 @@
 'use client';
 
 import { ChangeEvent, FocusEvent, FormEvent, useState } from 'react';
-import Script from 'next/script';
 
 type ContactFields = {
   company: string;
@@ -14,7 +13,8 @@ type FieldName = keyof ContactFields;
 
 const initialFormState: ContactFields = { company:'', name:'', email:'', phone:'', message:'' };
 const generalErrorMessage = '必須項目です。';
-const requiredFields: FieldName[] = ['company','name','email','phone','message']; // 仕様上「電話番号を任意」にするなら 'phone' を外し、input の required も外してください。
+// 仕様に基づき、電話番号を任意項目とするため 'phone' を必須リストから除外
+const requiredFields: FieldName[] = ['company','name','email','message'];
 
 export default function ContactForm() {
   const [formData, setFormData] = useState<ContactFields>(initialFormState);
@@ -22,6 +22,11 @@ export default function ContactForm() {
   const [touched, setTouched] = useState<Partial<Record<FieldName, boolean>>>({});
   const [submitting, setSubmitting] = useState(false);
   const [showModal, setShowModal] = useState(false);
+
+  // useEffectによるスクリプト読み込みは不要なため削除しました。
+  // Netlifyが data-netlify-recaptcha="true" を検出して自動でスクリプトを注入します。
+
+  // 環境変数からのサイトキー取得も不要なため削除しました。
 
   const getFieldClasses = (field: FieldName) =>
     [
@@ -35,6 +40,16 @@ export default function ContactForm() {
     setTouched((prev) => ({ ...prev, [field]: true }));
 
   const validateField = (field: FieldName, value: string) => {
+    // 必須項目でない場合はバリデーションをスキップ
+    if (!requiredFields.includes(field)) {
+        setErrors((prev) => {
+            const next = { ...prev };
+            delete next[field];
+            return next;
+        });
+        return;
+    }
+
     const trimmed = value.trim();
     setErrors((prev) => {
       if (!trimmed) return { ...prev, [field]: generalErrorMessage };
@@ -65,10 +80,26 @@ export default function ContactForm() {
     setFormData(initialFormState);
     setErrors({});
     setTouched({});
+    // reCAPTCHAをリセット (windowオブジェクトが存在することを確認)
+    if (typeof window !== 'undefined' && (window as any).grecaptcha) {
+      (window as any).grecaptcha.reset();
+    }
   };
 
   const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
+
+    const form = e.target as HTMLFormElement;
+    // AJAX送信の場合、Netlifyはフォームデータ内の g-recaptcha-response を検証します。
+    // そのため、このトークンを取得して送信するロジックは引き続き必要です。
+    const recaptchaResponse = (form.elements.namedItem('g-recaptcha-response') as HTMLInputElement)?.value;
+
+    if (!recaptchaResponse) {
+      // NetlifyがレンダリングするreCAPTCHAはデフォルトで必須項目のため、
+      // 基本的にこのアラートは表示されませんが、念のため残しておきます。
+      alert('reCAPTCHAを完了してください。');
+      return;
+    }
 
     // クライアント側必須チェック
     const nextTouched: Partial<Record<FieldName, boolean>> = {};
@@ -88,11 +119,8 @@ export default function ContactForm() {
         headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
         body: encode({
           'form-name': 'contact',
-          company: formData.company,
-          name: formData.name,
-          email: formData.email,
-          phone: formData.phone,
-          message: formData.message,
+          ...formData,
+          'g-recaptcha-response': recaptchaResponse,
           'bot-field': '', // honeypot（空）
         }),
       });
@@ -103,8 +131,8 @@ export default function ContactForm() {
       resetForm();
       setShowModal(true);
     } catch (err) {
+      console.error(err);
       alert('送信に失敗しました。時間をおいて再度お試しください。');
-      // 必要に応じてログ送信など
     } finally {
       setSubmitting(false);
     }
@@ -112,7 +140,7 @@ export default function ContactForm() {
 
   return (
     <section id="contact" className="bg-base">
-      <Script src="https://www.google.com/recaptcha/api.js" strategy="afterInteractive" />
+      {/* reCAPTCHAのスクリプト読み込みはuseEffectに移動したため、<Script>コンポーネントは削除 */}
       <div className="mx-auto max-w-6xl px-4 py-16 sm:px-6 md:px-8 lg:px-12">
         <h2 className="text-2xl font-bold text-primary md:text-3xl">まずはお気軽にお問合せください</h2>
 
@@ -121,6 +149,8 @@ export default function ContactForm() {
           method="POST"
           data-netlify="true"
           data-netlify-honeypot="bot-field"
+          // reCAPTCHAを有効化する属性を追加
+          data-netlify-recaptcha="true"
           noValidate
           className="mt-10 space-y-6"
           onSubmit={handleSubmit}
@@ -130,7 +160,6 @@ export default function ContactForm() {
             <label><input name="bot-field" type="text" tabIndex={-1} autoComplete="off" /></label>
           </div>
 
-          {/* 各フィールド（省略せずそのまま） */}
           {/* company */}
           <div>
             <label htmlFor="company-name" className="flex items-end justify-between text-sm font-semibold text-text">
@@ -182,19 +211,15 @@ export default function ContactForm() {
             />
           </div>
 
-          {/* phone（任意にするなら required を削除） */}
+          {/* phone (任意項目) */}
           <div>
             <label htmlFor="phone" className="flex items-end justify-between text-sm font-semibold text-text">
-              <span>電話番号 <span className="text-[#C00000]">*</span></span>
-              {touched.phone && errors.phone && (
-                <span id="phone-error" className="text-xs font-medium text-[#C00000]">{errors.phone}</span>
-              )}
+              <span>電話番号</span>
+              {/* 任意項目のためエラー表示は削除 */}
             </label>
             <input
-              id="phone" name="phone" type="tel" required
+              id="phone" name="phone" type="tel"
               value={formData.phone} onChange={handleChange} onBlur={handleBlur}
-              aria-invalid={errors.phone ? 'true' : 'false'}
-              aria-describedby={errors.phone ? 'phone-error' : undefined}
               className={getFieldClasses('phone')}
             />
           </div>
@@ -216,8 +241,8 @@ export default function ContactForm() {
             />
           </div>
 
-          {/* reCAPTCHA は疎通確定後に有効化 */}
-          {/* <div data-netlify-recaptcha="true" className="rounded-xl border border-primary/10 bg-white p-4"></div> */}
+          {/* Netlify提供のキー不要reCAPTCHAウィジェットを表示する場所 */}
+          <div data-netlify-recaptcha="true"></div>
 
           <div className="text-center">
             <button
@@ -256,3 +281,5 @@ export default function ContactForm() {
     </section>
   );
 }
+
+
