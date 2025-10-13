@@ -1,6 +1,6 @@
 'use client';
 
-import { ChangeEvent, FocusEvent, FormEvent, useRef, useState } from 'react';
+import { ChangeEvent, FocusEvent, FormEvent, useState } from 'react';
 import Script from 'next/script';
 
 type ContactFields = {
@@ -12,18 +12,6 @@ type ContactFields = {
 };
 type FieldName = keyof ContactFields;
 
-type Grecaptcha = {
-  ready?: (cb: () => void) => void;
-  execute?: (siteKey: string, opts: { action: string }) => Promise<string>;
-  reset?: () => void;
-};
-
-declare global {
-  interface Window {
-    grecaptcha?: Grecaptcha;
-  }
-}
-
 const initialFormState: ContactFields = { company:'', name:'', email:'', phone:'', message:'' };
 const generalErrorMessage = '必須項目です。';
 const requiredFields: FieldName[] = ['company','name','email','phone','message']; // 仕様上「電話番号を任意」にするなら 'phone' を外し、input の required も外してください。
@@ -34,9 +22,6 @@ export default function ContactForm() {
   const [touched, setTouched] = useState<Partial<Record<FieldName, boolean>>>({});
   const [submitting, setSubmitting] = useState(false);
   const [showModal, setShowModal] = useState(false);
-  const formRef = useRef<HTMLFormElement>(null);
-  const iframeInitialized = useRef(false);
-  const failSafeTimer = useRef<number | null>(null);
 
   const getFieldClasses = (field: FieldName) =>
     [
@@ -73,13 +58,18 @@ export default function ContactForm() {
     validateField(field, e.target.value);
   };
 
+  const encode = (data: Record<string, string>) =>
+    new URLSearchParams(data).toString();
+
   const resetForm = () => {
     setFormData(initialFormState);
     setErrors({});
     setTouched({});
   };
 
-  const handleSubmit = (e: FormEvent<HTMLFormElement>) => {
+  const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+
     // クライアント側必須チェック
     const nextTouched: Partial<Record<FieldName, boolean>> = {};
     const nextErrors: Partial<Record<FieldName, string>> = {};
@@ -89,41 +79,34 @@ export default function ContactForm() {
     });
     setTouched(nextTouched);
     setErrors(nextErrors);
-    if (Object.keys(nextErrors).length > 0) {
-      e.preventDefault();
-      return;
-    }
+    if (Object.keys(nextErrors).length > 0) return;
 
-    setShowModal(false);
-    setSubmitting(true);
+    try {
+      setSubmitting(true);
+      const res = await fetch('/form.html', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+        body: encode({
+          'form-name': 'contact',
+          company: formData.company,
+          name: formData.name,
+          email: formData.email,
+          phone: formData.phone,
+          message: formData.message,
+          'bot-field': '', // honeypot（空）
+        }),
+      });
 
-    const u = `/form.html?submit=${Date.now()}`;
-    formRef.current?.setAttribute('action', u);
+      if (!res.ok) throw new Error(`Netlify submission failed: ${res.status}`);
 
-    if (failSafeTimer.current) window.clearTimeout(failSafeTimer.current);
-    failSafeTimer.current = window.setTimeout(() => {
+      // 送信成功：モーダル表示＋フォームリセット
+      resetForm();
+      setShowModal(true);
+    } catch (err) {
+      alert('送信に失敗しました。時間をおいて再度お試しください。');
+      // 必要に応じてログ送信など
+    } finally {
       setSubmitting(false);
-    }, 8000);
-  };
-
-  const handleIframeLoad = () => {
-    if (failSafeTimer.current) {
-      window.clearTimeout(failSafeTimer.current);
-      failSafeTimer.current = null;
-    }
-
-    if (!iframeInitialized.current) {
-      iframeInitialized.current = true;
-      return;
-    }
-
-    setSubmitting(false);
-    resetForm();
-    setShowModal(true);
-    formRef.current?.setAttribute('action', '/form.html');
-
-    if (typeof window !== 'undefined') {
-      window.grecaptcha?.reset?.();
     }
   };
 
@@ -134,11 +117,8 @@ export default function ContactForm() {
         <h2 className="text-2xl font-bold text-primary md:text-3xl">まずはお気軽にお問合せください</h2>
 
         <form
-          ref={formRef}
           name="contact"
           method="POST"
-          action="/form.html"
-          target="ntl_submit"
           data-netlify="true"
           data-netlify-honeypot="bot-field"
           noValidate
@@ -236,7 +216,8 @@ export default function ContactForm() {
             />
           </div>
 
-          <div data-netlify-recaptcha="true" className="rounded-xl border border-primary/10 bg-white p-4"></div>
+          {/* reCAPTCHA は疎通確定後に有効化 */}
+          {/* <div data-netlify-recaptcha="true" className="rounded-xl border border-primary/10 bg-white p-4"></div> */}
 
           <div className="text-center">
             <button
@@ -271,13 +252,6 @@ export default function ContactForm() {
             </div>
           </div>
         )}
-
-        <iframe
-          name="ntl_submit"
-          title="netlify hidden submission"
-          style={{ position: 'absolute', left: '-9999px', width: 1, height: 1, border: 0, opacity: 0 }}
-          onLoad={handleIframeLoad}
-        />
       </div>
     </section>
   );
