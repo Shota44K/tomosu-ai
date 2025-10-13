@@ -217,7 +217,7 @@ export default function ContactForm() {
           </div>
 
           {/* reCAPTCHA は疎通確定後に有効化 */}
-          {/* <div data-netlify-recaptcha="true" className="rounded-xl border border-primary/10 bg-white p-4"></div> */}
+          <div data-netlify-recaptcha="true" className="rounded-xl border border-primary/10 bg-white p-4"></div>
 
           <div className="text-center">
             <button
