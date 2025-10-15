@@ -6,7 +6,7 @@ const PRICE_HIGHLIGHTS = [
   },
   {
     label: "本開発費用",
-    price: "平均開発費 500 万円",
+    price: "平均本開発費用 500 万円",
     description: "大手開発企業の1/5と低価格。詳細は別途お見積り",
   },
 ];
