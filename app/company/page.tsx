@@ -2,7 +2,7 @@ import type { Metadata } from "next";
 
 const COMPANY_INFO = [
   { label: "会社名", value: "tomosu-AI" },
-  { label: "所在地", value: "〒160-0023 東京都新宿区西新宿3丁目5-12" },
+  { label: "所在地", value: "〒160-0023 東京都新宿区西新宿3丁目3番13号西新宿水間ビル2F" },
   { label: "設立", value: "2025年10月" },
   { label: "代表者", value: "甲浦 翔太" },
 ];

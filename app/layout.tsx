@@ -17,8 +17,8 @@ export const metadata: Metadata = {
   description:
     "tomosu-AIは中堅・中小企業の経営課題をAIで解決するパートナーとして、試作品AIシステムの無償開発から本開発・運用までを支援します。",
   icons: {
-    icon: "/logo.svg",
-    shortcut: "/logo.svg",
+    icon: "/logo6.PNG",
+    shortcut: "/logo6.PNG",
   },
 };
 

@@ -9,11 +9,11 @@ export default function Footer() {
           <div className="space-y-4">
             <Link href="/" className="flex items-center gap-3" aria-label="tomosu-AI ホームへ移動">
               <Image
-                src="/logo.svg"
+                src="/logo6.PNG"
                 alt="tomosu-AI ロゴ"
                 width={40}
                 height={40}
-                className="h-10 w-10 rounded-full border border-white/20 bg-white p-1"
+                className="h-10 w-10 rounded-full border border-white/20 bg-white p-0.5"
                 priority
               />
               <span className="text-lg font-semibold">tomosu-AI</span>

@@ -32,7 +32,7 @@ export default function Header() {
             aria-label="tomosu-AI ホームへ移動"
           >
             <img
-              src="/logo.svg"
+              src="/logo6.PNG"
               alt="tomosu-AI ロゴ"
               className="h-12 w-12 rounded-full border border-primary/20 bg-white p-1"
             />
