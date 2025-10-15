@@ -36,7 +36,7 @@ export default function Header() {
               alt="tomosu-AI ロゴ"
               className="h-12 w-12 rounded-full border border-primary/20 bg-white p-1"
             />
-            <span className="text-lg font-semibold tracking-tight">tomosu-AI</span>
+            <span className="text-2xl font-semibold tracking-tight text-primary">tomosu-AI</span>
           </Link>
           <div className="hidden items-center gap-6 text-sm font-medium md:flex">
             {NAV_LINKS.map((link) => (
