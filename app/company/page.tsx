@@ -4,7 +4,8 @@ const COMPANY_INFO = [
   { label: "会社名", value: "tomosu-AI" },
   { label: "所在地", value: "〒160-0023 東京都新宿区西新宿3丁目3番13号西新宿水間ビル2F" },
   { label: "設立", value: "2025年10月" },
-  { label: "代表者", value: "甲浦 翔太" },
+  { label: "代表", value: "甲浦 翔太" },
+  { label: "事業内容", value: "生成AI活用コンサルティング、AIシステムの開発" },
 ];
 
 export const metadata: Metadata = {
@@ -14,6 +15,10 @@ export const metadata: Metadata = {
   robots: {
     index: false,
     follow: true,
+    googleBot: {
+      index: false,
+      follow: true,
+    },
   },
 };
 

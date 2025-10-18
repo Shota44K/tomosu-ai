@@ -1,6 +1,6 @@
 'use client';
 
-import { ChangeEvent, FocusEvent, FormEvent, useEffect, useRef, useState } from 'react';
+import { ChangeEvent, FormEvent, useEffect, useRef, useState } from 'react';
 import Script from 'next/script';
 
 type Grecaptcha = {
@@ -36,6 +36,8 @@ export default function ContactForm() {
   const [submitting, setSubmitting] = useState(false);
   const [showModal, setShowModal] = useState(false);
   const [captchaError, setCaptchaError] = useState<string | null>(null);
+  const [privacyAccepted, setPrivacyAccepted] = useState(false);
+  const [privacyError, setPrivacyError] = useState<string | null>(null);
   const recaptchaRef = useRef<HTMLDivElement | null>(null);
   const [captchaId, setCaptchaId] = useState<number | null>(null);
   const siteKey = process.env.NEXT_PUBLIC_SITE_RECAPTCHA_KEY ?? '';
@@ -104,9 +106,6 @@ export default function ContactForm() {
         : 'border-primary/20 focus:border-primary focus:ring-primary/30',
     ].join(' ');
 
-  const updateTouched = (field: FieldName) =>
-    setTouched((prev) => ({ ...prev, [field]: true }));
-
   const validateField = (field: FieldName, value: string) => {
     const trimmed = value.trim();
     setErrors((prev) => {
@@ -125,17 +124,13 @@ export default function ContactForm() {
     if (touched[field]) validateField(field, value);
   };
 
-  const handleBlur = (e: FocusEvent<HTMLInputElement | HTMLTextAreaElement>) => {
-    const field = e.target.name as FieldName;
-    updateTouched(field);
-    validateField(field, e.target.value);
-  };
-
   const resetForm = () => {
     setFormData(initialFormState);
     setErrors({});
     setTouched({});
     setCaptchaError(null);
+    setPrivacyAccepted(false);
+    setPrivacyError(null);
     if (typeof window !== 'undefined' && window.grecaptcha) {
       window.grecaptcha.reset(captchaId ?? undefined);
     }
@@ -157,6 +152,13 @@ export default function ContactForm() {
 
     const formEl = e.currentTarget;
     setCaptchaError(null);
+    setPrivacyError(null);
+
+    if (!privacyAccepted) {
+      setPrivacyError('プライバシーポリシーへの同意が必要です。');
+      return;
+    }
+
     const captchaResponse =
       (typeof window !== 'undefined' && window.grecaptcha
         ? window.grecaptcha.getResponse(captchaId ?? undefined)
@@ -213,7 +215,7 @@ export default function ContactForm() {
           data-netlify="true"
           netlify-honeypot="bot-field"
           noValidate
-          className="mt-10 space-y-6"
+          className="mt-10 space-y-6 mx-36"
           onSubmit={handleSubmit}
         >
           <input type="hidden" name="form-name" value="contact" />
@@ -225,14 +227,17 @@ export default function ContactForm() {
           {/* company */}
           <div>
             <label htmlFor="company-name" className="flex items-end justify-between text-sm font-semibold text-text">
-              <span>会社名 <span className="text-[#C00000]">*</span></span>
+              <span className="flex items-center gap-2">
+                会社名
+                <span className="rounded-sm bg-[#C00000] px-1.5 py-0.5 text-[0.7rem] font-semibold text-white">必須</span>
+              </span>
               {touched.company && errors.company && (
                 <span id="company-error" className="text-xs font-medium text-[#C00000]">{errors.company}</span>
               )}
             </label>
             <input
               id="company-name" name="company" type="text" required
-              value={formData.company} onChange={handleChange} onBlur={handleBlur}
+              value={formData.company} onChange={handleChange}
               aria-invalid={errors.company ? 'true' : 'false'}
               aria-describedby={errors.company ? 'company-error' : undefined}
               className={getFieldClasses('company')}
@@ -242,14 +247,17 @@ export default function ContactForm() {
           {/* name */}
           <div>
             <label htmlFor="name" className="flex items-end justify-between text-sm font-semibold text-text">
-              <span>お名前 <span className="text-[#C00000]">*</span></span>
+              <span className="flex items-center gap-2">
+                お名前
+                <span className="rounded-sm bg-[#C00000] px-1.5 py-0.5 text-[0.7rem] font-semibold text-white">必須</span>
+              </span>
               {touched.name && errors.name && (
                 <span id="name-error" className="text-xs font-medium text-[#C00000]">{errors.name}</span>
               )}
             </label>
             <input
               id="name" name="name" type="text" required
-              value={formData.name} onChange={handleChange} onBlur={handleBlur}
+              value={formData.name} onChange={handleChange}
               aria-invalid={errors.name ? 'true' : 'false'}
               aria-describedby={errors.name ? 'name-error' : undefined}
               className={getFieldClasses('name')}
@@ -259,14 +267,17 @@ export default function ContactForm() {
           {/* email */}
           <div>
             <label htmlFor="email" className="flex items-end justify-between text-sm font-semibold text-text">
-              <span>メールアドレス <span className="text-[#C00000]">*</span></span>
+              <span className="flex items-center gap-2">
+                メールアドレス
+                <span className="rounded-sm bg-[#C00000] px-1.5 py-0.5 text-[0.7rem] font-semibold text-white">必須</span>
+              </span>
               {touched.email && errors.email && (
                 <span id="email-error" className="text-xs font-medium text-[#C00000]">{errors.email}</span>
               )}
             </label>
             <input
               id="email" name="email" type="email" required
-              value={formData.email} onChange={handleChange} onBlur={handleBlur}
+              value={formData.email} onChange={handleChange}
               aria-invalid={errors.email ? 'true' : 'false'}
               aria-describedby={errors.email ? 'email-error' : undefined}
               className={getFieldClasses('email')}
@@ -276,14 +287,17 @@ export default function ContactForm() {
           {/* phone（任意にするなら required を削除） */}
           <div>
             <label htmlFor="phone" className="flex items-end justify-between text-sm font-semibold text-text">
-              <span>電話番号 <span className="text-[#C00000]">*</span></span>
+              <span className="flex items-center gap-2">
+                電話番号
+                <span className="rounded-sm bg-[#C00000] px-1.5 py-0.5 text-[0.7rem] font-semibold text-white">必須</span>
+              </span>
               {touched.phone && errors.phone && (
                 <span id="phone-error" className="text-xs font-medium text-[#C00000]">{errors.phone}</span>
               )}
             </label>
             <input
               id="phone" name="phone" type="tel" required
-              value={formData.phone} onChange={handleChange} onBlur={handleBlur}
+              value={formData.phone} onChange={handleChange}
               aria-invalid={errors.phone ? 'true' : 'false'}
               aria-describedby={errors.phone ? 'phone-error' : undefined}
               className={getFieldClasses('phone')}
@@ -293,18 +307,48 @@ export default function ContactForm() {
           {/* message */}
           <div>
             <label htmlFor="message" className="flex items-end justify-between text-sm font-semibold text-text">
-              <span>ご相談内容 <span className="text-[#C00000]">*</span></span>
+              <span className="flex items-center gap-2">
+                ご相談内容
+                <span className="rounded-sm bg-[#C00000] px-1.5 py-0.5 text-[0.7rem] font-semibold text-white">必須</span>
+              </span>
               {touched.message && errors.message && (
                 <span id="message-error" className="text-xs font-medium text-[#C00000]">{errors.message}</span>
               )}
             </label>
             <textarea
               id="message" name="message" rows={5} required
-              value={formData.message} onChange={handleChange} onBlur={handleBlur}
+              value={formData.message} onChange={handleChange}
               aria-invalid={errors.message ? 'true' : 'false'}
               aria-describedby={errors.message ? 'message-error' : undefined}
               className={getFieldClasses('message')}
             />
+          </div>
+
+          {/* プライバシーポリシー同意 */}
+          <div>
+            <label className="flex items-center gap-3 text-sm text-text/80">
+              <input
+                type="checkbox"
+                checked={privacyAccepted}
+                onChange={(event) => {
+                  setPrivacyAccepted(event.target.checked);
+                  if (event.target.checked) setPrivacyError(null);
+                }}
+                className="size-5 rounded border border-primary/30 text-primary focus:ring-2 focus:ring-primary/30"
+                aria-invalid={privacyError ? 'true' : 'false'}
+              />
+              <a
+                href="/privacy"
+                className="font-semibold text-primary underline underline-offset-2"
+                target="_blank"
+                rel="noopener noreferrer"
+              >
+                プライバシーポリシーに同意する
+              </a>
+            </label>
+            {privacyError && (
+              <p className="mt-2 text-xs font-medium text-[#C00000]">{privacyError}</p>
+            )}
           </div>
 
           {/* カスタム reCAPTCHA v2 ウィジェット */}
