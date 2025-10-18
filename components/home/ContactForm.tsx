@@ -139,35 +139,41 @@ export default function ContactForm() {
   const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
 
+    const formEl = e.currentTarget;
+
     // クライアント側必須チェック
     const nextTouched: Partial<Record<FieldName, boolean>> = {};
     const nextErrors: Partial<Record<FieldName, string>> = {};
+    let hasError = false;
     requiredFields.forEach((f) => {
       nextTouched[f] = true;
-      if (!formData[f].trim()) nextErrors[f] = generalErrorMessage;
+      if (!formData[f].trim()) {
+        nextErrors[f] = generalErrorMessage;
+        hasError = true;
+      }
     });
-    setTouched(nextTouched);
-    setErrors(nextErrors);
-    if (Object.keys(nextErrors).length > 0) return;
 
-    const formEl = e.currentTarget;
-    setCaptchaError(null);
-    setPrivacyError(null);
-
-    if (!privacyAccepted) {
-      setPrivacyError('プライバシーポリシーへの同意が必要です。');
-      return;
-    }
+    const nextPrivacyError = privacyAccepted
+      ? null
+      : "プライバシーポリシーへの同意が必要です。";
+    if (nextPrivacyError) hasError = true;
 
     const captchaResponse =
       (typeof window !== 'undefined' && window.grecaptcha
         ? window.grecaptcha.getResponse(captchaId ?? undefined)
         : formEl.querySelector<HTMLTextAreaElement>('textarea[name="g-recaptcha-response"]')?.value) ?? '';
 
-    if (!captchaResponse) {
-      setCaptchaError('reCAPTCHAで「私はロボットではありません」にチェックを入れてください。');
-      return;
-    }
+    const nextCaptchaError = captchaResponse
+      ? null
+      : "reCAPTCHAで「私はロボットではありません」にチェックを入れてください。";
+    if (nextCaptchaError) hasError = true;
+
+    setTouched(nextTouched);
+    setErrors(nextErrors);
+    setPrivacyError(nextPrivacyError);
+    setCaptchaError(nextCaptchaError);
+
+    if (hasError) return;
 
     try {
       setSubmitting(true);
