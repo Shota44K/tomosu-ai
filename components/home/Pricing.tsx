@@ -1,6 +1,6 @@
 const PRICE_HIGHLIGHTS = [
   {
-    label: "試作品AIシステム開発",
+    label: "試作AIシステム開発",
     price: "0 円",
     description: "最短4週間・対象範囲は事前合意のうえで無償対応",
   },

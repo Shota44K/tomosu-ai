@@ -39,19 +39,16 @@ export default function Services() {
       <div className="mx-auto max-w-6xl px-4 py-16 sm:px-6 md:px-8 lg:px-12">
         <div>
           <h2 className="mt-3 text-2xl font-bold text-primary md:text-3xl">
-            <span className="hidden md:inline">試作品開発(無償)から本開発・運用までのステップ</span>
-            <span className="block md:hidden">試作品開発(無償)から</span>
+            <span className="hidden md:inline">試作品開発(無料)から本開発・運用までのステップ</span>
+            <span className="block md:hidden">試作品開発(無料)から</span>
             <span className="block md:hidden">本開発・運用までのステップ</span>
           </h2>
         </div>
 
         <div className="mt-6 grid gap-8">
           <article className="flex h-full flex-col rounded-2xl border border-primary/10 bg-white p-6 shadow-sm">
-            <span className="inline-flex items-center gap-2 text-xs font-semibold uppercase tracking-wide text-primary/80">
-              Step 1
-            </span>
             <h3 className="mt-2 text-xl font-semibold text-primary md:text-2xl">
-              試作品AIシステム開発（無償）
+              試作AIシステム開発（無料）
             </h3>
             <p className="mt-3 text-sm text-text/70">
               実データを用いた試作品で効果を確認し、投資判断をいただくためのステップです。
@@ -75,9 +72,6 @@ export default function Services() {
           </article>
 
           <article className="flex h-full flex-col rounded-2xl border border-primary/10 bg-white p-6 shadow-sm">
-            <span className="inline-flex items-center gap-2 text-xs font-semibold uppercase tracking-wide text-primary/80">
-              Step 2
-            </span>
             <h3 className="mt-2 text-xl font-semibold text-primary md:text-2xl">
               本開発・運用
             </h3>
