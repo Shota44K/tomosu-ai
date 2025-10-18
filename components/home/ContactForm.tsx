@@ -215,7 +215,7 @@ export default function ContactForm() {
           data-netlify="true"
           netlify-honeypot="bot-field"
           noValidate
-          className="mt-10 space-y-6 mx-36"
+          className="mt-10 space-y-6 mx-4 lg:mx-36"
           onSubmit={handleSubmit}
         >
           <input type="hidden" name="form-name" value="contact" />
@@ -355,7 +355,7 @@ export default function ContactForm() {
           <div>
             <div
               ref={recaptchaRef}
-              className="rounded-xl border border-primary/10 bg-white p-4"
+              className=""
             />
             {captchaError && (
               <p className="mt-2 text-xs font-medium text-[#C00000]">{captchaError}</p>
