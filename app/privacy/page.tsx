@@ -133,7 +133,7 @@ export default function PrivacyPolicyPage() {
                   <p>本ポリシーに関するお問い合わせは、下記の窓口までお願いいたします。</p>
                   <p>事業者名： tomosu-AI</p>
                   <p>代表者： 甲浦 翔太</p>
-                  <p>連絡先： shota.koura@tomosu-ai.com</p>
+                  <p>連絡先： info@tomosu-ai.com</p>
                 </div>
               </section>
             </div>
