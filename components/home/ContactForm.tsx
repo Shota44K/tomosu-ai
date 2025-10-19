@@ -13,6 +13,7 @@ type Grecaptcha = {
 declare global {
   interface Window {
     grecaptcha?: Grecaptcha;
+    gtag?: (...args: unknown[]) => void;
   }
 }
 
@@ -197,9 +198,23 @@ export default function ContactForm() {
 
       if (!res.ok) throw new Error(`Netlify submission failed: ${res.status}`);
 
-      // 送信成功：モーダル表示＋フォームリセット
-      resetForm();
-      setShowModal(true);
+      const finishSubmission = () => {
+        resetForm();
+        setShowModal(true);
+      };
+
+      if (typeof window !== 'undefined' && typeof window.gtag === 'function') {
+        window.gtag('event', 'conversion', {
+          send_to: 'AW-17663914617/2eKMCJO02q8bEPnk5-ZB',
+          value: 1.0,
+          currency: 'JPY',
+          event_callback: finishSubmission,
+        });
+        window.setTimeout(finishSubmission, 1500);
+      } else {
+        console.warn('Google Ads gtag function not found.');
+        finishSubmission();
+      }
     } catch (err) {
       alert('送信に失敗しました。時間をおいて再度お試しください。');
       // 必要に応じてログ送信など
