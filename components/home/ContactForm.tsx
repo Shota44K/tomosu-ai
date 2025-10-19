@@ -42,6 +42,19 @@ export default function ContactForm() {
   const recaptchaRef = useRef<HTMLDivElement | null>(null);
   const [captchaId, setCaptchaId] = useState<number | null>(null);
   const siteKey = process.env.NEXT_PUBLIC_SITE_RECAPTCHA_KEY ?? '';
+  const conversionTimeoutRef = useRef<number | null>(null);
+  const isMountedRef = useRef(true);
+
+  useEffect(() => {
+    isMountedRef.current = true;
+    return () => {
+      isMountedRef.current = false;
+      if (conversionTimeoutRef.current !== null) {
+        window.clearTimeout(conversionTimeoutRef.current);
+        conversionTimeoutRef.current = null;
+      }
+    };
+  }, []);
 
   useEffect(() => {
     if (typeof window === 'undefined') return;
@@ -198,7 +211,12 @@ export default function ContactForm() {
 
       if (!res.ok) throw new Error(`Netlify submission failed: ${res.status}`);
 
-      const finishSubmission = () => {
+      const completeSubmission = () => {
+        if (!isMountedRef.current) return;
+        if (conversionTimeoutRef.current !== null) {
+          window.clearTimeout(conversionTimeoutRef.current);
+          conversionTimeoutRef.current = null;
+        }
         resetForm();
         setShowModal(true);
       };
@@ -208,12 +226,17 @@ export default function ContactForm() {
           send_to: 'AW-17663914617/2eKMCJO02q8bEPnk5-ZB',
           value: 1.0,
           currency: 'JPY',
-          event_callback: finishSubmission,
+          event_callback: completeSubmission,
         });
-        window.setTimeout(finishSubmission, 1500);
+        if (conversionTimeoutRef.current !== null) {
+          window.clearTimeout(conversionTimeoutRef.current);
+        }
+        conversionTimeoutRef.current = window.setTimeout(() => {
+          completeSubmission();
+        }, 1500);
       } else {
         console.warn('Google Ads gtag function not found.');
-        finishSubmission();
+        completeSubmission();
       }
     } catch (err) {
       alert('送信に失敗しました。時間をおいて再度お試しください。');
