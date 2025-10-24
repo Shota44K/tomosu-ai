@@ -5,9 +5,10 @@ import Script from 'next/script';
 
 type Grecaptcha = {
   ready(callback: () => void): void;
-  render(container: HTMLElement | string, parameters: { sitekey: string; [key: string]: unknown }): number;
-  reset(id?: number): void;
-  getResponse(id?: number): string;
+  render?(container: HTMLElement | string, parameters: { sitekey: string; [key: string]: unknown }): number;
+  reset?(id?: number): void;
+  getResponse?(id?: number): string;
+  execute(siteKey: string, options: { action: string }): Promise<string>;
 };
 
 declare global {
@@ -39,9 +40,9 @@ export default function ContactForm() {
   const [captchaError, setCaptchaError] = useState<string | null>(null);
   const [privacyAccepted, setPrivacyAccepted] = useState(false);
   const [privacyError, setPrivacyError] = useState<string | null>(null);
-  const recaptchaRef = useRef<HTMLDivElement | null>(null);
-  const [captchaId, setCaptchaId] = useState<number | null>(null);
   const siteKey = process.env.NEXT_PUBLIC_SITE_RECAPTCHA_KEY ?? '';
+  const recaptchaAction = 'contact_submit';
+  const recaptchaInputRef = useRef<HTMLInputElement | null>(null);
   const conversionTimeoutRef = useRef<number | null>(null);
   const isMountedRef = useRef(true);
 
@@ -58,46 +59,29 @@ export default function ContactForm() {
 
   useEffect(() => {
     if (typeof window === 'undefined') return;
-    if (!siteKey || captchaId !== null) return;
+    if (!siteKey) {
+      setCaptchaError('reCAPTCHAキーの設定が見つかりません。管理者にお問い合わせください。');
+      return;
+    }
 
     let cancelled = false;
     let intervalId: number | undefined;
 
-    const attemptRender = () => {
-      if (cancelled) return true;
+    const attemptReady = () => {
       const grecaptcha = window.grecaptcha;
-      if (!recaptchaRef.current || !grecaptcha) return false;
-
-      const renderWidget = () => {
-        if (!recaptchaRef.current || cancelled) return;
-        try {
-          const id = grecaptcha.render(recaptchaRef.current, {
-            sitekey: siteKey,
-            callback: () => setCaptchaError(null),
-            'expired-callback': () =>
-              setCaptchaError('reCAPTCHAの有効期限が切れました。再度チェックしてください。'),
-            'error-callback': () =>
-              setCaptchaError('reCAPTCHAの読み込みに失敗しました。時間をおいて再度お試しください。'),
-          });
-          setCaptchaError(null);
-          if (!cancelled) setCaptchaId(id);
-        } catch (err) {
-          console.error('Failed to render reCAPTCHA widget', err);
-        }
-      };
-
-      if (typeof grecaptcha.ready === 'function') {
-        grecaptcha.ready(renderWidget);
-      } else {
-        renderWidget();
+      if (!grecaptcha || typeof grecaptcha.ready !== 'function') {
+        return false;
       }
 
+      grecaptcha.ready(() => {
+        if (!cancelled) setCaptchaError(null);
+      });
       return true;
     };
 
-    if (!attemptRender()) {
+    if (!attemptReady()) {
       intervalId = window.setInterval(() => {
-        if (attemptRender() && intervalId !== undefined) {
+        if (attemptReady() && intervalId !== undefined) {
           window.clearInterval(intervalId);
           intervalId = undefined;
         }
@@ -110,7 +94,7 @@ export default function ContactForm() {
         window.clearInterval(intervalId);
       }
     };
-  }, [siteKey, captchaId]);
+  }, [siteKey]);
 
   const getFieldClasses = (field: FieldName) =>
     [
@@ -145,8 +129,8 @@ export default function ContactForm() {
     setCaptchaError(null);
     setPrivacyAccepted(false);
     setPrivacyError(null);
-    if (typeof window !== 'undefined' && window.grecaptcha) {
-      window.grecaptcha.reset(captchaId ?? undefined);
+    if (recaptchaInputRef.current) {
+      recaptchaInputRef.current.value = '';
     }
   };
 
@@ -172,29 +156,52 @@ export default function ContactForm() {
       : "プライバシーポリシーへの同意が必要です。";
     if (nextPrivacyError) hasError = true;
 
-    const captchaResponse =
-      (typeof window !== 'undefined' && window.grecaptcha
-        ? window.grecaptcha.getResponse(captchaId ?? undefined)
-        : formEl.querySelector<HTMLTextAreaElement>('textarea[name="g-recaptcha-response"]')?.value) ?? '';
-
-    const nextCaptchaError = captchaResponse
-      ? null
-      : "reCAPTCHAで「私はロボットではありません」にチェックを入れてください。";
-    if (nextCaptchaError) hasError = true;
-
     setTouched(nextTouched);
     setErrors(nextErrors);
     setPrivacyError(nextPrivacyError);
-    setCaptchaError(nextCaptchaError);
 
     if (hasError) return;
 
     try {
       setSubmitting(true);
-      const fd = new FormData(formEl);
-      if (!fd.has('g-recaptcha-response')) {
-        fd.set('g-recaptcha-response', captchaResponse);
+      const grecaptcha = typeof window !== 'undefined' ? window.grecaptcha : undefined;
+      if (!siteKey) {
+        setCaptchaError('reCAPTCHAキーの設定が見つかりません。管理者にお問い合わせください。');
+        return;
       }
+      if (!grecaptcha || typeof grecaptcha.execute !== 'function') {
+        setCaptchaError('reCAPTCHAの読み込みに失敗しました。時間をおいて再度お試しください。');
+        return;
+      }
+
+      const token = await grecaptcha.execute(siteKey, { action: recaptchaAction });
+      if (!token) {
+        setCaptchaError('reCAPTCHAの検証に失敗しました。時間をおいて再度お試しください。');
+        return;
+      }
+
+      if (recaptchaInputRef.current) {
+        recaptchaInputRef.current.value = token;
+      }
+
+      const verifyRes = await fetch('/api/recaptcha-verify', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ token, action: recaptchaAction }),
+      });
+
+      const verifyJson: { success?: boolean; message?: string } = await verifyRes.json().catch(() => ({ success: false }));
+      if (!verifyRes.ok || !verifyJson.success) {
+        setCaptchaError(
+          verifyJson.message || 'reCAPTCHAの検証に失敗しました。時間をおいて再度お試しください。'
+        );
+        return;
+      }
+
+      setCaptchaError(null);
+
+      const fd = new FormData(formEl);
+      fd.set('g-recaptcha-response', token);
 
       if (!fd.has('form-name')) fd.append('form-name', 'contact');
 
@@ -248,7 +255,10 @@ export default function ContactForm() {
 
   return (
     <section id="contact" className="bg-base">
-      <Script src="https://www.google.com/recaptcha/api.js" strategy="afterInteractive" />
+      <Script
+        src={siteKey ? `https://www.google.com/recaptcha/api.js?render=${siteKey}` : 'https://www.google.com/recaptcha/api.js'}
+        strategy="afterInteractive"
+      />
       <div className="mx-auto max-w-6xl px-4 py-16 sm:px-6 md:px-8 lg:px-12">
         <h2 className="text-2xl font-bold text-primary md:text-3xl">まずはお気軽にお問合せください</h2>
 
@@ -263,6 +273,7 @@ export default function ContactForm() {
           onSubmit={handleSubmit}
         >
           <input type="hidden" name="form-name" value="contact" />
+          <input type="hidden" name="g-recaptcha-response" ref={recaptchaInputRef} />
           <div className="hidden" aria-hidden="true">
             <label><input name="bot-field" type="text" tabIndex={-1} autoComplete="off" /></label>
           </div>
@@ -395,16 +406,9 @@ export default function ContactForm() {
             )}
           </div>
 
-          {/* カスタム reCAPTCHA v2 ウィジェット */}
-          <div>
-            <div
-              ref={recaptchaRef}
-              className=""
-            />
-            {captchaError && (
-              <p className="mt-2 text-xs font-medium text-[#C00000]">{captchaError}</p>
-            )}
-          </div>
+          {captchaError && (
+            <p className="text-center text-xs font-medium text-[#C00000]">{captchaError}</p>
+          )}
 
           <div className="text-center">
             <button
