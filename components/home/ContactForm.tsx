@@ -219,7 +219,7 @@ export default function ContactForm() {
         body.append(key, typeof value === 'string' ? value : String(value));
       });
 
-      const res = await fetch('/', {
+      const res = await fetch('/contact-netlify.html', {
         method: 'POST',
         headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
         body: body.toString(),

@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="ja">
+  <head>
+    <meta charset="utf-8" />
+    <title>Netlify Form Detection</title>
+  </head>
+  <body>
+    <form
+      name="contact"
+      method="POST"
+      action="/contact-netlify.html"
+      data-netlify="true"
+      netlify-honeypot="bot-field"
+      style="display:none"
+    >
+      <input type="hidden" name="form-name" value="contact" />
+      <label>
+        会社名
+        <input type="text" name="company" />
+      </label>
+      <label>
+        お名前
+        <input type="text" name="name" />
+      </label>
+      <label>
+        メールアドレス
+        <input type="email" name="email" />
+      </label>
+      <label>
+        電話番号
+        <input type="tel" name="phone" />
+      </label>
+      <label>
+        ご相談内容
+        <textarea name="message"></textarea>
+      </label>
+      <label>
+        bot-field
+        <input type="text" name="bot-field" />
+      </label>
+    </form>
+  </body>
+</html>
+
