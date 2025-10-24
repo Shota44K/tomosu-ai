@@ -3,12 +3,13 @@
 import { ChangeEvent, FormEvent, useEffect, useRef, useState } from 'react';
 import Script from 'next/script';
 
-type Grecaptcha = {
+type GrecaptchaEnterprise = {
   ready(callback: () => void): void;
-  render?(container: HTMLElement | string, parameters: { sitekey: string; [key: string]: unknown }): number;
-  reset?(id?: number): void;
-  getResponse?(id?: number): string;
   execute(siteKey: string, options: { action: string }): Promise<string>;
+};
+
+type Grecaptcha = {
+  enterprise?: GrecaptchaEnterprise;
 };
 
 declare global {
@@ -68,12 +69,12 @@ export default function ContactForm() {
     let intervalId: number | undefined;
 
     const attemptReady = () => {
-      const grecaptcha = window.grecaptcha;
-      if (!grecaptcha || typeof grecaptcha.ready !== 'function') {
+      const grecaptchaEnterprise = window.grecaptcha?.enterprise;
+      if (!grecaptchaEnterprise || typeof grecaptchaEnterprise.ready !== 'function') {
         return false;
       }
 
-      grecaptcha.ready(() => {
+      grecaptchaEnterprise.ready(() => {
         if (!cancelled) setCaptchaError(null);
       });
       return true;
@@ -164,7 +165,7 @@ export default function ContactForm() {
 
     try {
       setSubmitting(true);
-      const grecaptcha = typeof window !== 'undefined' ? window.grecaptcha : undefined;
+      const grecaptcha = typeof window !== 'undefined' ? window.grecaptcha?.enterprise : undefined;
       if (!siteKey) {
         setCaptchaError('reCAPTCHAキーの設定が見つかりません。管理者にお問い合わせください。');
         return;
@@ -173,6 +174,14 @@ export default function ContactForm() {
         setCaptchaError('reCAPTCHAの読み込みに失敗しました。時間をおいて再度お試しください。');
         return;
       }
+
+      await new Promise<void>((resolve) => {
+        if (!grecaptcha || typeof grecaptcha.ready !== 'function') {
+          resolve();
+          return;
+        }
+        grecaptcha.ready(() => resolve());
+      });
 
       const token = await grecaptcha.execute(siteKey, { action: recaptchaAction });
       if (!token) {
@@ -256,7 +265,11 @@ export default function ContactForm() {
   return (
     <section id="contact" className="bg-base">
       <Script
-        src={siteKey ? `https://www.google.com/recaptcha/api.js?render=${siteKey}` : 'https://www.google.com/recaptcha/api.js'}
+        src={
+          siteKey
+            ? `https://www.google.com/recaptcha/enterprise.js?render=${siteKey}`
+            : 'https://www.google.com/recaptcha/enterprise.js'
+        }
         strategy="afterInteractive"
       />
       <div className="mx-auto max-w-6xl px-4 py-16 sm:px-6 md:px-8 lg:px-12">
