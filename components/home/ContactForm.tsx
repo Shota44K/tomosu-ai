@@ -43,7 +43,6 @@ export default function ContactForm() {
   const [privacyError, setPrivacyError] = useState<string | null>(null);
   const siteKey = process.env.NEXT_PUBLIC_SITE_RECAPTCHA_KEY ?? '';
   const recaptchaAction = 'contact_submit';
-  const recaptchaInputRef = useRef<HTMLInputElement | null>(null);
   const conversionTimeoutRef = useRef<number | null>(null);
   const isMountedRef = useRef(true);
 
@@ -130,9 +129,6 @@ export default function ContactForm() {
     setCaptchaError(null);
     setPrivacyAccepted(false);
     setPrivacyError(null);
-    if (recaptchaInputRef.current) {
-      recaptchaInputRef.current.value = '';
-    }
   };
 
   const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
@@ -189,10 +185,6 @@ export default function ContactForm() {
         return;
       }
 
-      if (recaptchaInputRef.current) {
-        recaptchaInputRef.current.value = token;
-      }
-
       const verifyRes = await fetch('/api/recaptcha-verify', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
@@ -210,7 +202,7 @@ export default function ContactForm() {
       setCaptchaError(null);
 
       const fd = new FormData(formEl);
-      fd.set('g-recaptcha-response', token);
+      fd.set('recaptcha_enterprise_token', token);
 
       if (!fd.has('form-name')) fd.append('form-name', 'contact');
 
@@ -278,7 +270,7 @@ export default function ContactForm() {
         <form
           name="contact"
           method="POST"
-          action="/form.html"
+          action="/contact-netlify.html"
           data-netlify="true"
           netlify-honeypot="bot-field"
           noValidate
@@ -286,7 +278,6 @@ export default function ContactForm() {
           onSubmit={handleSubmit}
         >
           <input type="hidden" name="form-name" value="contact" />
-          <input type="hidden" name="g-recaptcha-response" ref={recaptchaInputRef} />
           <div className="hidden" aria-hidden="true">
             <label><input name="bot-field" type="text" tabIndex={-1} autoComplete="off" /></label>
           </div>
