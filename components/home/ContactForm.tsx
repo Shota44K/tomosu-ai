@@ -264,6 +264,11 @@ export default function ContactForm() {
         }
         strategy="afterInteractive"
       />
+      <style jsx global>{`
+        .grecaptcha-badge {
+          display: none !important;
+        }
+      `}</style>
       <div className="mx-auto max-w-6xl px-4 py-16 sm:px-6 md:px-8 lg:px-12">
         <h2 className="text-2xl font-bold text-primary md:text-3xl">まずはお気軽にお問合せください</h2>
 
@@ -382,6 +387,28 @@ export default function ContactForm() {
               className={getFieldClasses('message')}
             />
           </div>
+
+          <p className="text-xs text-text/80">
+            このサイトは reCAPTCHA によって保護されており、Google の{' '}
+            <a
+              href="https://policies.google.com/privacy"
+              className="font-semibold text-primary underline underline-offset-2"
+              target="_blank"
+              rel="noopener noreferrer"
+            >
+              プライバシーポリシー
+            </a>
+            と
+            <a
+              href="https://policies.google.com/terms"
+              className="font-semibold text-primary underline underline-offset-2"
+              target="_blank"
+              rel="noopener noreferrer"
+            >
+              利用規約
+            </a>
+            が適用されます。
+          </p>
 
           {/* プライバシーポリシー同意 */}
           <div>
