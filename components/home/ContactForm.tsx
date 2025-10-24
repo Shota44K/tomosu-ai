@@ -184,7 +184,6 @@ export default function ContactForm() {
       });
 
       const token = await grecaptcha.execute(siteKey, { action: recaptchaAction });
-      console.log('recaptcha token', token?.slice(0, 12), token?.length);
       if (!token) {
         setCaptchaError('reCAPTCHAの検証に失敗しました。時間をおいて再度お試しください。');
         return;
@@ -220,7 +219,7 @@ export default function ContactForm() {
         body.append(key, typeof value === 'string' ? value : String(value));
       });
 
-      const res = await fetch(formEl.action || '/form.html', {
+      const res = await fetch('/', {
         method: 'POST',
         headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
         body: body.toString(),
