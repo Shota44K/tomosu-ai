@@ -184,6 +184,7 @@ export default function ContactForm() {
       });
 
       const token = await grecaptcha.execute(siteKey, { action: recaptchaAction });
+      console.log('recaptcha token', token?.slice(0, 12), token?.length);
       if (!token) {
         setCaptchaError('reCAPTCHAの検証に失敗しました。時間をおいて再度お試しください。');
         return;
