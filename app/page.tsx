@@ -1,5 +1,6 @@
+import { Suspense } from "react";
+
 import MobileStickyCta from "@/components/common/MobileStickyCta";
-import CTA from "@/components/home/CTA";
 import ContactForm from "@/components/home/ContactForm";
 import FAQ from "@/components/home/FAQ";
 import Hero from "@/components/home/Hero";
@@ -24,7 +25,9 @@ export default function HomePage() {
         <ContactForm />
         <FAQ />
       </main>
-      <MobileStickyCta />
+      <Suspense fallback={null}>
+        <MobileStickyCta />
+      </Suspense>
     </>
   );
 }
