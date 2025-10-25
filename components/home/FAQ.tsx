@@ -36,12 +36,12 @@ export default function FAQ() {
             </article>
           ))}
         </div>
-        <div className="mt-10 text-center">
+        <div className="hidden mt-10 text-center md:block">
           <a
             href="#contact"
-            className="inline-flex min-w-[12rem] items-center justify-center rounded-full bg-primary px-8 py-3.5 text-base font-semibold text-white shadow transition hover:bg-primary/90"
+            className="hidden min-w-[12rem] items-center justify-center rounded-full bg-primary px-8 py-3.5 text-base font-semibold text-white shadow transition hover:bg-primary/90 md:inline-flex"
           >
-            相談する
+            無料で相談する（30分） &gt;
           </a>
         </div>
       </div>

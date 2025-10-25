@@ -473,9 +473,25 @@ export default function ContactForm() {
             <button
               type="submit"
               disabled={submitting}
-              className="inline-flex min-w-[12rem] items-center justify-center rounded-full bg-primary px-8 py-3.5 text-base font-semibold text-white shadow transition hover:bg-primary/90 disabled:opacity-60 disabled:cursor-not-allowed"
+              className="inline-flex min-w-[12rem] items-center justify-center gap-2 rounded-full bg-primary px-8 py-3.5 text-base font-semibold text-white shadow transition hover:bg-primary/90 disabled:cursor-not-allowed disabled:opacity-60"
             >
-              {submitting ? '送信中…' : '送信する'}
+              {!submitting && (
+                <svg
+                  aria-hidden="true"
+                  className="h-5 w-5"
+                  fill="none"
+                  stroke="currentColor"
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  strokeWidth={1.2}
+                  viewBox="0 0 24 24"
+                  style={{ transform: 'scaleX(-1)' }}
+                >
+                  <path d="M4 12 20 6l-6 6 6 6L4 12Z" />
+                  <path d="M4 12h8" />
+                </svg>
+              )}
+              <span>{submitting ? '送信中…' : '送信する'}</span>
             </button>
           </div>
         </form>

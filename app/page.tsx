@@ -1,3 +1,4 @@
+import MobileStickyCta from "@/components/common/MobileStickyCta";
 import CTA from "@/components/home/CTA";
 import ContactForm from "@/components/home/ContactForm";
 import FAQ from "@/components/home/FAQ";
@@ -11,17 +12,19 @@ import UseCases from "@/components/home/UseCases";
 
 export default function HomePage() {
   return (
-    <main className="pt-28">
-      <Hero />
-      <Problems />
-      <Solutions />
-      <Process />
-      <UseCases />
-      <CTA />
-      <Services />
-      <Pricing />
-      <ContactForm />
-      <FAQ />
-    </main>
+    <>
+      <main className="pt-28">
+        <Hero />
+        <Problems />
+        <Solutions />
+        <Process />
+        <UseCases />
+        <Services />
+        <Pricing />
+        <ContactForm />
+        <FAQ />
+      </main>
+      <MobileStickyCta />
+    </>
   );
 }

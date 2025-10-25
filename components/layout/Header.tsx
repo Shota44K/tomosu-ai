@@ -52,7 +52,7 @@ export default function Header() {
               href="/#contact"
               className="inline-flex items-center gap-2 rounded-full bg-primary px-5 py-2 text-sm font-semibold text-white shadow transition hover:bg-primary/90"
             >
-              相談する
+              無料で相談する
             </Link>
           </div>
           <button
