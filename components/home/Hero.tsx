@@ -215,7 +215,7 @@ export default function Hero() {
 
       <div className="relative mx-auto flex min-h-[70vh] max-w-6xl px-4 pb-24 pt-32 sm:px-6 md:px-8 lg:px-12 lg:pb-28 lg:pt-40 xl:pb-32 xl:pt-44 md:flex-row md:items-center">
         <div className="flex-[4] space-y-6 md:flex-[1.6]">
-          <span className="inline-flex w-[16rem] items-center justify-center gap-2 rounded-full bg-primary/10 px-4 py-1 text-sm font-medium text-primary">
+          <span className="inline-flex items-center justify-center gap-2 rounded-full bg-primary/10 px-4 py-1 text-sm font-medium text-primary md:w-[16rem]">
             オーダーメイドAIシステム開発
           </span>
           <h1
@@ -231,7 +231,7 @@ export default function Hero() {
           </h1>
           <p
             data-animate="hero-lead"
-            className="max-w-xl text-base text-text/80 md:text-lg"
+            className="max-w-xl text-base text-black/90 md:text-lg"
           >
             中堅・中小企業の経営課題をAIで解決<br />
           </p>
