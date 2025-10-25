@@ -23,14 +23,13 @@ type ContactFields = {
   company: string;
   name: string;
   email: string;
-  phone: string;
   message: string;
 };
 type FieldName = keyof ContactFields;
 
-const initialFormState: ContactFields = { company:'', name:'', email:'', phone:'', message:'' };
+const initialFormState: ContactFields = { company:'', name:'', email:'', message:'' };
 const generalErrorMessage = '必須項目です。';
-const requiredFields: FieldName[] = ['company','name','email','phone','message']; // 仕様上「電話番号を任意」にするなら 'phone' を外し、input の required も外してください。
+const requiredFields: FieldName[] = ['company','name','email','message'];
 
 export default function ContactForm() {
   const [formData, setFormData] = useState<ContactFields>(initialFormState);
@@ -345,26 +344,6 @@ export default function ContactForm() {
               aria-invalid={errors.email ? 'true' : 'false'}
               aria-describedby={errors.email ? 'email-error' : undefined}
               className={getFieldClasses('email')}
-            />
-          </div>
-
-          {/* phone（任意にするなら required を削除） */}
-          <div>
-            <label htmlFor="phone" className="flex items-end justify-between text-sm font-semibold text-text">
-              <span className="flex items-center gap-2">
-                電話番号
-                <span className="rounded-sm bg-[#C00000] px-1.5 py-0.5 text-[0.7rem] font-semibold text-white">必須</span>
-              </span>
-              {touched.phone && errors.phone && (
-                <span id="phone-error" className="text-xs font-medium text-[#C00000]">{errors.phone}</span>
-              )}
-            </label>
-            <input
-              id="phone" name="phone" type="tel" required
-              value={formData.phone} onChange={handleChange}
-              aria-invalid={errors.phone ? 'true' : 'false'}
-              aria-describedby={errors.phone ? 'phone-error' : undefined}
-              className={getFieldClasses('phone')}
             />
           </div>
 
