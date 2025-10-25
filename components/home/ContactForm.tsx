@@ -23,13 +23,14 @@ type ContactFields = {
   company: string;
   name: string;
   email: string;
+  consultationType: string;
   message: string;
 };
 type FieldName = keyof ContactFields;
 
-const initialFormState: ContactFields = { company:'', name:'', email:'', message:'' };
+const initialFormState: ContactFields = { company: '', name: '', email: '', consultationType: '', message: '' };
 const generalErrorMessage = '必須項目です。';
-const requiredFields: FieldName[] = ['company','name','email','message'];
+const requiredFields: FieldName[] = ['company','name','email','consultationType'];
 
 export default function ContactForm() {
   const [formData, setFormData] = useState<ContactFields>(initialFormState);
@@ -106,7 +107,7 @@ export default function ContactForm() {
   const validateField = (field: FieldName, value: string) => {
     const trimmed = value.trim();
     setErrors((prev) => {
-      if (!trimmed) return { ...prev, [field]: generalErrorMessage };
+      if (!trimmed && requiredFields.includes(field)) return { ...prev, [field]: generalErrorMessage };
       if (!prev[field]) return prev;
       const next = { ...prev };
       delete next[field];
@@ -117,7 +118,12 @@ export default function ContactForm() {
   const handleChange = (e: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
     const field = e.target.name as FieldName;
     const value = e.target.value;
-    setFormData((prev) => ({ ...prev, [field]: value }));
+    setFormData((prev) => {
+      if (field === 'consultationType' && value !== 'other') {
+        return { ...prev, consultationType: value, message: '' };
+      }
+      return { ...prev, [field]: value };
+    });
     if (touched[field]) validateField(field, value);
   };
 
@@ -347,49 +353,70 @@ export default function ContactForm() {
             />
           </div>
 
-          {/* message */}
+          {/* consultation type */}
           <div>
-            <label htmlFor="message" className="flex items-end justify-between text-sm font-semibold text-text">
-              <span className="flex items-center gap-2">
-                ご相談内容
-                <span className="rounded-sm bg-[#C00000] px-1.5 py-0.5 text-[0.7rem] font-semibold text-white">必須</span>
-              </span>
-              {touched.message && errors.message && (
-                <span id="message-error" className="text-xs font-medium text-[#C00000]">{errors.message}</span>
-              )}
-            </label>
-            <textarea
-              id="message" name="message" rows={5} required
-              value={formData.message} onChange={handleChange}
-              aria-invalid={errors.message ? 'true' : 'false'}
-              aria-describedby={errors.message ? 'message-error' : undefined}
-              className={getFieldClasses('message')}
-            />
+            <fieldset>
+              <legend className="flex items-end justify-between text-sm font-semibold text-text">
+                <span className="flex items-center gap-2">
+                  ご相談種別
+                  <span className="rounded-sm bg-[#C00000] px-1.5 py-0.5 text-[0.7rem] font-semibold text-white">必須</span>
+                </span>
+                {touched.consultationType && errors.consultationType && (
+                  <span id="consultationType-error" className="text-xs font-medium text-[#C00000]">
+                    {errors.consultationType}
+                  </span>
+                )}
+              </legend>
+              <div className="mt-4 flex flex-col gap-3">
+                {[
+                  { value: 'proposal', label: 'AI活用案の相談' },
+                  { value: 'trial', label: '無料試作AIシステム開発の相談' },
+                  { value: 'other', label: 'その他' },
+                ].map((option) => (
+                  <label key={option.value} className="flex items-center gap-3 text-sm text-text/90">
+                    <input
+                      type="radio"
+                      name="consultationType"
+                      value={option.value}
+                      checked={formData.consultationType === option.value}
+                      onChange={handleChange}
+                      className="size-5 text-primary focus:ring-2 focus:ring-primary/30"
+                      aria-invalid={errors.consultationType ? 'true' : 'false'}
+                      aria-describedby={
+                        errors.consultationType && touched.consultationType
+                          ? 'consultationType-error'
+                          : undefined
+                      }
+                      required
+                    />
+                    <span>{option.label}</span>
+                  </label>
+                ))}
+              </div>
+            </fieldset>
           </div>
 
-          <p className="text-xs text-text/80">
-            このサイトは reCAPTCHA によって保護されており、Google の{' '}
-            <a
-              href="https://policies.google.com/privacy"
-              className="font-semibold text-primary underline underline-offset-2"
-              target="_blank"
-              rel="noopener noreferrer"
-            >
-              プライバシーポリシー
-            </a>
-            と
-            <a
-              href="https://policies.google.com/terms"
-              className="font-semibold text-primary underline underline-offset-2"
-              target="_blank"
-              rel="noopener noreferrer"
-            >
-              利用規約
-            </a>
-            が適用されます。
-          </p>
+          {formData.consultationType === 'other' && (
+            <div>
+               <div className="text-sm font-semibold text-text">
+                 <label htmlFor="message" className="flex items-center gap-x-2">
+                   ご相談内容
+                   <span className="rounded-sm bg-gray-500 px-1.5 py-0.5 text-[0.7rem] font-semibold text-white">任意</span>
+                 </label>
+               </div>
+               <textarea
+                 id="message"
+                 name="message"
+                 rows={5}
+                 value={formData.message}
+                 onChange={handleChange}
+                 className={`${getFieldClasses('message')} mt-2`}
+                 placeholder="未記入でも構いません。面談にてご相談内容をお伝えください。"
+               />
+            </div>
+          )}
 
-          {/* プライバシーポリシー同意 */}
+
           <div>
             <label className="flex items-center gap-3 text-sm text-text/80">
               <input
@@ -415,6 +442,28 @@ export default function ContactForm() {
               <p className="mt-2 text-xs font-medium text-[#C00000]">{privacyError}</p>
             )}
           </div>
+
+          <p className="text-xs text-text/80">
+            このサイトは reCAPTCHA によって保護されており、Google の{' '}
+            <a
+              href="https://policies.google.com/privacy"
+              className="font-semibold underline underline-offset-2"
+              target="_blank"
+              rel="noopener noreferrer"
+            >
+              プライバシーポリシー
+            </a>
+            と
+            <a
+              href="https://policies.google.com/terms"
+              className="font-semibold underline underline-offset-2"
+              target="_blank"
+              rel="noopener noreferrer"
+            >
+              利用規約
+            </a>
+            が適用されます。
+          </p>
 
           {captchaError && (
             <p className="text-center text-xs font-medium text-[#C00000]">{captchaError}</p>
