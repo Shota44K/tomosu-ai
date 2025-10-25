@@ -198,7 +198,7 @@ export default function MobileStickyCta() {
         <a
           href={CTA_HREF}
           aria-label={CTA_LABEL}
-          className={`flex h-14 items-center justify-center gap-2 rounded-full border border-[#0A6E62] bg-[#00594F] text-base font-semibold text-white shadow-lg transition-transform duration-300 ease-out focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#00594F66] hover:bg-[#00594F] hover:brightness-110 ${isVisible ? 'translate-y-0' : 'translate-y-full'}`}
+          className={`flex h-14 items-center justify-center gap-2 rounded-full border border-[#0A6E62] bg-[#00594F] text-base font-semibold text-white shadow-xl transition-transform duration-300 ease-out focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#00594F66] hover:bg-[#00594F] hover:brightness-110 ${isVisible ? 'translate-y-0' : 'translate-y-full'}`}
           onClick={() => {
             sendAnalyticsEvent('sticky_cta_click', { seg: TRACKING_SEGMENT, href: CTA_HREF });
           }}

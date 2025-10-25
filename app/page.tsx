@@ -16,14 +16,14 @@ export default function HomePage() {
     <>
       <main className="pt-28">
         <Hero />
+        <UseCases />
         <Problems />
         <Solutions />
         <Process />
-        <UseCases />
         <Services />
         <Pricing />
-        <ContactForm />
         <FAQ />
+        <ContactForm />
       </main>
       <Suspense fallback={null}>
         <MobileStickyCta />
