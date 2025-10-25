@@ -1,10 +1,9 @@
 'use client';
 
-import { useEffect, useMemo, useRef, useState } from 'react';
-import { usePathname, useSearchParams } from 'next/navigation';
+import { useEffect, useRef, useState } from 'react';
+import { usePathname } from 'next/navigation';
 
 type StickyHideReason = 'contact_in_view' | 'form_focus' | 'keyboard';
-type SegmentVariant = 'core' | 'usecase' | 'default';
 
 declare global {
   interface Window {
@@ -13,17 +12,9 @@ declare global {
   }
 }
 
-const CTA_LABEL = {
-  core: '無料で相談する（30分）',
-  usecase: 'ユースケースを見る',
-  default: '無料で相談する（30分）',
-} satisfies Record<SegmentVariant, string>;
-
-const CTA_HREF = {
-  core: '#contact',
-  usecase: '#usecases',
-  default: '#contact',
-} satisfies Record<SegmentVariant, string>;
+const CTA_LABEL = '無料で相談する（30分）';
+const CTA_HREF = '#contact';
+const TRACKING_SEGMENT = 'core';
 
 const HIDE_DEBOUNCE_MS = 100;
 const SHOW_DELAY_MS = 600;
@@ -38,7 +29,6 @@ function sendAnalyticsEvent(name: string, params: Record<string, unknown>) {
 }
 
 export default function MobileStickyCta() {
-  const searchParams = useSearchParams();
   const pathname = usePathname();
   const [ready, setReady] = useState(false);
   const [hideByContact, setHideByContact] = useState(false);
@@ -47,16 +37,6 @@ export default function MobileStickyCta() {
   const prevVisibleRef = useRef(false);
   const focusOutTimeoutRef = useRef<number | null>(null);
   const viewportBaseHeightRef = useRef<number | null>(null);
-
-  const variant: SegmentVariant = useMemo(() => {
-    const seg = searchParams?.get('seg');
-    if (seg === 'core') return 'core';
-    if (seg === 'usecase') return 'usecase';
-    return 'default';
-  }, [searchParams]);
-
-  const label = CTA_LABEL[variant];
-  const href = CTA_HREF[variant];
 
   const isVisible = ready && !hideByContact && !hideByFocus && !hideByKeyboard;
 
@@ -183,12 +163,11 @@ export default function MobileStickyCta() {
 
   useEffect(() => {
     const prevVisible = prevVisibleRef.current;
-    const segForTracking = variant === 'default' ? 'core' : variant;
     if (!prevVisible && isVisible) {
-      sendAnalyticsEvent('sticky_show', { seg: segForTracking, path: pathname });
+      sendAnalyticsEvent('sticky_show', { seg: TRACKING_SEGMENT, path: pathname });
     }
     prevVisibleRef.current = isVisible;
-  }, [isVisible, pathname, variant]);
+  }, [isVisible, pathname]);
 
   useEffect(() => {
     if (!prevVisibleRef.current) return;
@@ -202,32 +181,29 @@ export default function MobileStickyCta() {
           : null;
 
     if (reason) {
-      const segForTracking = variant === 'default' ? 'core' : variant;
-      sendAnalyticsEvent('sticky_hide', { reason, seg: segForTracking, path: pathname });
+      sendAnalyticsEvent('sticky_hide', { reason, seg: TRACKING_SEGMENT, path: pathname });
     }
-  }, [hideByContact, hideByFocus, hideByKeyboard, pathname, variant]);
-
-  const dataSeg = variant === 'default' ? 'core' : variant;
+  }, [hideByContact, hideByFocus, hideByKeyboard, pathname]);
 
   return (
     <div
       className={`fixed inset-x-0 bottom-0 z-50 md:hidden ${isVisible ? 'pointer-events-auto' : 'pointer-events-none'}`}
       aria-hidden={isVisible ? 'false' : 'true'}
-      data-seg={dataSeg}
+      data-seg={TRACKING_SEGMENT}
       style={{ paddingBottom: 'calc(env(safe-area-inset-bottom, 0px) + 12px)' }}
     >
       <div
         className={`mx-auto px-4 pb-3 transition duration-300 ease-out ${isVisible ? 'opacity-100' : 'opacity-0'}`}
       >
         <a
-          href={href}
-          aria-label={label}
+          href={CTA_HREF}
+          aria-label={CTA_LABEL}
           className={`flex h-14 items-center justify-center gap-2 rounded-full border border-[#0A6E62] bg-[#00594F] text-base font-semibold text-white shadow-lg transition-transform duration-300 ease-out focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#00594F66] hover:bg-[#00594F] hover:brightness-110 ${isVisible ? 'translate-y-0' : 'translate-y-full'}`}
           onClick={() => {
-            sendAnalyticsEvent('sticky_cta_click', { seg: dataSeg, href });
+            sendAnalyticsEvent('sticky_cta_click', { seg: TRACKING_SEGMENT, href: CTA_HREF });
           }}
         >
-          <span>{label}</span>
+          <span>{CTA_LABEL}</span>
           <span aria-hidden="true" className="text-lg font-semibold leading-none">
             &gt;
           </span>
@@ -236,4 +212,3 @@ export default function MobileStickyCta() {
     </div>
   );
 }
-

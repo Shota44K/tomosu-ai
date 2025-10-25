@@ -1,11 +1,31 @@
 'use client';
 
 import { useLayoutEffect, useRef } from 'react';
+import { useSearchParams } from 'next/navigation';
 import { gsap } from 'gsap';
 
+type SegmentVariant = 'core' | 'usecase' | 'default';
+
+const CTA_LABEL = {
+  core: '無料で相談する（30分） >',
+  usecase: 'システム開発事例を見る >',
+  default: '無料で相談する（30分） >',
+} satisfies Record<SegmentVariant, string>;
+
+const CTA_HREF = {
+  core: '#contact',
+  usecase: '#usecases',
+  default: '#contact',
+} satisfies Record<SegmentVariant, string>;
+
 export default function Hero() {
+  const searchParams = useSearchParams();
   const titleRef = useRef<HTMLHeadingElement | null>(null);
   const sectionRef = useRef<HTMLElement | null>(null);
+  const seg = searchParams.get('seg');
+  const ctaVariant: SegmentVariant = seg === 'core' || seg === 'usecase' ? (seg as SegmentVariant) : 'default';
+  const heroCtaLabel = CTA_LABEL[ctaVariant];
+  const heroCtaHref = CTA_HREF[ctaVariant];
 
   useLayoutEffect(() => {
     if (!titleRef.current || !sectionRef.current) return;
@@ -215,7 +235,7 @@ export default function Hero() {
 
       <div className="relative mx-auto flex min-h-[70vh] max-w-6xl px-4 pb-24 pt-32 sm:px-6 md:px-8 lg:px-12 lg:pb-28 lg:pt-40 xl:pb-32 xl:pt-44 md:flex-row md:items-center">
         <div className="flex-[4] space-y-6 md:flex-[1.6]">
-          <span className="inline-flex items-center justify-center gap-2 rounded-full bg-primary/10 px-4 py-1 text-sm font-medium text-primary md:w-[16rem]">
+          <span className="inline-flex w-full max-w-[16rem] items-center justify-center gap-2 rounded-full bg-primary/10 px-4 py-1 text-sm font-medium text-primary">
             オーダーメイドAIシステム開発
           </span>
           <h1
@@ -235,12 +255,12 @@ export default function Hero() {
           >
             中堅・中小企業の経営課題をAIで解決<br />
           </p>
-          <div className="hidden flex-col gap-4 md:flex md:flex-row" data-animate="hero-cta">
+          <div className="flex flex-col gap-4 md:flex-row" data-animate="hero-cta">
             <a
-              href="#contact"
-              className="hidden w-[16rem] items-center justify-center rounded-full bg-primary px-8 py-3.5 text-base font-semibold text-white shadow-lg transition hover:bg-primary/90 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary/80 md:inline-flex"
+              href={heroCtaHref}
+              className="inline-flex w-full max-w-[16rem] items-center justify-center rounded-full bg-primary px-8 py-3.5 text-base font-semibold text-white shadow-lg transition hover:bg-primary/90 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary/80"
             >
-              無料で相談する（30分） &gt;
+              {heroCtaLabel}
             </a>
           </div>
         </div>
