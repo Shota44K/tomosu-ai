@@ -33,12 +33,9 @@ function track(event: string, params?: Record<string, unknown>) {
   if (Array.isArray(window.dataLayer)) window.dataLayer.push({ event, ...(params ?? {}) });
 }
 
-/* ========= コピー（最終案） ========= */
+/* ========= コピー ========= */
 
 const HEADING = 'AIシステム開発の3つの壁、tomosu-AIが解決します';
-
-const CTA_LABEL = '無料で相談する（30分） ＞';
-const CTA_HREF = '#contact';
 
 type Pair = {
   id: 'p1' | 'p2' | 'p3';
@@ -125,9 +122,6 @@ export default function ProblemsAndStrengthsUnified_NoWrapper() {
       return next;
     });
   };
-
-  const onCTA = (id?: string) =>
-    track(`accordion_cta_click:${id ?? 'section'}`, { id: id ?? 'section', href: CTA_HREF });
 
   return (
     <section id="solutions" className="bg-base">
@@ -254,13 +248,6 @@ export default function ProblemsAndStrengthsUnified_NoWrapper() {
                 <p className="mt-3 flex-1 text-[13.5px] leading-relaxed text-text/80">
                   {pair.strength.detail}
                 </p>
-                <a
-                  href={CTA_HREF}
-                  onClick={() => onCTA(pair.id)}
-                  className="mt-5 inline-flex items-center gap-1 text-[13.5px] font-semibold text-primary transition hover:translate-x-0.5"
-                >
-                  {CTA_LABEL}
-                </a>
               </article>
             ))}
           </div>
