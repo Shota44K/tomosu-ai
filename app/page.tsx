@@ -19,8 +19,8 @@ export default function HomePage() {
         <ProblemsAndSolutions />
         <Process />
         <Pricing />
-        <FAQ />
         <ContactForm />
+        <FAQ />
       </main>
       <Suspense fallback={null}>
         <MobileStickyCta />

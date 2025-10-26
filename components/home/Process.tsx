@@ -173,7 +173,7 @@ function ContractBlock() {
 export default function Process() {
   return (
     <section id="process" className="bg-white/90">
-      <div className="mx-auto max-w-6xl px-4 py-16 sm:px-6 md:px-8 lg:px-12">
+      <div className="mx-auto max-w-7xl px-4 py-16 sm:px-6 md:px-8 lg:px-12">
         <h2 className="text-2xl font-bold text-primary md:text-3xl">
           システム開発の流れ
         </h2>

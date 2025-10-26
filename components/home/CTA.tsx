@@ -1,7 +1,7 @@
 export default function CTA() {
   return (
     <section id="cta" className="bg-primary text-white">
-      <div className="mx-auto flex max-w-6xl flex-col items-center justify-between gap-6 px-4 py-16 text-center sm:px-6 md:px-8 lg:px-12 md:flex-row md:text-left">
+      <div className="mx-auto flex max-w-7xl flex-col items-center justify-between gap-6 px-4 py-16 text-center sm:px-6 md:px-8 lg:px-12 md:flex-row md:text-left">
         <div>
           <h2 className="text-2xl font-bold md:text-3xl">
             <span className="hidden xl:inline">AIシステム開発のリスクをゼロに効果が見えるまで費用負担なし</span>

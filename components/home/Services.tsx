@@ -36,7 +36,7 @@ export default function Services() {
 
   return (
     <section id="services" className="bg-base">
-      <div className="mx-auto max-w-6xl px-4 py-16 sm:px-6 md:px-8 lg:px-12">
+      <div className="mx-auto max-w-7xl px-4 py-16 sm:px-6 md:px-8 lg:px-12">
         <div>
           <h2 className="mt-3 text-2xl font-bold text-primary md:text-3xl">
             <span className="hidden md:inline">試作品開発(無料)から本開発・運用までのステップ</span>

@@ -25,7 +25,7 @@ export default function Header() {
       <header
         className={`fixed inset-x-0 top-0 z-50 border-b border-primary/10 ${isMenuOpen ? "bg-base" : "bg-base/90"} backdrop-blur`}
       >
-        <nav className="mx-auto flex max-w-6xl items-center justify-between px-4 py-3 sm:px-6 md:px-8 lg:px-12">
+        <nav className="mx-auto flex max-w-7xl items-center justify-between px-4 py-3 sm:px-6 md:px-8 lg:px-12">
           <Link
             href="/"
             className="flex items-center gap-3"
@@ -84,7 +84,7 @@ export default function Header() {
             id="mobile-nav"
             className="md:hidden border-t border-primary/10 bg-base/95 shadow-lg"
           >
-            <div className="mx-auto flex max-w-6xl flex-col gap-5 px-4 py-6 sm:px-6 md:px-8 lg:px-12">
+            <div className="mx-auto flex max-w-7xl flex-col gap-5 px-4 py-6 sm:px-6 md:px-8 lg:px-12">
               <div className="flex flex-col gap-3">
                 {NAV_LINKS.map((link) => (
                   <Link
