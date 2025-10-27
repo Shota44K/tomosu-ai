@@ -1,8 +1,9 @@
 'use client';
 
-import { useLayoutEffect, useRef } from 'react';
+import { useEffect, useLayoutEffect, useRef } from 'react';
 import { useSearchParams } from 'next/navigation';
 import { gsap } from 'gsap';
+import { track } from '@/lib/analytics';
 
 type SegmentVariant = 'core' | 'usecase' | 'default';
 
@@ -55,6 +56,10 @@ export default function Hero() {
   const ctaVariant: SegmentVariant = seg === 'core' || seg === 'usecase' ? (seg as SegmentVariant) : 'default';
   const heroCtaLabel = CTA_LABEL[ctaVariant];
   const heroCtaHref = CTA_HREF[ctaVariant];
+
+  useEffect(() => {
+    track('seg_impression', { variant: ctaVariant });
+  }, [ctaVariant]);
 
   useLayoutEffect(() => {
     if (!titleRef.current || !sectionRef.current) return;
@@ -289,6 +294,9 @@ export default function Hero() {
             <a
               href={heroCtaHref}
               className="inline-flex w-full max-w-[16rem] items-center justify-center rounded-full bg-primary px-8 py-3.5 text-base font-semibold text-white shadow-lg transition hover:bg-primary/90 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary/80"
+              onClick={() =>
+                track('cta_click', { location: 'hero', variant: ctaVariant, href: heroCtaHref })
+              }
             >
               {heroCtaLabel}
             </a>

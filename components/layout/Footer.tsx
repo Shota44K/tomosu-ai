@@ -1,5 +1,8 @@
+'use client';
+
 import Image from "next/image";
 import Link from "next/link";
+import { track } from "@/lib/analytics";
 
 export default function Footer() {
   return (
@@ -35,17 +38,20 @@ export default function Footer() {
               </h3>
               <ul className="mt-3 space-y-2">
                 <li>
-                  <Link href="/#services" className="transition hover:text-white">
-                    サービス概要
+                  <Link
+                    href="/#usecases"
+                    className="transition hover:text-white"
+                    onClick={() => track("nav_click", { location: "footer", to: "#usecases" })}
+                  >
+                    AIシステム開発実績
                   </Link>
                 </li>
                 <li>
-                  <Link href="/#usecases" className="transition hover:text-white">
-                    AIシステム開発事例
-                  </Link>
-                </li>
-                <li>
-                  <Link href="/#pricing" className="transition hover:text-white">
+                  <Link
+                    href="/#pricing"
+                    className="transition hover:text-white"
+                    onClick={() => track("nav_click", { location: "footer", to: "#pricing" })}
+                  >
                     価格体系
                   </Link>
                 </li>
@@ -57,12 +63,20 @@ export default function Footer() {
               </h3>
               <ul className="mt-3 space-y-2">
                 <li>
-                  <Link href="/#faq" className="transition hover:text-white">
+                  <Link
+                    href="/#faq"
+                    className="transition hover:text-white"
+                    onClick={() => track("nav_click", { location: "footer", to: "#faq" })}
+                  >
                     よくあるご質問
                   </Link>
                 </li>
                 <li>
-                  <Link href="/company" className="transition hover:text-white">
+                  <Link
+                    href="/company"
+                    className="transition hover:text-white"
+                    onClick={() => track("nav_click", { location: "footer", to: "/company" })}
+                  >
                     会社概要
                   </Link>
                 </li>

@@ -1,7 +1,8 @@
-"use client";
+'use client';
 
 import Link from "next/link";
 import { useState } from "react";
+import { track } from "@/lib/analytics";
 
 const NAV_LINKS = [
   { href: "/#usecases", label: "開発実績" },
@@ -17,6 +18,16 @@ export default function Header() {
 
   const handleClose = () => {
     setIsMenuOpen(false);
+  };
+
+  const handleNavClick = (href: string) => {
+    track("nav_click", { location: "header", to: href });
+    handleClose();
+  };
+
+  const handleCtaClick = (href: string) => {
+    track("cta_click", { location: "header", to: href });
+    handleClose();
   };
 
   return (
@@ -43,6 +54,7 @@ export default function Header() {
                 key={link.href}
                 href={link.href}
                 className="transition hover:text-primary"
+                onClick={() => track("nav_click", { location: "header", to: link.href })}
               >
                 {link.label}
               </Link>
@@ -50,6 +62,7 @@ export default function Header() {
             <Link
               href="/#contact"
               className="inline-flex items-center gap-2 rounded-full bg-primary px-5 py-2 text-sm font-semibold text-white shadow transition hover:bg-primary/90"
+              onClick={() => track("cta_click", { location: "header", to: "#contact" })}
             >
               無料で相談する
             </Link>
@@ -89,7 +102,7 @@ export default function Header() {
                   <Link
                     key={link.href}
                     href={link.href}
-                    onClick={handleClose}
+                    onClick={() => handleNavClick(link.href)}
                     className="group flex items-center justify-between rounded-2xl border border-primary/10 bg-white/80 px-4 py-3 text-sm font-semibold text-text/90 shadow-sm transition hover:border-primary/20 hover:bg-primary/5"
                   >
                     <span>{link.label}</span>
@@ -108,7 +121,7 @@ export default function Header() {
 
               <Link
                 href="/#contact"
-                onClick={handleClose}
+                onClick={() => handleCtaClick("#contact")}
                 className="inline-flex min-h-[3rem] items-center justify-center rounded-full bg-primary px-6 py-3 text-sm font-semibold text-white shadow transition hover:bg-primary/90"
               >
                 相談する

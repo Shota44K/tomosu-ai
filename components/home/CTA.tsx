@@ -1,3 +1,7 @@
+'use client';
+
+import { track } from '@/lib/analytics';
+
 export default function CTA() {
   return (
     <section id="cta" className="bg-primary text-white">
@@ -19,6 +23,7 @@ export default function CTA() {
         <a
           href="#contact"
           className="inline-flex min-w-[12rem] items-center justify-center rounded-full bg-white px-8 py-3.5 text-base font-semibold text-primary shadow transition hover:bg-white/90"
+          onClick={() => track('cta_click', { location: 'cta', to: '#contact' })}
         >
           相談する
         </a>

@@ -2,6 +2,7 @@
 
 import { ChangeEvent, FormEvent, useEffect, useRef, useState } from 'react';
 import Script from 'next/script';
+import { sendAdsConversion, track, trackOnce } from '@/lib/analytics';
 
 type GrecaptchaEnterprise = {
   ready(callback: () => void): void;
@@ -15,7 +16,6 @@ type Grecaptcha = {
 declare global {
   interface Window {
     grecaptcha?: Grecaptcha;
-    gtag?: (...args: unknown[]) => void;
   }
 }
 
@@ -45,6 +45,11 @@ export default function ContactForm() {
   const recaptchaAction = 'contact_submit';
   const conversionTimeoutRef = useRef<number | null>(null);
   const isMountedRef = useRef(true);
+  const formStartedRef = useRef(false);
+
+  useEffect(() => {
+    trackOnce('contact_form_visible', 'form_visible', { id: 'contact' });
+  }, []);
 
   useEffect(() => {
     isMountedRef.current = true;
@@ -96,6 +101,12 @@ export default function ContactForm() {
     };
   }, [siteKey]);
 
+  const onFirstFocus = () => {
+    if (formStartedRef.current) return;
+    formStartedRef.current = true;
+    track('form_start', { section: 'contact' });
+  };
+
   const getFieldClasses = (field: FieldName) =>
     [
       'mt-2 w-full rounded-xl border bg-white px-4 py-3 text-sm shadow-sm focus:outline-none focus:ring-2',
@@ -124,6 +135,9 @@ export default function ContactForm() {
       }
       return { ...prev, [field]: value };
     });
+    if (field === 'consultationType') {
+      track('consultation_type_select', { value });
+    }
     if (touched[field]) validateField(field, value);
   };
 
@@ -138,6 +152,7 @@ export default function ContactForm() {
 
   const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
+    track('form_submit_start', { section: 'contact' });
 
     const formEl = e.currentTarget;
 
@@ -162,17 +177,28 @@ export default function ContactForm() {
     setErrors(nextErrors);
     setPrivacyError(nextPrivacyError);
 
-    if (hasError) return;
+    if (hasError) {
+      const errorFields = Object.keys(nextErrors);
+      if (nextPrivacyError) {
+        errorFields.push('privacy');
+      }
+      if (errorFields.length > 0) {
+        track('form_validation_error', { fields: errorFields });
+      }
+      return;
+    }
 
     try {
       setSubmitting(true);
       const grecaptcha = typeof window !== 'undefined' ? window.grecaptcha?.enterprise : undefined;
       if (!siteKey) {
         setCaptchaError('reCAPTCHAキーの設定が見つかりません。管理者にお問い合わせください。');
+        track('recaptcha_error', { message: 'missing_site_key', action: recaptchaAction });
         return;
       }
       if (!grecaptcha || typeof grecaptcha.execute !== 'function') {
         setCaptchaError('reCAPTCHAの読み込みに失敗しました。時間をおいて再度お試しください。');
+        track('recaptcha_error', { message: 'not_loaded', action: recaptchaAction });
         return;
       }
 
@@ -187,6 +213,7 @@ export default function ContactForm() {
       const token = await grecaptcha.execute(siteKey, { action: recaptchaAction });
       if (!token) {
         setCaptchaError('reCAPTCHAの検証に失敗しました。時間をおいて再度お試しください。');
+        track('recaptcha_error', { message: 'execute_failed', action: recaptchaAction });
         return;
       }
 
@@ -201,6 +228,7 @@ export default function ContactForm() {
         setCaptchaError(
           verifyJson.message || 'reCAPTCHAの検証に失敗しました。時間をおいて再度お試しください。'
         );
+        track('recaptcha_error', { message: 'verify_failed', action: recaptchaAction });
         return;
       }
 
@@ -234,13 +262,14 @@ export default function ContactForm() {
         setShowModal(true);
       };
 
+      sendAdsConversion('2eKMCJO02q8bEPnk5-ZB', {
+        value: 1.0,
+        currency: 'JPY',
+        event_callback: completeSubmission,
+      });
+      track('form_submit_success', { section: 'contact' });
+
       if (typeof window !== 'undefined' && typeof window.gtag === 'function') {
-        window.gtag('event', 'conversion', {
-          send_to: 'AW-17663914617/2eKMCJO02q8bEPnk5-ZB',
-          value: 1.0,
-          currency: 'JPY',
-          event_callback: completeSubmission,
-        });
         if (conversionTimeoutRef.current !== null) {
           window.clearTimeout(conversionTimeoutRef.current);
         }
@@ -253,6 +282,7 @@ export default function ContactForm() {
       }
     } catch (err) {
       alert('送信に失敗しました。時間をおいて再度お試しください。');
+      track('form_submit_fail', { section: 'contact' });
       // 必要に応じてログ送信など
     } finally {
       setSubmitting(false);
@@ -313,6 +343,7 @@ export default function ContactForm() {
               value={formData.company} onChange={handleChange}
               aria-invalid={errors.company ? 'true' : 'false'}
               aria-describedby={errors.company ? 'company-error' : undefined}
+              onFocus={onFirstFocus}
               className={getFieldClasses('company')}
             />
           </div>
@@ -333,6 +364,7 @@ export default function ContactForm() {
               value={formData.name} onChange={handleChange}
               aria-invalid={errors.name ? 'true' : 'false'}
               aria-describedby={errors.name ? 'name-error' : undefined}
+              onFocus={onFirstFocus}
               className={getFieldClasses('name')}
             />
           </div>
@@ -353,6 +385,7 @@ export default function ContactForm() {
               value={formData.email} onChange={handleChange}
               aria-invalid={errors.email ? 'true' : 'false'}
               aria-describedby={errors.email ? 'email-error' : undefined}
+              onFocus={onFirstFocus}
               className={getFieldClasses('email')}
             />
           </div>
@@ -386,6 +419,7 @@ export default function ContactForm() {
                       value={option.value}
                       checked={formData.consultationType === option.value}
                       onChange={handleChange}
+                      onFocus={onFirstFocus}
                       className="size-5 text-primary focus:ring-2 focus:ring-primary/30"
                       aria-invalid={errors.consultationType ? 'true' : 'false'}
                       aria-describedby={
@@ -416,6 +450,7 @@ export default function ContactForm() {
                  rows={5}
                  value={formData.message}
                  onChange={handleChange}
+                 onFocus={onFirstFocus}
                  className={`${getFieldClasses('message')} mt-2`}
                  placeholder="未記入でも構いません。面談にてご相談内容をお伝えください。"
                />
@@ -432,6 +467,7 @@ export default function ContactForm() {
                   setPrivacyAccepted(event.target.checked);
                   if (event.target.checked) setPrivacyError(null);
                 }}
+                onFocus={onFirstFocus}
                 className="size-5 rounded border border-primary/30 text-primary focus:ring-2 focus:ring-primary/30"
                 aria-invalid={privacyError ? 'true' : 'false'}
               />

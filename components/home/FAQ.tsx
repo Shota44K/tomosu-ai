@@ -1,6 +1,7 @@
 'use client';
 
 import { useState } from 'react';
+import { track } from '@/lib/analytics';
 
 const FAQ_ITEMS = [
   {
@@ -27,8 +28,12 @@ export default function FAQ() {
   const toggle = (i: number) => {
     setOpenSet((prev) => {
       const next = new Set(prev);
-      if (next.has(i)) next.delete(i);
-      else next.add(i);
+      if (next.has(i)) {
+        next.delete(i);
+      } else {
+        next.add(i);
+        track('accordion_open', { section: 'faq', index: i });
+      }
       return next;
     });
   };
@@ -106,6 +111,7 @@ export default function FAQ() {
           <a
             href="#contact"
             className="hidden min-w-[12rem] items-center justify-center rounded-full bg-primary px-8 py-3.5 text-base font-semibold text-white shadow transition hover:bg-primary/90 md:inline-flex"
+            onClick={() => track('cta_click', { location: 'faq', to: '#contact' })}
           >
             無料で相談する（30分） &gt;
           </a>

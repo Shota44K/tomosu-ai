@@ -2,15 +2,9 @@
 
 import { useEffect, useRef, useState } from 'react';
 import { usePathname } from 'next/navigation';
+import { track } from '@/lib/analytics';
 
 type StickyHideReason = 'hero_in_view' | 'contact_in_view' | 'footer_in_view' | 'form_focus' | 'keyboard';
-
-declare global {
-  interface Window {
-    dataLayer?: Array<Record<string, unknown>>;
-    gtag?: (...args: unknown[]) => void;
-  }
-}
 
 const CTA_LABEL = '無料で相談する（30分）';
 const CTA_HREF = '#contact';
@@ -19,14 +13,6 @@ const TRACKING_SEGMENT = 'core';
 const HIDE_DEBOUNCE_MS = 100;
 const SHOW_DELAY_MS = 600;
 const KEYBOARD_THRESHOLD = 150;
-
-function sendAnalyticsEvent(name: string, params: Record<string, unknown>) {
-  if (typeof window === 'undefined') return;
-  window.gtag?.('event', name, params);
-  if (Array.isArray(window.dataLayer)) {
-    window.dataLayer.push({ event: name, ...params });
-  }
-}
 
 export default function MobileStickyCta() {
   const pathname = usePathname();
@@ -185,7 +171,7 @@ export default function MobileStickyCta() {
   useEffect(() => {
     const prevVisible = prevVisibleRef.current;
     if (!prevVisible && isVisible) {
-      sendAnalyticsEvent('sticky_show', { seg: TRACKING_SEGMENT, path: pathname });
+      track('sticky_cta_show', { seg: TRACKING_SEGMENT, path: pathname });
     }
     prevVisibleRef.current = isVisible;
   }, [isVisible, pathname]);
@@ -206,7 +192,7 @@ export default function MobileStickyCta() {
               : null;
 
     if (reason) {
-      sendAnalyticsEvent('sticky_hide', { reason, seg: TRACKING_SEGMENT, path: pathname });
+      track('sticky_cta_hide', { reason, seg: TRACKING_SEGMENT, path: pathname });
     }
   }, [hideByHero, hideByContact, hideByFooter, hideByFocus, hideByKeyboard, pathname]);
 
@@ -225,7 +211,7 @@ export default function MobileStickyCta() {
           aria-label={CTA_LABEL}
           className={`flex h-14 items-center justify-center gap-2 rounded-full border border-[#0A6E62] bg-[#00594F] text-base font-semibold text-white shadow-xl transition-transform duration-300 ease-out focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#00594F66] hover:bg-[#00594F] hover:brightness-110 ${isVisible ? 'translate-y-0' : 'translate-y-full'}`}
           onClick={() => {
-            sendAnalyticsEvent('sticky_cta_click', { seg: TRACKING_SEGMENT, href: CTA_HREF });
+            track('sticky_cta_click', { seg: TRACKING_SEGMENT, href: CTA_HREF });
           }}
         >
           <span>{CTA_LABEL}</span>

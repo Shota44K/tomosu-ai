@@ -1,3 +1,7 @@
+'use client';
+
+import { track } from "@/lib/analytics";
+
 const PRICE_HIGHLIGHTS = [
   {
     label: "AIシステム試作開発費用",
@@ -52,6 +56,7 @@ export default function Pricing() {
           <a
             href="#contact"
             className="hidden min-w-[12rem] items-center justify-center rounded-full bg-primary px-8 py-3.5 text-base font-semibold text-white shadow transition hover:bg-primary/90 md:inline-flex"
+            onClick={() => track('cta_click', { location: 'pricing', to: '#contact' })}
           >
             無料で相談する（30分） &gt;
           </a>

@@ -2,6 +2,7 @@
 
 import { useState } from 'react';
 import type { ReactNode } from 'react';
+import { track } from '@/lib/analytics';
 
 type Step = {
   step: string;
@@ -228,7 +229,13 @@ export default function Process() {
   const [openMobileStep, setOpenMobileStep] = useState<string | null>(null);
 
   const toggleMobileStep = (id: string) => {
-    setOpenMobileStep((prev) => (prev === id ? null : id));
+    setOpenMobileStep((prev) => {
+      const next = prev === id ? null : id;
+      if (next) {
+        track('process_step_open', { step: next });
+      }
+      return next;
+    });
   };
 
   return (
@@ -286,6 +293,7 @@ export default function Process() {
           <a
             href="#contact"
             className="hidden min-w-[12rem] items-center justify-center rounded-full bg-primary px-8 py-3.5 text-base font-semibold text-white shadow transition hover:bg-primary/90 md:inline-flex"
+            onClick={() => track('cta_click', { location: 'process', to: '#contact' })}
           >
             無料で相談する（30分） &gt;
           </a>

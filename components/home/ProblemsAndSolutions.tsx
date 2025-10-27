@@ -1,28 +1,7 @@
 'use client';
 
 import { useState, ReactNode } from 'react';
-
-/**
- * ProblemsAndStrengthsUnified_NoWrapper.tsx
- *
- * 変更点（ご要望反映）：
- * - PC版：モバイルと同じカード形状（上帯=課題／下帯=強み）で「常時展開（非アコーディオン）」に変更
- * - PC版：カードは3列グリッドで表示
- * - PC版：上帯と下帯の間を、指定のアクセントラインで装飾
- */
-
-declare global {
-  interface Window {
-    dataLayer?: Array<Record<string, unknown>>;
-    gtag?: (...args: unknown[]) => void;
-  }
-}
-
-function track(event: string, params?: Record<string, unknown>) {
-  if (typeof window === 'undefined') return;
-  window.gtag?.('event', event, params ?? {});
-  if (Array.isArray(window.dataLayer)) window.dataLayer.push({ event, ...(params ?? {}) });
-}
+import { track } from '@/lib/analytics';
 
 /* ========= コピー ========= */
 
@@ -100,7 +79,7 @@ export default function ProblemsAndStrengthsUnified_NoWrapper() {
   const toggle = (id: string) => {
     setOpenId((prev) => {
       const next = prev === id ? null : id;
-      if (next) track(`accordion_open:${next}`, { id: next, section: 'paired_strengths' });
+      if (next) track('accordion_open', { id: next, section: 'solutions' });
       return next;
     });
   };

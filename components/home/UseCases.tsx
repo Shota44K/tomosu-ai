@@ -1,5 +1,7 @@
 'use client';
 
+import { track } from '@/lib/analytics';
+
 const USE_CASES = [
   {
     industry: "消費財メーカー",
@@ -121,6 +123,12 @@ export default function UseCases() {
             <article
               key={useCase.title}
               className="flex flex-col gap-5 rounded-2xl border border-primary/10 bg-white p-6 shadow-sm transition-shadow hover:shadow-md"
+              onClick={() =>
+                track('usecase_card_click', {
+                  title: useCase.title,
+                  industry: useCase.industry,
+                })
+              }
             >
               {/* ヘッダー部分 */}
               <div className="flex items-center gap-4">
@@ -170,6 +178,7 @@ export default function UseCases() {
           <a
             href="#contact"
             className="hidden min-w-[12rem] items-center justify-center rounded-full bg-primary px-8 py-3.5 text-base font-semibold text-white shadow transition hover:bg-primary/90 md:inline-flex"
+            onClick={() => track('cta_click', { location: 'usecases', to: '#contact' })}
           >
             無料で相談する（30分） &gt;
           </a>
