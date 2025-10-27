@@ -1,5 +1,6 @@
 'use client';
 
+import { useState } from 'react';
 import type { ReactNode } from 'react';
 
 type Step = {
@@ -14,7 +15,7 @@ const STEPS: Step[] = [
     step: 'STEP 1',
     title: 'ヒアリング',
     description:
-      'まずはお気軽に、現状の課題やAIで実現したいことをお聞かせください。',
+      '現状の課題やAIで実現したいことをお聞かせください。',
     icon: (
       <svg
         aria-hidden="true"
@@ -34,11 +35,9 @@ const STEPS: Step[] = [
   },
   {
     step: 'STEP 2',
-    title: (
-      "AIシステム試作開発（無料）"
-    ),
+    title: 'AIシステム試作開発（無料）',
     description:
-      '貴社課題を解決するAIシステムを試作開発。試作システムで効果を確かめていただきます。',
+      'PoCとしてAIシステムを試作開発します。モックアップを通して効果を確かめていただきます。',
     icon: (
       <svg
         aria-hidden="true"
@@ -58,11 +57,9 @@ const STEPS: Step[] = [
   },
   {
     step: 'STEP 3',
-    title: (
-      "本開発・運用"
-    ),
+    title: '本開発・運用',
     description:
-      '導入完了まで責任を持って開発し、運用をスタートします。',
+      '試作開発成果を踏まえて本開発を行います。開発完了後、運用をスタートします。',
     icon: (
       <svg
         aria-hidden="true"
@@ -84,10 +81,7 @@ const STEPS: Step[] = [
 const CONTRACT_LABEL = 'ご契約';
 
 /* =========================
- * Mobile（md未満）専用：タイムライン型UI
- * - 左にアイコン＋縦ライン
- * - 各カードは省スペースなカード調
- * - 「ご契約」は区切りピルで挿入
+ * Mobile（md未満）専用：タイムライン型UI（アコーディオン対応）
  * ========================= */
 function MobileStepItem({
   step,
@@ -96,44 +90,81 @@ function MobileStepItem({
   icon,
   isLast = false,
 }: Step & { isLast?: boolean }) {
+  const [open, setOpen] = useState(false);
+
   return (
-    <div className="relative rounded-2xl border border-primary/15 bg-white p-5 shadow-md">
-      <div className="flex items-center gap-4">
-        {/* 左アイコン */}
-        <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-full border-2 border-primary/25 bg-gradient-to-br from-primary/10 to-primary/5 shadow-sm [&>svg]:h-7 [&>svg]:w-7">
-          {icon}
+    <div className="relative mb-0.5">
+      {/* アコーディオンヘッダー */}
+      <button
+        onClick={() => setOpen(!open)}
+        className="relative w-full rounded-2xl border border-primary/15 bg-white p-3 shadow-sm text-left transition-all hover:shadow-lg"
+      >
+        <div className="flex items-center gap-4">
+          {/* 左アイコン */}
+          <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-full border-2 border-primary/25 bg-gradient-to-br from-primary/10 to-primary/5 shadow-sm [&>svg]:h-6 [&>svg]:w-6">
+            {icon}
+          </div>
+          <div className="flex flex-1 flex-col gap-0.5">
+            <span className="text-xs font-bold tracking-wider text-accent uppercase">
+              {step}
+            </span>
+            <h3 className="text-base font-bold leading-tight text-primary">{title}</h3>
+          </div>
+          {/* 折りたたみアイコン */}
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            viewBox="0 0 24 24"
+            fill="none"
+            stroke="currentColor"
+            strokeWidth="1.6"
+            strokeLinecap="round"
+            strokeLinejoin="round"
+            className={`h-4 w-4 shrink-0 text-primary transition-transform ${
+              open ? 'rotate-180' : ''
+            }`}
+          >
+            <path d="m6 9 6 6 6-6" />
+          </svg>
         </div>
-        <div className="flex flex-col flex-wrap gap-x-3">
-          <span className="text-xs font-bold tracking-wider text-accent uppercase">{step}</span>
-          <h3 className="text-lg font-bold leading-tight text-primary">{title}</h3>
+
+        {/* アコーディオンコンテンツ */}
+        <div
+          className={`overflow-hidden transition-all duration-300 ${
+            open ? 'max-h-96 opacity-100' : 'max-h-0 opacity-0'
+          }`}
+        >
+          <p className="mt-4 pt-4 border-t border-primary/10 text-sm leading-relaxed text-text/75">
+            {description}
+          </p>
         </div>
-      </div>
-      <p className="mt-3 text-sm leading-relaxed text-text/75">{description}</p>
+      </button>
 
       {/* 下方向への縦ライン（最後の要素以外に表示） */}
-      {!isLast && (
-        <span
+      {/* {!isLast && (
+        <div
           aria-hidden="true"
-          className="pointer-events-none absolute left-[2.75rem] top-[4.25rem] -bottom-6 w-0.5 bg-gradient-to-b from-primary/30 to-primary/15"
+          className="pointer-events-none absolute left-[2.25rem] top-[4.5rem] w-0.5 bg-gradient-to-b from-primary/30 to-primary/15"
+          style={{ height: 'calc(100% - 3rem)' }}
         />
-      )}
+      )} */}
     </div>
   );
 }
 
 function MobileContractDivider() {
   return (
-    <div className="relative my-6 flex min-h-12 items-center justify-center">
-      {/* 上下の縦ライン接続 */}
-      <span
+    <div className="relative flex min-h-16 items-center justify-center">
+      {/* 上の縦ライン接続 */}
+      {/* <span
         aria-hidden="true"
-        className="pointer-events-none absolute left-[2.75rem] -top-6 h-8 w-0.5 bg-gradient-to-b from-primary/15 to-primary/30"
-      />
-      <span
+        className="pointer-events-none absolute left-[2.25rem] top-0 h-6 w-0.5 bg-gradient-to-b from-primary/15 to-primary/30"
+      /> */}
+      {/* 下の縦ライン接続 */}
+      {/* <span
         aria-hidden="true"
-        className="pointer-events-none absolute left-[2.75rem] bottom-0 h-8 w-0.5 bg-gradient-to-b from-primary/30 to-primary/15"
-      />
-      <div className="inline-flex items-center justify-center rounded-full border-2 border-primary/20 from-primary/5 to-white px-5 py-2 text-center shadow-md w-full">
+        className="pointer-events-none absolute left-[2.25rem] bottom-0 h-6 w-0.5 bg-gradient-to-b from-primary/30 to-primary/15"
+      /> */}
+      <div className="inline-flex items-center justify-center rounded-2xl border-1 border-primary/15 bg-white p-3 shadow-sm text-left transition-all hover:shadow-lg w-full">
         <span className="text-sm font-bold tracking-wide text-primary">{CONTRACT_LABEL}</span>
       </div>
     </div>
@@ -160,7 +191,7 @@ function StepCard({ step, title, description, icon }: Step) {
 
 function FlowArrow() {
   return (
-    <div className="flex shrink-0 flex-col items-center justify-center py-2 lg:flex-row lg:self-stretch lg:px-1.5 lg:py-0">
+    <div className="flex shrink-0 flex-col items-center justify-center lg:flex-row lg:self-stretch lg:px-1.5 lg:py-0 md:mb-0.5">
       {/* PC矢印（横向き） */}
       <svg
         aria-hidden="true"
@@ -173,7 +204,7 @@ function FlowArrow() {
       {/* モバイル矢印はタイムライン化で不要のため非表示 */}
       <svg
         aria-hidden="true"
-        className="hidden h-6 w-6 text-primary lg:hidden"
+        className="h-6 w-6 text-primary lg:hidden"
         fill="currentColor"
         viewBox="0 0 24 24"
       >
@@ -198,17 +229,25 @@ export default function Process() {
     <section id="process" className="bg-white/90">
       <div className="mx-auto max-w-7xl px-4 py-16 sm:px-6 md:px-8 lg:px-12">
         <header className="mb-9 text-center md:text-left">
+
+
           <span className="mb-9 inline-flex w-full max-w-[16rem] items-center justify-center gap-2 rounded-full bg-primary/10 px-4 py-1 text-sm font-medium text-primary">
             AIシステム開発の流れ
           </span>
-          <h2 className="text-2xl font-bold text-primary md:text-3xl">開発の流れ</h2>
+          <h2 className="text-2xl font-bold text-primary md:text-3xl">
+            <span className="hidden md:inline">ヒアリングから運用開始まで平均3ヵ月</span>
+            <span className="block md:hidden">ヒアリングから</span>
+            <span className="block md:hidden">運用開始まで平均3ヵ月</span>
+
+          </h2>
         </header>
 
-        {/* ====== モバイル（縦タイムライン） ====== */}
-        <div className="mt-8 space-y-7 md:hidden">
+        {/* ====== モバイル（縦タイムライン・アコーディオン） ====== */}
+        <div className="mt-8 space-y-3 md:hidden">
           <MobileStepItem {...STEPS[0]} />
+          <FlowArrow />
           <MobileStepItem {...STEPS[1]} />
-          <MobileContractDivider />
+          <FlowArrow />
           <MobileStepItem {...STEPS[2]} isLast />
         </div>
 
@@ -217,8 +256,8 @@ export default function Process() {
           <StepCard {...STEPS[0]} />
           <FlowArrow />
           <StepCard {...STEPS[1]} />
-          <FlowArrow />
-          <ContractBlock />
+          {/* <FlowArrow /> */}
+          {/* <ContractBlock /> */}
           <FlowArrow />
           <StepCard {...STEPS[2]} />
         </div>
