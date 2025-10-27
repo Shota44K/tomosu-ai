@@ -3,7 +3,7 @@
 import { useEffect, useRef, useState } from 'react';
 import { usePathname } from 'next/navigation';
 
-type StickyHideReason = 'contact_in_view' | 'form_focus' | 'keyboard';
+type StickyHideReason = 'hero_in_view' | 'contact_in_view' | 'footer_in_view' | 'form_focus' | 'keyboard';
 
 declare global {
   interface Window {
@@ -31,14 +31,16 @@ function sendAnalyticsEvent(name: string, params: Record<string, unknown>) {
 export default function MobileStickyCta() {
   const pathname = usePathname();
   const [ready, setReady] = useState(false);
+  const [hideByHero, setHideByHero] = useState(false);
   const [hideByContact, setHideByContact] = useState(false);
+  const [hideByFooter, setHideByFooter] = useState(false);
   const [hideByFocus, setHideByFocus] = useState(false);
   const [hideByKeyboard, setHideByKeyboard] = useState(false);
   const prevVisibleRef = useRef(false);
   const focusOutTimeoutRef = useRef<number | null>(null);
   const viewportBaseHeightRef = useRef<number | null>(null);
 
-  const isVisible = ready && !hideByContact && !hideByFocus && !hideByKeyboard;
+  const isVisible = ready && !hideByHero && !hideByContact && !hideByFooter && !hideByFocus && !hideByKeyboard;
 
   useEffect(() => {
     let mounted = true;
@@ -57,29 +59,48 @@ export default function MobileStickyCta() {
       }, SHOW_DELAY_MS),
     );
 
-    const contactEl = document.querySelector('#contact');
-    let io: IntersectionObserver | null = null;
-    let ioTimeout: number | null = null;
+    const setupIntersectionWatcher = (
+      selector: string,
+      threshold: number,
+      setter: (hidden: boolean) => void,
+    ) => {
+      const target = document.querySelector(selector);
+      if (!target) return null;
 
-    if (contactEl) {
-      io = new IntersectionObserver(
+      let timeoutId: number | null = null;
+      const thresholds =
+        threshold >= 1
+          ? [0, 1]
+          : Array.from(new Set([0, threshold])).sort((a, b) => a - b);
+
+      const observer = new IntersectionObserver(
         (entries) => {
           const entry = entries[0];
           if (!entry) return;
-          if (ioTimeout) window.clearTimeout(ioTimeout);
-          ioTimeout = window.setTimeout(() => {
-            setHideByContact(entry.isIntersecting && entry.intersectionRatio >= 0.2);
+          if (timeoutId) window.clearTimeout(timeoutId);
+          timeoutId = window.setTimeout(() => {
+            setter(entry.isIntersecting && entry.intersectionRatio >= threshold);
           }, HIDE_DEBOUNCE_MS);
         },
-        { threshold: [0, 0.2] },
+        { threshold: thresholds },
       );
-      io.observe(contactEl);
 
-      cleanupFns.push(() => {
-        if (ioTimeout) window.clearTimeout(ioTimeout);
-        io?.disconnect();
-      });
-    }
+      observer.observe(target);
+
+      return () => {
+        if (timeoutId) window.clearTimeout(timeoutId);
+        observer.disconnect();
+      };
+    };
+
+    const heroCleanup = setupIntersectionWatcher('#hero', 0.2, setHideByHero);
+    if (heroCleanup) cleanupFns.push(heroCleanup);
+
+    const contactCleanup = setupIntersectionWatcher('#contact', 0.2, setHideByContact);
+    if (contactCleanup) cleanupFns.push(contactCleanup);
+
+    const footerCleanup = setupIntersectionWatcher('#site-footer', 0.2, setHideByFooter);
+    if (footerCleanup) cleanupFns.push(footerCleanup);
 
     const handleFocusIn = (event: FocusEvent) => {
       const target = event.target as HTMLElement | null;
@@ -172,18 +193,22 @@ export default function MobileStickyCta() {
   useEffect(() => {
     if (!prevVisibleRef.current) return;
 
-    const reason: StickyHideReason | null = hideByContact
-      ? 'contact_in_view'
-      : hideByFocus
-        ? 'form_focus'
-        : hideByKeyboard
-          ? 'keyboard'
-          : null;
+    const reason: StickyHideReason | null = hideByHero
+      ? 'hero_in_view'
+      : hideByContact
+        ? 'contact_in_view'
+        : hideByFooter
+          ? 'footer_in_view'
+          : hideByFocus
+            ? 'form_focus'
+            : hideByKeyboard
+              ? 'keyboard'
+              : null;
 
     if (reason) {
       sendAnalyticsEvent('sticky_hide', { reason, seg: TRACKING_SEGMENT, path: pathname });
     }
-  }, [hideByContact, hideByFocus, hideByKeyboard, pathname]);
+  }, [hideByHero, hideByContact, hideByFooter, hideByFocus, hideByKeyboard, pathname]);
 
   return (
     <div
