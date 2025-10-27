@@ -13,7 +13,9 @@ export default function HomePage() {
   return (
     <>
       <main className="pt-28">
-        <Hero />
+        <Suspense fallback={null}>
+          <Hero />
+        </Suspense>
         <UseCases />
         <ProblemsAndSolutions />
         <Process />
