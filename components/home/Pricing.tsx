@@ -15,13 +15,19 @@ export default function Pricing() {
   return (
     <section id="pricing" className="bg-white/90">
       <div className="mx-auto max-w-7xl px-4 py-16 sm:px-6 md:px-8 lg:px-12">
-        <div>
-          <h2 className="text-2xl font-bold text-primary md:text-3xl">
-            <span className="hidden md:inline">無償の試作と低価格な本開発で導入リスクを最小化</span>
-            <span className="block md:hidden">無償の試作と低価格な本開発で</span>
-            <span className="block md:hidden">導入リスクを最小化</span>
-          </h2>
-        </div>
+        <header className="text-center md:text-left mb-9">
+          <div>
+            <span className="inline-flex w-full max-w-[16rem] items-center justify-center gap-2 rounded-full bg-primary/10 px-4 py-1 text-sm font-medium text-primary mb-9">
+              開発費用
+            </span>
+            <h2 className="text-2xl font-bold text-primary md:text-3xl">
+              <span className="hidden md:inline">無償の試作と低価格な本開発で導入リスクを最小化</span>
+              <span className="block md:hidden">無償の試作と低価格な本開発で</span>
+              <span className="block md:hidden">導入リスクを最小化</span>
+            </h2>
+          </div>
+        </header>
+        
 
         <div className="mt-10 space-y-8">
           <article className="rounded-2xl border border-primary/10 bg-white p-6 shadow-sm">

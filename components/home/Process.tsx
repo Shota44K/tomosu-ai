@@ -58,36 +58,36 @@ const STEPS: Step[] = [
       </svg>
     ),
   },
+  // {
+  //   step: "STEP 3",
+  //   title: (
+  //     <>
+  //     試作AIシステム
+  //     <br />
+  //     評価
+  //   </>
+  //   ),
+  //   description:
+  //     "事前に合意した評価基準に基づき、本開発に進むかを判定いただきます。",
+  //   icon: (
+  //     <svg
+  //       aria-hidden="true"
+  //       className="h-14 w-14 text-primary"
+  //       fill="none"
+  //       stroke="currentColor"
+  //       strokeLinecap="round"
+  //       strokeLinejoin="round"
+  //       strokeWidth={1.6}
+  //       viewBox="0 0 48 48"
+  //     >
+  //       <rect height="30" rx="3" width="22" x="13" y="9" />
+  //       <path d="M19 17h10M19 23h10" />
+  //       <path d="m19 29 5 5 6-8" />
+  //     </svg>
+  //   ),
+  // },
   {
     step: "STEP 3",
-    title: (
-      <>
-      試作AIシステム
-      <br />
-      評価
-    </>
-    ),
-    description:
-      "事前に合意した評価基準に基づき、本開発に進むかを判定いただきます。",
-    icon: (
-      <svg
-        aria-hidden="true"
-        className="h-14 w-14 text-primary"
-        fill="none"
-        stroke="currentColor"
-        strokeLinecap="round"
-        strokeLinejoin="round"
-        strokeWidth={1.6}
-        viewBox="0 0 48 48"
-      >
-        <rect height="30" rx="3" width="22" x="13" y="9" />
-        <path d="M19 17h10M19 23h10" />
-        <path d="m19 29 5 5 6-8" />
-      </svg>
-    ),
-  },
-  {
-    step: "STEP 4",
     title:  (
       <>
       本開発
@@ -174,19 +174,24 @@ export default function Process() {
   return (
     <section id="process" className="bg-white/90">
       <div className="mx-auto max-w-7xl px-4 py-16 sm:px-6 md:px-8 lg:px-12">
-        <h2 className="text-2xl font-bold text-primary md:text-3xl">
-          システム開発の流れ
-        </h2>
+        <header className="text-center md:text-left mb-9">
+          <span className="inline-flex w-full max-w-[16rem] items-center justify-center gap-2 rounded-full bg-primary/10 px-4 py-1 text-sm font-medium text-primary mb-9">
+            AIシステム開発の流れ
+          </span>
+          <h2 className="text-2xl font-bold text-primary md:text-3xl">
+            開発の流れ
+          </h2>
+        </header>
         <div className="mt-10 flex flex-col items-center gap-0.5 lg:flex-row lg:flex-nowrap lg:items-stretch lg:justify-between lg:gap-0.5">
           <StepCard {...STEPS[0]} />
           <FlowArrow />
           <StepCard {...STEPS[1]} />
           <FlowArrow />
-          <StepCard {...STEPS[2]} />
-          <FlowArrow />
           <ContractBlock />
           <FlowArrow />
-          <StepCard {...STEPS[3]} />
+          <StepCard {...STEPS[2]} />
+          {/* <FlowArrow /> */}
+          {/* <StepCard {...STEPS[3]} /> */}
         </div>
         <div className="hidden mt-10 text-center md:block">
           <a

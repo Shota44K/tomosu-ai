@@ -110,8 +110,8 @@ export default function ProblemsAndStrengthsUnified_NoWrapper() {
       {/* コンテナ：左右余白を広めに（xlまで段階的に） */}
       <div className="mx-auto max-w-7xl px-4 py-12 sm:px-6 md:px-8 lg:px-12">
         {/* 見出しブロック（ラッパーカードなし） */}
-        <header className="text-center md:text-left">
-          <span className="inline-flex w-full max-w-[16rem] items-center justify-center gap-2 rounded-full bg-primary/10 px-4 py-1 text-sm font-medium text-primary mb-6">
+        <header className="text-center md:text-left mb-9">
+          <span className="inline-flex w-full max-w-[16rem] items-center justify-center gap-2 rounded-full bg-primary/10 px-4 py-1 text-sm font-medium text-primary mb-9">
             頻出課題と強み
           </span>
           <h2 className="mt-3 text-2xl font-bold leading-tight text-primary md:mt-4 md:text-3xl">

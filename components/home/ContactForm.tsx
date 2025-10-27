@@ -275,8 +275,12 @@ export default function ContactForm() {
         }
       `}</style>
       <div className="mx-auto max-w-7xl px-4 py-16 sm:px-6 md:px-8 lg:px-12">
-        <h2 className="text-2xl font-bold text-primary md:text-3xl">まずはお気軽にお問合せください</h2>
-
+        <header className="text-center md:text-left mb-9">
+          <span className="inline-flex w-full max-w-[16rem] items-center justify-center gap-2 rounded-full bg-primary/10 px-4 py-1 text-sm font-medium text-primary mb-9">
+            お問い合わせ
+          </span>
+          <h2 className="text-2xl font-bold text-primary md:text-3xl">まずはお気軽にお問合せください</h2>
+        </header>
         <form
           name="contact"
           method="POST"

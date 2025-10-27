@@ -86,9 +86,14 @@ export default function UseCases() {
   return (
     <section id="usecases" className="bg-base">
       <div className="mx-auto max-w-7xl px-4 py-16 sm:px-6 md:px-8 lg:px-12">
-        <h2 className="text-3xl font-bold text-primary md:text-3xl">
-          AIシステム開発事例
-        </h2>
+        <header className="text-center md:text-left mb-9">
+          <span className="inline-flex w-full max-w-[16rem] items-center justify-center gap-2 rounded-full bg-primary/10 px-4 py-1 text-sm font-medium text-primary mb-9">
+            AIシステム開発実績
+          </span>
+          <h2 className="text-2xl font-bold text-primary md:text-3xl">
+            AIシステム開発実績
+          </h2>
+        </header>
         <div className="mt-10 grid gap-5 md:grid-cols-3">
           {USE_CASES.map((useCase) => (
             <article

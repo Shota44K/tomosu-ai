@@ -36,8 +36,8 @@ export default function FAQ() {
   return (
     <section id="faq" className="bg-white/90">
       <div className="mx-auto max-w-7xl px-4 py-16 sm:px-6 md:px-8 lg:px-12">
-        <header className="text-center md:text-left">
-          <span className="inline-flex w-full max-w-[16rem] items-center justify-center gap-2 rounded-full bg-primary/10 px-4 py-1 text-sm font-medium text-primary mb-6">
+        <header className="text-center md:text-left mb-9">
+          <span className="inline-flex w-full max-w-[16rem] items-center justify-center gap-2 rounded-full bg-primary/10 px-4 py-1 text-sm font-medium text-primary mb-9">
             FAQ
           </span>
           <h2 className="text-2xl font-bold text-primary md:text-3xl">よくあるご質問</h2>
@@ -61,7 +61,7 @@ export default function FAQ() {
                   onClick={() => toggle(i)}
                   className="flex w-full items-start justify-between gap-4 text-left focus:outline-none focus-visible:ring-2 focus-visible:ring-accent/60 md:cursor-default md:pointer-events-none"
                 >
-                  <h3 className="text-xl font-semibold text-primary">{item.question}</h3>
+                  <h3 className="text-base font-semibold text-primary">{item.question}</h3>
 
                   {/* モバイルのみ表示の開閉アイコン */}
                   <span
@@ -90,7 +90,7 @@ export default function FAQ() {
                 <p
                   id={answerId}
                   aria-labelledby={buttonId}
-                  className={`mt-3 text-base leading-relaxed text-text/80 ${
+                  className={`mt-3 text-sm leading-relaxed text-text/80 ${
                     isOpen ? 'block' : 'hidden md:block'
                   }`}
                 >
