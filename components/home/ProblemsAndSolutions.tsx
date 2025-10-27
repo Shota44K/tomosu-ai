@@ -63,7 +63,7 @@ const PAIRS_MOBILE: Pair[] = [
     problem: '投資対効果が見えず、意思決定できない',
     strength: {
       labelNo: '強み ②',
-      headline: '無料でAIシステムを試作開発',
+      headline: '無料でAIシステム試作開発',
       summary: '効果が見えるまで費用は不要',
       detail: (
         <>

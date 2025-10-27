@@ -241,9 +241,9 @@ export default function Process() {
             AIシステム開発の流れ
           </span>
           <h2 className="text-2xl font-bold text-primary md:text-3xl">
-            <span className="hidden md:inline">ヒアリングから運用開始まで平均3ヵ月</span>
+            <span className="hidden md:inline">ヒアリングから本開発完了まで平均3ヵ月</span>
             <span className="block md:hidden">ヒアリングから</span>
-            <span className="block md:hidden">運用開始まで平均3ヵ月</span>
+            <span className="block md:hidden">本開発完了まで平均3ヵ月</span>
 
           </h2>
         </header>

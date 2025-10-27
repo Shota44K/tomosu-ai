@@ -2,11 +2,11 @@
 
 const USE_CASES = [
   {
-    industry: "日用消費財メーカー",
-    title: "女性向けアプリ内AIチャットボット",
+    industry: "消費財メーカー",
+    title: "消費者向けAIチャットボット",
     description:
-      "国内最大規模ユーザー数を抱える女性向けアプリで、AIチャットボットによるユーザー体験向上と商品開発支援を実現。",
-    achievement: "ユーザー満足度・継続利用率向上、新商品開発インサイト抽出機能をリリース",
+      "商品の選び方や利用方法などの悩みを解決するAIチャットボットによりユーザー体験を向上。",
+    achievement: "ユーザー満足度・アプリの継続利用率向上",
     icon: (
       <svg
         xmlns="http://www.w3.org/2000/svg"
@@ -27,10 +27,10 @@ const USE_CASES = [
   },
   {
     industry: "一般財団法人",
-    title: "公共工事積算業務支援チャットボット",
+    title: "公共文章に関するQAチャット",
     description:
-      "膨大な積算基準書を参照するマルチモーダルRAGシステム。図表を含めた正確な検索・提示を実現。",
-    achievement: "ヘルプデスク専任人員を5名→1名へ80％削減",
+      "膨大な専門文章を扱う業務をRAGシステムで効率化。テキストだけでなく、図表を含めた正確な検索性能を実現。",
+    achievement: "専任要員の80%減を達成",
     icon: (
       <svg
         xmlns="http://www.w3.org/2000/svg"
@@ -51,10 +51,10 @@ const USE_CASES = [
   },
   {
     industry: "工業製品メーカー",
-    title: "ナレッジ活用AIソリューション",
+    title: "社内ナレッジ検索AI",
     description:
-      "製品選定の属人化と情報検索効率の低さを改善。社内技術文書や製品カタログを活用するRAGシステムを構築。",
-    achievement: "技術者の対応時間削減と属人化解消に貢献",
+      "膨大な技術文書や製品情報から必要な情報を検索。顧客対応業務の効率化を実現。",
+    achievement: "技術者の顧客対応時間削減",
     icon: (
       <svg
         xmlns="http://www.w3.org/2000/svg"
@@ -76,10 +76,10 @@ const USE_CASES = [
   },
   {
     industry: "税理士法人",
-    title: "財務申告業務効率化ソリューション",
+    title: "財務申告業務効率化AI",
     description:
-      "会計データに基づく適用可能控除の抽出と控除申請書類の作成を担うAIソリューション。",
-    achievement: "現在PoC推進中、業務プロセスの自動化を検証",
+      "会計データに基づいて適用可能控除の抽出を担うAIソリューションを開発中。",
+    achievement: "現在、無償PoC推進中",
     icon: (
       <svg
         xmlns="http://www.w3.org/2000/svg"
@@ -107,7 +107,7 @@ export default function UseCases() {
       <div className="mx-auto max-w-7xl px-4 py-16 sm:px-6 md:px-8 lg:px-12">
         <header className="text-center md:text-left mb-9">
           <span className="inline-flex w-full max-w-[16rem] items-center justify-center gap-2 rounded-full bg-primary/10 px-4 py-1 text-sm font-medium text-primary mb-9">
-            AIシステム開発実績
+            開発実績
           </span>
           <h2 className="text-2xl font-bold text-primary md:text-3xl">
             <span className="hidden md:inline">幅広い業界において、AIシステムを開発しています</span>
@@ -123,12 +123,12 @@ export default function UseCases() {
               className="flex flex-col gap-5 rounded-2xl border border-primary/10 bg-white p-6 shadow-sm transition-shadow hover:shadow-md"
             >
               {/* ヘッダー部分 */}
-              <div className="flex items-start gap-4">
-                <div className="flex h-12 w-12 shrink-0 items-center justify-center rounded-full bg-primary/10 text-primary">
+              <div className="flex items-center gap-4">
+                <div className="flex h-12.5 w-12.5 shrink-0 items-center justify-center rounded-full bg-primary/10 text-primary">
                   {useCase.icon}
                 </div>
                 <div className="flex-1 min-w-0">
-                  <span className="inline-block rounded-full bg-accent/10 px-3 py-1 text-xs font-semibold text-accent mb-2">
+                  <span className="inline-block rounded-full bg-accent/10 px-3 py-0.5 text-xs font-semibold text-accent mb-2">
                     {useCase.industry}
                   </span>
                   <h3 className="text-lg font-bold leading-snug text-primary">

@@ -4,9 +4,8 @@ import Link from "next/link";
 import { useState } from "react";
 
 const NAV_LINKS = [
-  { href: "/#services", label: "サービス" },
+  { href: "/#usecases", label: "開発実績" },
   { href: "/company", label: "会社概要" },
-  { href: "/#faq", label: "FAQ" },
 ];
 
 export default function Header() {

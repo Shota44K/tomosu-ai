@@ -362,15 +362,17 @@ export default function ContactForm() {
             <fieldset>
               <legend className="flex items-end justify-between text-sm font-semibold text-text">
                 <span className="flex items-center gap-2">
-                  ご相談種別
+                  ご相談種
                   <span className="rounded-sm bg-[#C00000] px-1.5 py-0.5 text-[0.7rem] font-semibold text-white">必須</span>
                 </span>
+
                 {touched.consultationType && errors.consultationType && (
                   <span id="consultationType-error" className="text-xs font-medium text-[#C00000]">
                     {errors.consultationType}
                   </span>
                 )}
               </legend>
+              <span className='text-xs text-text/80'>ご相談種別をお選びください</span>
               <div className="mt-4 flex flex-col gap-3">
                 {[
                   { value: 'proposal', label: 'AI活用案の相談' },

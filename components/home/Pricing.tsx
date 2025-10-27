@@ -26,8 +26,8 @@ export default function Pricing() {
               開発費用
             </span>
             <h2 className="text-2xl font-bold text-primary md:text-3xl">
-              <span className="hidden md:inline">無償PoCと低価格な本開発費で導入リスクを最小化</span>
-              <span className="block md:hidden">無償PoCと低価格な本開発費</span>
+              <span className="hidden md:inline">無償PoCと低価格な本開発で導入リスクを最小化</span>
+              <span className="block md:hidden">無償PoCと低価格な本開発</span>
               <span className="block md:hidden">導入リスクを最小化</span>
             </h2>
           </div>

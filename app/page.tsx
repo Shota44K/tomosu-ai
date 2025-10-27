@@ -7,7 +7,6 @@ import Hero from "@/components/home/Hero";
 import Pricing from "@/components/home/Pricing";
 import Process from "@/components/home/Process";
 import ProblemsAndSolutions from "@/components/home/ProblemsAndSolutions";
-import Services from "@/components/home/Services";
 import UseCases from "@/components/home/UseCases";
 
 export default function HomePage() {

@@ -18,6 +18,35 @@ const CTA_HREF = {
   default: '#contact',
 } satisfies Record<SegmentVariant, string>;
 
+function CaseTeaserStrip() {
+  const cases = [
+    { industry:'製造（300名）', usecase:'FAQ自動応答',
+      metrics:['一次解決率 +28%','対応工数 -42%'], meta:'8週・2名体制' },
+    { industry:'小売（150名）', usecase:'ナレッジ検索',
+      metrics:['探索時間 -65%','回答ミス -23%'], meta:'6週・2名体制' },
+    { industry:'サービス（80名）', usecase:'議事録自動作成',
+      metrics:['作成時間 -70%','リードタイム -1日'], meta:'4週・1名＋顧客1名' },
+  ];
+  return (
+    <div className="mx-auto max-w-7xl px-4 md:px-8 lg:px-12">
+      <div className="mt-6 flex snap-x gap-3 overflow-x-auto pb-2 [-ms-overflow-style:none] [scrollbar-width:none] [&::-webkit-scrollbar]:hidden">
+        {cases.map((c)=>(
+          <a key={c.industry+c.usecase} href="#usecases"
+             className="min-w-[80%] snap-start rounded-2xl border border-primary/10 bg-white/90 p-4 shadow-sm md:min-w-[32%]">
+            <div className="mb-1 text-xs font-semibold text-accent">{c.industry}</div>
+            <div className="mb-2 text-sm font-bold text-primary">{c.usecase}</div>
+            <ul className="mb-2 text-sm text-primary/90">
+              {c.metrics.map(m=>(<li key={m} className="flex items-center gap-2"><span>✅</span><span>{m}</span></li>))}
+            </ul>
+            <div className="text-xs text-text/70">{c.meta}</div>
+          </a>
+        ))}
+      </div>
+      <p className="mt-2 text-[11px] text-text/60">※効果は案件により異なります。</p>
+    </div>
+  );
+}
+
 export default function Hero() {
   const searchParams = useSearchParams();
   const titleRef = useRef<HTMLHeadingElement | null>(null);
@@ -251,8 +280,9 @@ export default function Hero() {
           </h1>
           <p
             data-animate="hero-lead"
-            className="max-w-xl text-base text-black/90 md:text-lg"
+            className="max-w-xl text-sm text-black/90 md:text-lg"
           >
+            消費財メーカー・財団法人・税理士法人など実績多数<br />
             中堅・中小企業の経営課題をAIで解決<br />
           </p>
           <div className="flex flex-col gap-4 md:flex-row" data-animate="hero-cta">
@@ -266,6 +296,7 @@ export default function Hero() {
         </div>
         <div className="hidden md:block md:flex-[0.4]" />
       </div>
+      {/* <CaseTeaserStrip /> */}
 
       <div className="pointer-events-none absolute bottom-6 left-1/2 hidden -translate-x-1/2 flex-col items-center gap-2 text-sm text-text/60 md:flex">
         <span>Scroll</span>
