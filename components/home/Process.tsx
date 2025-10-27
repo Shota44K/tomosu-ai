@@ -89,14 +89,14 @@ function MobileStepItem({
   description,
   icon,
   isLast = false,
-}: Step & { isLast?: boolean }) {
-  const [open, setOpen] = useState(false);
-
+  open,
+  onToggle,
+}: Step & { isLast?: boolean; open: boolean; onToggle: () => void }) {
   return (
     <div className="relative mb-0.5">
       {/* アコーディオンヘッダー */}
       <button
-        onClick={() => setOpen(!open)}
+        onClick={onToggle}
         className="relative w-full rounded-2xl border border-primary/15 bg-white p-3 shadow-sm text-left transition-all hover:shadow-lg"
       >
         <div className="flex items-center gap-4">
@@ -225,6 +225,12 @@ function ContractBlock() {
 }
 
 export default function Process() {
+  const [openMobileStep, setOpenMobileStep] = useState<string | null>(null);
+
+  const toggleMobileStep = (id: string) => {
+    setOpenMobileStep((prev) => (prev === id ? null : id));
+  };
+
   return (
     <section id="process" className="bg-white/90">
       <div className="mx-auto max-w-7xl px-4 py-16 sm:px-6 md:px-8 lg:px-12">
@@ -244,11 +250,24 @@ export default function Process() {
 
         {/* ====== モバイル（縦タイムライン・アコーディオン） ====== */}
         <div className="mt-8 space-y-3 md:hidden">
-          <MobileStepItem {...STEPS[0]} />
+          <MobileStepItem
+            {...STEPS[0]}
+            open={openMobileStep === STEPS[0].step}
+            onToggle={() => toggleMobileStep(STEPS[0].step)}
+          />
           <FlowArrow />
-          <MobileStepItem {...STEPS[1]} />
+          <MobileStepItem
+            {...STEPS[1]}
+            open={openMobileStep === STEPS[1].step}
+            onToggle={() => toggleMobileStep(STEPS[1].step)}
+          />
           <FlowArrow />
-          <MobileStepItem {...STEPS[2]} isLast />
+          <MobileStepItem
+            {...STEPS[2]}
+            isLast
+            open={openMobileStep === STEPS[2].step}
+            onToggle={() => toggleMobileStep(STEPS[2].step)}
+          />
         </div>
 
         {/* ====== PC（従来の横並びフロー） ====== */}
