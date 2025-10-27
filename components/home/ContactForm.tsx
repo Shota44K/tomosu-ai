@@ -260,7 +260,7 @@ export default function ContactForm() {
   };
 
   return (
-    <section id="contact" className="bg-base">
+    <section id="contact" className="bg-white/90">
       <Script
         src={
           siteKey

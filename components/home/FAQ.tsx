@@ -34,7 +34,7 @@ export default function FAQ() {
   };
 
   return (
-    <section id="faq" className="bg-white/90">
+    <section id="faq" className="bg-base">
       <div className="mx-auto max-w-7xl px-4 py-16 sm:px-6 md:px-8 lg:px-12">
         <header className="text-center md:text-left mb-9">
           <span className="inline-flex w-full max-w-[16rem] items-center justify-center gap-2 rounded-full bg-primary/10 px-4 py-1 text-sm font-medium text-primary mb-9">

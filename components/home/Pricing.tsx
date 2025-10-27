@@ -18,7 +18,7 @@ const PRICE_HIGHLIGHTS = [
 
 export default function Pricing() {
   return (
-    <section id="pricing" className="bg-white/90">
+    <section id="pricing" className="bg-base">
       <div className="mx-auto max-w-7xl px-4 py-16 sm:px-6 md:px-8 lg:px-12 text-center md:text-left">
         <header className="mb-9">
           <div>
