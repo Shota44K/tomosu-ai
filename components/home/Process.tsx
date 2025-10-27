@@ -1,4 +1,6 @@
-import type { ReactNode } from "react";
+'use client';
+
+import type { ReactNode } from 'react';
 
 type Step = {
   step: string;
@@ -9,10 +11,10 @@ type Step = {
 
 const STEPS: Step[] = [
   {
-    step: "STEP 1",
-    title: "ヒアリング",
+    step: 'STEP 1',
+    title: 'ヒアリング',
     description:
-      "まずはお気軽に、現状の課題やAIで実現したいことをお聞かせください。",
+      'まずはお気軽に、現状の課題やAIで実現したいことをお聞かせください。',
     icon: (
       <svg
         aria-hidden="true"
@@ -31,16 +33,12 @@ const STEPS: Step[] = [
     ),
   },
   {
-    step: "STEP 2",
+    step: 'STEP 2',
     title: (
-      <>
-        試作AIシステム
-        <br />
-        無料開発
-      </>
+      "AIシステム試作開発（無料）"
     ),
     description:
-      "貴社課題を解決するAIシステムを試作開発。試作システムで効果を確かめていただきます。",
+      '貴社課題を解決するAIシステムを試作開発。試作システムで効果を確かめていただきます。',
     icon: (
       <svg
         aria-hidden="true"
@@ -58,45 +56,13 @@ const STEPS: Step[] = [
       </svg>
     ),
   },
-  // {
-  //   step: "STEP 3",
-  //   title: (
-  //     <>
-  //     試作AIシステム
-  //     <br />
-  //     評価
-  //   </>
-  //   ),
-  //   description:
-  //     "事前に合意した評価基準に基づき、本開発に進むかを判定いただきます。",
-  //   icon: (
-  //     <svg
-  //       aria-hidden="true"
-  //       className="h-14 w-14 text-primary"
-  //       fill="none"
-  //       stroke="currentColor"
-  //       strokeLinecap="round"
-  //       strokeLinejoin="round"
-  //       strokeWidth={1.6}
-  //       viewBox="0 0 48 48"
-  //     >
-  //       <rect height="30" rx="3" width="22" x="13" y="9" />
-  //       <path d="M19 17h10M19 23h10" />
-  //       <path d="m19 29 5 5 6-8" />
-  //     </svg>
-  //   ),
-  // },
   {
-    step: "STEP 3",
-    title:  (
-      <>
-      本開発
-      <br />
-      運用開始
-    </>
+    step: 'STEP 3',
+    title: (
+      "本開発・運用"
     ),
     description:
-      "導入完了まで責任を持って開発し、運用をスタートします。",
+      '導入完了まで責任を持って開発し、運用をスタートします。',
     icon: (
       <svg
         aria-hidden="true"
@@ -115,21 +81,77 @@ const STEPS: Step[] = [
   },
 ];
 
-const CONTRACT_LABEL = "ご契約";
+const CONTRACT_LABEL = 'ご契約';
 
+/* =========================
+ * Mobile（md未満）専用：タイムライン型UI
+ * - 左にアイコン＋縦ライン
+ * - 各カードは省スペースなカード調
+ * - 「ご契約」は区切りピルで挿入
+ * ========================= */
+function MobileStepItem({
+  step,
+  title,
+  description,
+  icon,
+  isLast = false,
+}: Step & { isLast?: boolean }) {
+  return (
+    <div className="relative rounded-2xl border border-primary/15 bg-white p-5 shadow-md">
+      <div className="flex items-center gap-4">
+        {/* 左アイコン */}
+        <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-full border-2 border-primary/25 bg-gradient-to-br from-primary/10 to-primary/5 shadow-sm [&>svg]:h-7 [&>svg]:w-7">
+          {icon}
+        </div>
+        <div className="flex flex-col flex-wrap gap-x-3">
+          <span className="text-xs font-bold tracking-wider text-accent uppercase">{step}</span>
+          <h3 className="text-lg font-bold leading-tight text-primary">{title}</h3>
+        </div>
+      </div>
+      <p className="mt-3 text-sm leading-relaxed text-text/75">{description}</p>
+
+      {/* 下方向への縦ライン（最後の要素以外に表示） */}
+      {!isLast && (
+        <span
+          aria-hidden="true"
+          className="pointer-events-none absolute left-[2.75rem] top-[4.25rem] -bottom-6 w-0.5 bg-gradient-to-b from-primary/30 to-primary/15"
+        />
+      )}
+    </div>
+  );
+}
+
+function MobileContractDivider() {
+  return (
+    <div className="relative my-6 flex min-h-12 items-center justify-center">
+      {/* 上下の縦ライン接続 */}
+      <span
+        aria-hidden="true"
+        className="pointer-events-none absolute left-[2.75rem] -top-6 h-8 w-0.5 bg-gradient-to-b from-primary/15 to-primary/30"
+      />
+      <span
+        aria-hidden="true"
+        className="pointer-events-none absolute left-[2.75rem] bottom-0 h-8 w-0.5 bg-gradient-to-b from-primary/30 to-primary/15"
+      />
+      <div className="inline-flex items-center justify-center rounded-full border-2 border-primary/20 from-primary/5 to-white px-5 py-2 text-center shadow-md w-full">
+        <span className="text-sm font-bold tracking-wide text-primary">{CONTRACT_LABEL}</span>
+      </div>
+    </div>
+  );
+}
+
+/* =========================
+ * PC用（md以上）：従来の横並びフロー
+ * ========================= */
 function StepCard({ step, title, description, icon }: Step) {
   return (
     <div className="flex w-full flex-col items-center gap-4 rounded-2xl border border-primary/10 bg-white px-2 py-8 text-center shadow-sm sm:px-8 sm:py-10 lg:flex-1 lg:min-w-0 lg:px-4 lg:py-8">
-      <span className="font-semibold tracking-wide text-accent">
-        {step}
-      </span>
+      <span className="font-semibold tracking-wide text-accent">{step}</span>
       <div className="flex h-20 w-20 items-center justify-center rounded-full border border-primary/20 bg-primary/5">
         {icon}
       </div>
       <div className="space-y-1">
-        <h3 className="text-lg font-semibold text-primary md:text-xl">
-          {title}
-        </h3>
+        <h3 className="text-lg font-semibold text-primary md:text-xl">{title}</h3>
       </div>
       <p className="text-sm leading-relaxed text-text/80">{description}</p>
     </div>
@@ -139,6 +161,7 @@ function StepCard({ step, title, description, icon }: Step) {
 function FlowArrow() {
   return (
     <div className="flex shrink-0 flex-col items-center justify-center py-2 lg:flex-row lg:self-stretch lg:px-1.5 lg:py-0">
+      {/* PC矢印（横向き） */}
       <svg
         aria-hidden="true"
         className="hidden h-6 w-6 text-primary lg:block"
@@ -147,9 +170,10 @@ function FlowArrow() {
       >
         <polygon points="8,5 18,12 8,19" />
       </svg>
+      {/* モバイル矢印はタイムライン化で不要のため非表示 */}
       <svg
         aria-hidden="true"
-        className="h-6 w-6 text-primary lg:hidden"
+        className="hidden h-6 w-6 text-primary lg:hidden"
         fill="currentColor"
         viewBox="0 0 24 24"
       >
@@ -163,26 +187,33 @@ function ContractBlock() {
   return (
     <div className="flex w-full flex-col items-center justify-center rounded-2xl border border-primary/10 bg-white px-4 py-1.5 text-center shadow-sm sm:px-6 sm:py-2.5 lg:w-auto lg:min-w-[3.0rem] lg:px-1 lg:py-3">
       <span className="font-bold text-primary lg:[writing-mode:vertical-rl] lg:tracking-[0.15em] lg:leading-tight">
-        ご契約
+        {CONTRACT_LABEL}
       </span>
     </div>
   );
 }
 
-
 export default function Process() {
   return (
     <section id="process" className="bg-white/90">
       <div className="mx-auto max-w-7xl px-4 py-16 sm:px-6 md:px-8 lg:px-12">
-        <header className="text-center md:text-left mb-9">
-          <span className="inline-flex w-full max-w-[16rem] items-center justify-center gap-2 rounded-full bg-primary/10 px-4 py-1 text-sm font-medium text-primary mb-9">
+        <header className="mb-9 text-center md:text-left">
+          <span className="mb-9 inline-flex w-full max-w-[16rem] items-center justify-center gap-2 rounded-full bg-primary/10 px-4 py-1 text-sm font-medium text-primary">
             AIシステム開発の流れ
           </span>
-          <h2 className="text-2xl font-bold text-primary md:text-3xl">
-            開発の流れ
-          </h2>
+          <h2 className="text-2xl font-bold text-primary md:text-3xl">開発の流れ</h2>
         </header>
-        <div className="mt-10 flex flex-col items-center gap-0.5 lg:flex-row lg:flex-nowrap lg:items-stretch lg:justify-between lg:gap-0.5">
+
+        {/* ====== モバイル（縦タイムライン） ====== */}
+        <div className="mt-8 space-y-7 md:hidden">
+          <MobileStepItem {...STEPS[0]} />
+          <MobileStepItem {...STEPS[1]} />
+          <MobileContractDivider />
+          <MobileStepItem {...STEPS[2]} isLast />
+        </div>
+
+        {/* ====== PC（従来の横並びフロー） ====== */}
+        <div className="mt-10 hidden flex-col items-center gap-0.5 md:flex lg:flex-row lg:flex-nowrap lg:items-stretch lg:justify-between lg:gap-0.5">
           <StepCard {...STEPS[0]} />
           <FlowArrow />
           <StepCard {...STEPS[1]} />
@@ -190,9 +221,9 @@ export default function Process() {
           <ContractBlock />
           <FlowArrow />
           <StepCard {...STEPS[2]} />
-          {/* <FlowArrow /> */}
-          {/* <StepCard {...STEPS[3]} /> */}
         </div>
+
+        {/* CTA（PCのみ表示） */}
         <div className="hidden mt-10 text-center md:block">
           <a
             href="#contact"
