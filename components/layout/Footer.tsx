@@ -64,6 +64,15 @@ export default function Footer() {
                     価格体系
                   </Link>
                 </li>
+                <li>
+                  <Link
+                    href="/#process"
+                    className="transition hover:text-white"
+                    onClick={() => track("nav_click", { location: "footer", to: "#process" })}
+                  >
+                    開発プロセス
+                  </Link>
+                </li>
               </ul>
             </div>
             <div>
