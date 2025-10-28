@@ -48,6 +48,15 @@ export default function Footer() {
                 </li>
                 <li>
                   <Link
+                    href="/#solutions"
+                    className="transition hover:text-white"
+                    onClick={() => track("nav_click", { location: "footer", to: "#solutions" })}
+                  >
+                    tomosu-AIの強み
+                  </Link>
+                </li>
+                <li>
+                  <Link
                     href="/#pricing"
                     className="transition hover:text-white"
                     onClick={() => track("nav_click", { location: "footer", to: "#pricing" })}
