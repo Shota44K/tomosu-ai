@@ -74,7 +74,7 @@ export default function UseCases() {
             <article 
               key={i}
               className="group bg-slate-50 rounded-2xl p-6 border border-slate-100 hover:bg-white hover:shadow-xl hover:shadow-primary/5 hover:border-primary/10 transition-all duration-300 cursor-pointer flex flex-col h-full"
-              onClick={() => track('usecase_click', { title: item.title })}
+              onClick={() => track('usecase_card_click', { title: item.title })}
             >
               <div className="flex justify-between items-start mb-4">
                 <div className="h-12 w-12 p-2 bg-white rounded-lg shadow-sm">{item.icon}</div>
@@ -112,3 +112,4 @@ export default function UseCases() {
     </section>
   );
 }
+
