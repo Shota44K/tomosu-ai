@@ -109,10 +109,10 @@ export default function ContactForm() {
 
   const getFieldClasses = (field: FieldName) =>
     [
-      'mt-2 w-full rounded-xl border bg-white px-4 py-3 text-sm shadow-sm focus:outline-none focus:ring-2',
+      'w-full rounded-xl border px-4 py-3 text-sm shadow-sm transition-all duration-200 focus:outline-none focus:ring-4',
       errors[field]
-        ? 'border-[#C00000] focus:border-[#C00000] focus:ring-[#C00000]/30'
-        : 'border-primary/20 focus:border-primary focus:ring-primary/30',
+        ? 'border-red-300 bg-red-50 focus:border-red-500 focus:ring-red-100'
+        : 'border-slate-200 bg-white focus:border-primary focus:ring-primary/10 hover:border-primary/50',
     ].join(' ');
 
   const validateField = (field: FieldName, value: string) => {
@@ -283,14 +283,13 @@ export default function ContactForm() {
     } catch (err) {
       alert('送信に失敗しました。時間をおいて再度お試しください。');
       track('form_submit_fail', { section: 'contact' });
-      // 必要に応じてログ送信など
     } finally {
       setSubmitting(false);
     }
   };
 
   return (
-    <section id="contact" className="bg-white/90">
+    <section id="contact" className="bg-slate-50 py-24">
       <Script
         src={
           siteKey
@@ -304,268 +303,216 @@ export default function ContactForm() {
           display: none !important;
         }
       `}</style>
-      <div className="mx-auto max-w-7xl px-4 py-16 sm:px-6 md:px-8 lg:px-12">
-        <header className="text-center md:text-left mb-9">
-          <span className="inline-flex w-full max-w-[16rem] items-center justify-center gap-2 rounded-full bg-primary/10 px-4 py-1 text-sm font-medium text-primary mb-9">
-            お問い合わせ
-          </span>
-          <h2 className="text-2xl font-bold text-primary md:text-3xl">まずはお気軽にお問合せください</h2>
-        </header>
-        <form
-          name="contact"
-          method="POST"
-          action="/contact-netlify.html"
-          data-netlify="true"
-          netlify-honeypot="bot-field"
-          noValidate
-          className="mt-10 space-y-6 mx-4 lg:mx-36"
-          onSubmit={handleSubmit}
-        >
-          <input type="hidden" name="form-name" value="contact" />
-          <div className="hidden" aria-hidden="true">
-            <label><input name="bot-field" type="text" tabIndex={-1} autoComplete="off" /></label>
-          </div>
+      
+      <div className="mx-auto max-w-3xl px-4 sm:px-6 lg:px-8">
+        <div className="bg-white rounded-3xl shadow-xl shadow-primary/5 border border-primary/5 p-8 md:p-12">
+          <header className="text-center mb-10">
+            <h2 className="text-2xl md:text-3xl font-bold text-primary mb-4">
+              まずは無料相談から
+            </h2>
+            <p className="text-text/70 text-sm md:text-base">
+              AI活用の可能性診断、試作開発のご相談など、<br className="hidden md:block"/>
+              お気軽にお問い合わせください。
+            </p>
+          </header>
 
-          {/* 各フィールド（省略せずそのまま） */}
-          {/* company */}
-          <div>
-            <label htmlFor="company-name" className="flex items-end justify-between text-sm font-semibold text-text">
-              <span className="flex items-center gap-2">
-                会社名
-                <span className="rounded-sm bg-[#C00000] px-1.5 py-0.5 text-[0.7rem] font-semibold text-white">必須</span>
-              </span>
-              {touched.company && errors.company && (
-                <span id="company-error" className="text-xs font-medium text-[#C00000]">{errors.company}</span>
-              )}
-            </label>
-            <input
-              id="company-name" name="company" type="text" required
-              value={formData.company} onChange={handleChange}
-              aria-invalid={errors.company ? 'true' : 'false'}
-              aria-describedby={errors.company ? 'company-error' : undefined}
-              onFocus={onFirstFocus}
-              className={getFieldClasses('company')}
-            />
-          </div>
+          <form 
+            name="contact"
+            method="POST"
+            action="/contact-netlify.html"
+            data-netlify="true"
+            netlify-honeypot="bot-field"
+            noValidate
+            onSubmit={handleSubmit} 
+            className="space-y-6"
+          >
+             <input type="hidden" name="form-name" value="contact" />
+             <div className="hidden" aria-hidden="true">
+               <label><input name="bot-field" type="text" tabIndex={-1} autoComplete="off" /></label>
+             </div>
 
-          {/* name */}
-          <div>
-            <label htmlFor="name" className="flex items-end justify-between text-sm font-semibold text-text">
-              <span className="flex items-center gap-2">
-                お名前
-                <span className="rounded-sm bg-[#C00000] px-1.5 py-0.5 text-[0.7rem] font-semibold text-white">必須</span>
-              </span>
-              {touched.name && errors.name && (
-                <span id="name-error" className="text-xs font-medium text-[#C00000]">{errors.name}</span>
-              )}
-            </label>
-            <input
-              id="name" name="name" type="text" required
-              value={formData.name} onChange={handleChange}
-              aria-invalid={errors.name ? 'true' : 'false'}
-              aria-describedby={errors.name ? 'name-error' : undefined}
-              onFocus={onFirstFocus}
-              className={getFieldClasses('name')}
-            />
-          </div>
-
-          {/* email */}
-          <div>
-            <label htmlFor="email" className="flex items-end justify-between text-sm font-semibold text-text">
-              <span className="flex items-center gap-2">
-                メールアドレス
-                <span className="rounded-sm bg-[#C00000] px-1.5 py-0.5 text-[0.7rem] font-semibold text-white">必須</span>
-              </span>
-              {touched.email && errors.email && (
-                <span id="email-error" className="text-xs font-medium text-[#C00000]">{errors.email}</span>
-              )}
-            </label>
-            <input
-              id="email" name="email" type="email" required
-              value={formData.email} onChange={handleChange}
-              aria-invalid={errors.email ? 'true' : 'false'}
-              aria-describedby={errors.email ? 'email-error' : undefined}
-              onFocus={onFirstFocus}
-              className={getFieldClasses('email')}
-            />
-          </div>
-
-          {/* consultation type */}
-          <div>
-            <fieldset>
-              <legend className="flex items-end justify-between text-sm font-semibold text-text">
-                <span className="flex items-center gap-2">
-                  ご相談種
-                  <span className="rounded-sm bg-[#C00000] px-1.5 py-0.5 text-[0.7rem] font-semibold text-white">必須</span>
-                </span>
-
-                {touched.consultationType && errors.consultationType && (
-                  <span id="consultationType-error" className="text-xs font-medium text-[#C00000]">
-                    {errors.consultationType}
-                  </span>
-                )}
-              </legend>
-              <span className='text-xs text-text/80'>ご相談種別をお選びください</span>
-              <div className="mt-4 flex flex-col gap-3">
-                {[
-                  { value: 'proposal', label: 'AI活用案の相談' },
-                  { value: 'trial', label: '無料試作AIシステム開発の相談' },
-                  { value: 'other', label: 'その他' },
-                ].map((option) => (
-                  <label key={option.value} className="flex items-center gap-3 text-sm text-text/90">
-                    <input
-                      type="radio"
-                      name="consultationType"
-                      value={option.value}
-                      checked={formData.consultationType === option.value}
-                      onChange={handleChange}
-                      onFocus={onFirstFocus}
-                      className="size-5 text-primary focus:ring-2 focus:ring-primary/30"
-                      aria-invalid={errors.consultationType ? 'true' : 'false'}
-                      aria-describedby={
-                        errors.consultationType && touched.consultationType
-                          ? 'consultationType-error'
-                          : undefined
-                      }
-                      required
-                    />
-                    <span>{option.label}</span>
-                  </label>
-                ))}
-              </div>
-            </fieldset>
-          </div>
-
-          {formData.consultationType === 'other' && (
-            <div>
-               <div className="text-sm font-semibold text-text">
-                 <label htmlFor="message" className="flex items-center gap-x-2">
-                   ご相談内容
-                   <span className="rounded-sm bg-gray-500 px-1.5 py-0.5 text-[0.7rem] font-semibold text-white">任意</span>
+             {/* Company & Name Row */}
+             <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+               <div className="space-y-2">
+                 <label htmlFor="company-name" className="block text-sm font-bold text-primary">
+                   会社名 <span className="text-red-500 text-xs ml-1">*</span>
                  </label>
+                 <input
+                   id="company-name" name="company" type="text" required
+                   value={formData.company} onChange={handleChange}
+                   onFocus={onFirstFocus}
+                   className={getFieldClasses('company')}
+                   placeholder="例: 株式会社〇〇"
+                 />
+                 {touched.company && errors.company && (
+                    <p className="text-xs text-red-500 font-medium ml-1">{errors.company}</p>
+                 )}
                </div>
-               <textarea
-                 id="message"
-                 name="message"
-                 rows={5}
-                 value={formData.message}
-                 onChange={handleChange}
+               <div className="space-y-2">
+                 <label htmlFor="name" className="block text-sm font-bold text-primary">
+                   お名前 <span className="text-red-500 text-xs ml-1">*</span>
+                 </label>
+                 <input
+                   id="name" name="name" type="text" required
+                   value={formData.name} onChange={handleChange}
+                   onFocus={onFirstFocus}
+                   className={getFieldClasses('name')}
+                   placeholder="例: 山田 太郎"
+                 />
+                 {touched.name && errors.name && (
+                    <p className="text-xs text-red-500 font-medium ml-1">{errors.name}</p>
+                 )}
+               </div>
+             </div>
+
+             {/* Email */}
+             <div className="space-y-2">
+               <label htmlFor="email" className="block text-sm font-bold text-primary">
+                 メールアドレス <span className="text-red-500 text-xs ml-1">*</span>
+               </label>
+               <input
+                 id="email" name="email" type="email" required
+                 value={formData.email} onChange={handleChange}
                  onFocus={onFirstFocus}
-                 className={`${getFieldClasses('message')} mt-2`}
-                 placeholder="未記入でも構いません。面談にてご相談内容をお伝えください。"
+                 className={getFieldClasses('email')}
+                 placeholder="example@company.co.jp"
                />
+               {touched.email && errors.email && (
+                  <p className="text-xs text-red-500 font-medium ml-1">{errors.email}</p>
+               )}
+             </div>
+
+             {/* Consultation Type */}
+             <div className="space-y-3 pt-2">
+               <span className="block text-sm font-bold text-primary">
+                 ご相談種別 <span className="text-red-500 text-xs ml-1">*</span>
+               </span>
+               <div className="grid grid-cols-1 gap-3">
+                 {[
+                    { value: 'proposal', label: 'AI活用案の相談' },
+                    { value: 'trial', label: '無料試作AIシステム開発の相談' },
+                    { value: 'other', label: 'その他' },
+                 ].map((option) => (
+                   <label key={option.value} className={`
+                      flex items-center p-3 rounded-xl border cursor-pointer transition-all
+                      ${formData.consultationType === option.value 
+                        ? 'border-accent bg-accent/5 ring-1 ring-accent/20' 
+                        : 'border-slate-200 hover:bg-slate-50'}
+                   `}>
+                     <input
+                       type="radio" name="consultationType" value={option.value}
+                       checked={formData.consultationType === option.value}
+                       onChange={handleChange}
+                       onFocus={onFirstFocus}
+                       className="w-4 h-4 text-accent border-slate-300 focus:ring-accent"
+                     />
+                     <span className="ml-3 text-sm font-medium text-primary">{option.label}</span>
+                   </label>
+                 ))}
+               </div>
+               {touched.consultationType && errors.consultationType && (
+                  <p className="text-xs text-red-500 font-medium ml-1">{errors.consultationType}</p>
+               )}
+             </div>
+
+             {/* Message */}
+             {formData.consultationType === 'other' && (
+                <div className="space-y-2 animate-fade-in">
+                  <label htmlFor="message" className="block text-sm font-bold text-primary">
+                    ご相談内容
+                  </label>
+                  <textarea
+                    id="message" name="message" rows={4}
+                    value={formData.message} onChange={handleChange}
+                    onFocus={onFirstFocus}
+                    className={getFieldClasses('message')}
+                    placeholder="詳細をご記入ください"
+                  />
+                </div>
+             )}
+
+             {/* Privacy */}
+             <div className="pt-2">
+                <label className="flex items-start gap-3 cursor-pointer">
+                  <input 
+                    type="checkbox" 
+                    className="mt-1 w-4 h-4 text-accent border-slate-300 rounded focus:ring-accent"
+                    checked={privacyAccepted}
+                    onChange={(e) => {
+                      setPrivacyAccepted(e.target.checked);
+                      if(e.target.checked) setPrivacyError(null);
+                    }}
+                    onFocus={onFirstFocus}
+                  />
+                  <span className="text-sm text-text/70">
+                    <a href="/privacy" target="_blank" rel="noopener noreferrer" className="text-primary underline decoration-slate-300 underline-offset-4 hover:decoration-primary transition-all">プライバシーポリシー</a>
+                    に同意する
+                  </span>
+                </label>
+                {privacyError && <p className="text-red-500 text-xs mt-1 ml-7">{privacyError}</p>}
+             </div>
+
+             {/* Captcha Error */}
+             {captchaError && (
+                <p className="text-center text-xs font-medium text-red-500">{captchaError}</p>
+             )}
+
+             {/* Submit */}
+             <div className="pt-4">
+               <button
+                 type="submit"
+                 disabled={submitting}
+                 className="w-full rounded-full bg-primary py-4 text-white font-bold text-lg shadow-lg shadow-primary/20 transition-all hover:bg-primary/90 hover:shadow-xl hover:-translate-y-0.5 disabled:opacity-50 disabled:cursor-not-allowed flex items-center justify-center gap-2"
+               >
+                 {submitting && (
+                    <svg className="animate-spin h-5 w-5 text-white" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
+                      <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4"></circle>
+                      <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
+                    </svg>
+                 )}
+                 {submitting ? '送信中...' : '無料で相談する'}
+               </button>
+               <p className="text-center text-xs text-slate-400 mt-4">
+                 ※ 営業目的のお問い合わせはお断りしております。
+               </p>
+               <p className="text-center text-[10px] text-slate-300 mt-2">
+                 This site is protected by reCAPTCHA and the Google <a href="https://policies.google.com/privacy" target="_blank" rel="noopener noreferrer" className="underline">Privacy Policy</a> and <a href="https://policies.google.com/terms" target="_blank" rel="noopener noreferrer" className="underline">Terms of Service</a> apply.
+               </p>
+             </div>
+          </form>
+        </div>
+      </div>
+
+      {/* 成功モーダル */}
+      {showModal && (
+        <div
+          role="dialog" aria-modal="true"
+          className="fixed inset-0 z-50 flex items-center justify-center bg-black/40 backdrop-blur-sm p-4"
+          onClick={() => setShowModal(false)}
+        >
+          <div
+            className="rounded-3xl bg-white p-8 shadow-2xl max-w-md w-full transform transition-all"
+            onClick={(event) => event.stopPropagation()}
+          >
+            <div className="w-12 h-12 rounded-full bg-green-100 text-green-600 flex items-center justify-center mb-4">
+              <svg className="w-6 h-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
+              </svg>
             </div>
-          )}
-
-
-          <div>
-            <label className="flex items-center gap-3 text-sm text-text/80">
-              <input
-                type="checkbox"
-                checked={privacyAccepted}
-                onChange={(event) => {
-                  setPrivacyAccepted(event.target.checked);
-                  if (event.target.checked) setPrivacyError(null);
-                }}
-                onFocus={onFirstFocus}
-                className="size-5 rounded border border-primary/30 text-primary focus:ring-2 focus:ring-primary/30"
-                aria-invalid={privacyError ? 'true' : 'false'}
-              />
-              <a
-                href="/privacy"
-                className="font-semibold text-primary underline underline-offset-2"
-                target="_blank"
-                rel="noopener noreferrer"
-              >
-                プライバシーポリシーに同意する
-              </a>
-            </label>
-            {privacyError && (
-              <p className="mt-2 text-xs font-medium text-[#C00000]">{privacyError}</p>
-            )}
-          </div>
-
-          <p className="text-xs text-text/80">
-            このサイトは reCAPTCHA によって保護されており、Google の{' '}
-            <a
-              href="https://policies.google.com/privacy"
-              className="font-semibold underline underline-offset-2"
-              target="_blank"
-              rel="noopener noreferrer"
-            >
-              プライバシーポリシー
-            </a>
-            と
-            <a
-              href="https://policies.google.com/terms"
-              className="font-semibold underline underline-offset-2"
-              target="_blank"
-              rel="noopener noreferrer"
-            >
-              利用規約
-            </a>
-            が適用されます。
-          </p>
-
-          {captchaError && (
-            <p className="text-center text-xs font-medium text-[#C00000]">{captchaError}</p>
-          )}
-
-          <div className="text-center">
+            <h3 className="text-xl font-bold text-primary mb-2">送信完了しました</h3>
+            <p className="text-text/80 text-sm leading-relaxed mb-8">
+              お問い合わせありがとうございます。<br/>
+              内容を確認の上、1営業日以内に担当者よりご連絡させていただきます。
+            </p>
             <button
-              type="submit"
-              disabled={submitting}
-              className="inline-flex min-w-[12rem] items-center justify-center gap-2 rounded-full bg-primary px-8 py-3.5 text-base font-semibold text-white shadow transition hover:bg-primary/90 disabled:cursor-not-allowed disabled:opacity-60"
+              className="w-full rounded-xl bg-primary py-3 text-sm font-bold text-white hover:bg-primary/90 transition-colors"
+              onClick={() => setShowModal(false)}
             >
-              {!submitting && (
-                <svg
-                  aria-hidden="true"
-                  className="h-5 w-5"
-                  fill="none"
-                  stroke="currentColor"
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                  strokeWidth={1.2}
-                  viewBox="0 0 24 24"
-                  style={{ transform: 'scaleX(-1)' }}
-                >
-                  <path d="M4 12 20 6l-6 6 6 6L4 12Z" />
-                  <path d="M4 12h8" />
-                </svg>
-              )}
-              <span>{submitting ? '送信中…' : '送信する'}</span>
+              閉じる
             </button>
           </div>
-        </form>
-
-        {/* 成功モーダル */}
-        {showModal && (
-          <div
-            role="dialog" aria-modal="true"
-            className="fixed inset-0 z-50 flex items-center justify-center bg-black/40"
-            onClick={() => setShowModal(false)}
-          >
-            <div
-              className="rounded-2xl bg-white p-6 shadow-xl"
-              style={{ width: 'min(24rem, calc(100vw - 2rem))' }}
-              onClick={(event) => event.stopPropagation()}
-            >
-              <h3 className="text-lg font-bold text-primary">送信ありがとうございました</h3>
-              <p className="mt-2 text-sm text-text/80">
-                1営業日以内に、担当者よりメールにてご連絡いたします。
-              </p>
-              <div className="mt-6 text-right">
-                <button
-                  className="rounded-full bg-primary px-5 py-2 text-sm font-semibold text-white hover:bg-primary/90"
-                  onClick={() => setShowModal(false)}
-                >
-                  閉じる
-                </button>
-              </div>
-            </div>
-          </div>
-        )}
-      </div>
+        </div>
+      )}
     </section>
   );
 }

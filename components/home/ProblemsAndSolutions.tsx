@@ -1,225 +1,143 @@
 'use client';
 
-import { useState, ReactNode } from 'react';
-import { track } from '@/lib/analytics';
+import { ReactNode } from 'react';
 
-/* ========= コピー ========= */
+const HEADING = 'AIシステム開発の「3つの壁」を突破する';
 
-const HEADING = 'AIシステム開発の「3つの課題」を tomosu-AI が解決します';
-
-type Pair = {
-  id: 'p1' | 'p2' | 'p3';
-  label: string;
-  problem: string;
-  strength: {
-    labelNo: string;
-    headline: string;
-    summary: string;
+type ProblemSolutionPair = {
+  id: string;
+  problem: {
+    icon: ReactNode;
+    text: string;
+  };
+  solution: {
+    title: string;
+    description: string;
     detail: ReactNode;
   };
 };
 
-const PAIRS_MOBILE: Pair[] = [
+const PAIRS: ProblemSolutionPair[] = [
   {
     id: 'p1',
-    label: '課題 ①',
-    problem: '何から始めれば良いか、見当がつかない',
-    strength: {
-      labelNo: '強み ①',
-      headline: 'AI活用案の検討支援',
-      summary: '投資効果最大化するAI活用案を共に設計',
+    problem: {
+      icon: (
+        <svg className="w-6 h-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M8.228 9c.549-1.165 2.03-2 3.772-2 2.21 0 4 1.343 4 3 0 1.4-1.278 2.575-3.006 2.907-.542.104-.994.54-.994 1.093m0 3h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+        </svg>
+      ),
+      text: '何から始めれば良いかわからない',
+    },
+    solution: {
+      title: 'AI活用案の検討支援',
+      description: '投資効果を最大化するAI活用案を共に設計',
       detail: (
         <>
-          数々の企業のDXを推進してきた経験を基に、御社のビジネスへの理解とAIの最新技術動向を踏まえ活用案を共に描きます。
-          <span className="font-semibold text-primary"> 経営と技術の両面</span>から最適なAI活用をご提案します。
+          数々の企業のDXを推進してきた経験を基に、ビジネス理解と技術動向の両面から、
+          <span className="font-bold text-primary">経営にインパクトのある最適なAI活用</span>をご提案します。
         </>
       ),
     },
   },
   {
     id: 'p2',
-    label: '課題 ②',
-    problem: '投資対効果が見えず、意思決定できない',
-    strength: {
-      labelNo: '強み ②',
-      headline: '無料でAIシステム試作開発',
-      summary: '効果が見えるまで費用は不要',
+    problem: {
+      icon: (
+        <svg className="w-6 h-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2 3 .895 3 2-1.343 2-3 2m0-8c1.11 0 2.08.402 2.599 1M12 8V7m0 1v8m0 0v1m0-1c-1.11 0-2.08-.402-2.599-1M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+        </svg>
+      ),
+      text: '投資対効果が見えず決裁できない',
+    },
+    solution: {
+      title: '無料でAI試作開発',
+      description: '効果が見えるまで費用は不要',
       detail: (
         <>
-          「AIは本当に効果があるのか？」という疑問にお応えするため、無償でAI試作システム（プロトタイプ）を開発。
-          効果をご確認いただけなかった場合、<span className="font-semibold text-primary">費用は一切いただきません</span>。
+          「本当に使えるのか？」という疑問に答えるため、無償でプロトタイプを開発。
+          効果を確認できなければ、<span className="font-bold text-primary">費用は一切いただきません</span>。
         </>
       ),
     },
   },
   {
     id: 'p3',
-    label: '課題 ③',
-    problem: '成果は欲しいが、高額な開発費は避けたい',
-    strength: {
-      labelNo: '強み ③',
-      headline: '開発費用は大手の約1/5',
-      summary: '中間コストを削減し、どこよりも低価格を実現',
+    problem: {
+      icon: (
+        <svg className="w-6 h-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 7h8m0 0v8m0-8l-8 8-4-4-6 6" />
+        </svg>
+      ),
+      text: '成果は欲しいが高額な開発費は避けたい',
+    },
+    solution: {
+      title: '開発費用は大手の約1/5',
+      description: '中間コストを削減し適正価格を実現',
       detail: (
         <>
-          大手企業で発生する営業・管理などの中間コストをカット。少数精鋭チームでの開発により、総開発費用は
-          <span className="font-semibold text-primary">業界最安値水準の平均300～600万円</span>を実現。
-          <br className="hidden md:block" />
+          営業・管理などの中間コストを徹底カット。少数精鋭チームにより、
+          <span className="font-bold text-primary">業界最安値水準（300～600万円）</span>での高品質な開発を実現します。
         </>
       ),
     },
   },
 ];
 
-/* ========= コンポーネント ========= */
-
-export default function ProblemsAndStrengthsUnified_NoWrapper() {
-  const [openId, setOpenId] = useState<string | null>(null);
-
-  const toggle = (id: string) => {
-    setOpenId((prev) => {
-      const next = prev === id ? null : id;
-      if (next) track('accordion_open', { id: next, section: 'solutions' });
-      return next;
-    });
-  };
-
+export default function ProblemsAndSolutions() {
   return (
-    <section id="solutions" className="bg-base">
-      {/* コンテナ：左右余白を広めに（xlまで段階的に） */}
-      <div className="mx-auto max-w-7xl px-4 py-12 sm:px-6 md:px-8 lg:px-12">
-        {/* 見出しブロック（ラッパーカードなし） */}
-        <header className="text-center md:text-left">
-          <span className="inline-flex w-full max-w-[16rem] items-center justify-center gap-2 rounded-full bg-primary/10 px-4 py-1 text-sm font-medium text-primary mb-9">
-            頻出課題と強み
+    <section id="solutions" className="bg-gradient-to-b from-base to-white py-24">
+      <div className="mx-auto max-w-7xl px-4 sm:px-6 md:px-8 lg:px-12">
+        <div className="text-center max-w-3xl mx-auto mb-16">
+          <span className="inline-block py-1 px-3 rounded-full bg-primary/10 text-primary text-sm font-semibold mb-4">
+            Solutions
           </span>
-          <h2 className="mt-3 text-2xl font-bold leading-tight text-primary md:mt-4 md:text-3xl">
-            <span className="hidden md:inline">{HEADING}</span>
-            <span className="block md:hidden">
-              <span className="block">AIシステム開発の「3つの課題」</span>
-              <span className="block">tomosu-AIが解決します</span>
-            </span>
+          <h2 className="text-3xl md:text-4xl font-bold text-primary leading-tight">
+            {HEADING}
           </h2>
-        </header>
-
-        {/* ===== モバイル：課題⇄強みのペアカード（アコーディオン） ===== */}
-        <div className="mt-8 space-y-6 md:hidden">
-          {PAIRS_MOBILE.map((pair) => {
-            const open = openId === pair.id;
-            return (
-              <div
-                key={pair.id}
-                className="rounded-xl border border-primary/10 bg-white/90 shadow-sm shadow-primary/5"
-              >
-                {/* 課題（上帯） */}
-                <div className="flex items-start gap-3 rounded-t-xl border-b border-primary/10 bg-primary/5 px-5 py-4">
-                  <span className="mt-0.5 inline-flex flex-shrink-0 items-center justify-center rounded-full bg-primary/10 px-2.5 py-0.5 text-[11px] font-semibold tracking-wide text-primary">
-                    {pair.label}
-                  </span>
-                  <p className="text-[15px] font-semibold text-text/90">{pair.problem}</p>
-                </div>
-
-                {/* 強み要点＋トグル */}
-                <button
-                  type="button"
-                  aria-expanded={open}
-                  onClick={() => toggle(pair.id)}
-                  className="flex w-full items-start justify-between gap-4 px-5 py-5 text-left"
-                >
-                  <div className="min-w-0">
-                    <div className="flex items-center gap-3">
-                      <span className="inline-flex flex-shrink-0 items-center justify-center rounded-full bg-primary/10 px-2.5 py-0.5 text-[11px] font-semibold tracking-wide text-primary">
-                        {pair.strength.labelNo}
-                      </span>
-                      <h3 className="line-clamp-2 text-lg font-bold text-primary">
-                        {pair.strength.headline}
-                      </h3>
-                    </div>
-                  </div>
-                  <span
-                    aria-hidden="true"
-                    className={`flex h-8 w-8 flex-shrink-0 items-center justify-center rounded-full border border-primary/30 text-primary transition ${
-                      open ? 'bg-primary/5' : ''
-                    }`}
-                  >
-                    {/* 折りたたみアイコン */}
-                    <svg
-                      xmlns="http://www.w3.org/2000/svg"
-                      viewBox="0 0 24 24"
-                      fill="none"
-                      stroke="currentColor"
-                      strokeWidth="1.6"
-                      strokeLinecap="round"
-                      strokeLinejoin="round"
-                      className={`h-4 w-4 transition-transform ${open ? 'rotate-180' : ''}`}
-                    >
-                      <path d="m6 9 6 6 6-6" />
-                    </svg>
-                  </span>
-                </button>
-
-                {/* 強みの詳細（アコーディオン） */}
-                {open && (
-                  <div className="border-t border-primary/10 px-5 pb-9 pt-3 text-[13.5px] leading-relaxed text-text/80">
-                    <p className="my-4 text-base font-semibold text-text/80">
-                      {pair.strength.summary}
-                    </p>
-                    <p>{pair.strength.detail}</p>
-                  </div>
-                )}
-              </div>
-            );
-          })}
+          <p className="mt-4 text-text/70">
+            多くの企業が抱えるAI導入の課題を、tomosu-AI独自の開発モデルで解決します。
+          </p>
         </div>
 
-        {/* ===== PC：課題＋強み＝1カード（常時展開・3列／上帯と下帯の間にアクセントライン） ===== */}
-        <div className="mt-10 hidden md:grid md:grid-cols-3 gap-4">
-          {PAIRS_MOBILE.map((pair) => (
-            <article
+        <div className="grid gap-8 md:grid-cols-3">
+          {PAIRS.map((pair, index) => (
+            <div 
               key={pair.id}
-              className="group relative flex h-full flex-col overflow-hidden rounded-3xl border border-primary/10 bg-white shadow-sm shadow-primary/5 ring-1 ring-transparent transition hover:-translate-y-[2px] hover:shadow-lg hover:shadow-primary/10 focus-within:-translate-y-[2px] focus-within:shadow-lg focus-within:shadow-primary/10"
+              className="group relative flex flex-col h-full bg-white rounded-3xl shadow-sm border border-primary/5 overflow-hidden transition-all duration-300 hover:shadow-xl hover:-translate-y-1"
             >
-              {/* 上帯：課題 */}
-              <div className="flex flex-col p-6 bg-primary/10">
-                <div className="flex justify-center items-start gap-3">
-                  <span className="inline-flex flex-shrink-0 items-center justify-center rounded-full bg-primary/10 px-2.5 py-0.5 text-base font-semibold tracking-wide text-primary">
-                    {pair.label}
-                  </span>
-                  <p className="text-lg font-semibold text-text/90">{pair.problem}</p>
+              {/* 課題パート (Top) */}
+              <div className="bg-slate-50 p-6 border-b border-slate-100 relative">
+                <div className="flex items-start gap-4">
+                  <div className="flex-shrink-0 w-10 h-10 rounded-full bg-slate-200 flex items-center justify-center text-slate-500">
+                    {pair.problem.icon}
+                  </div>
+                  <div>
+                    <div className="text-xs font-bold text-slate-400 uppercase tracking-wider mb-1">Problem 0{index + 1}</div>
+                    <h3 className="text-sm font-semibold text-slate-600 leading-snug">{pair.problem.text}</h3>
+                  </div>
+                </div>
+                
+                {/* 矢印アイコン */}
+                <div className="absolute left-1/2 -bottom-4 -translate-x-1/2 w-8 h-8 bg-white rounded-full border border-primary/10 flex items-center justify-center z-10 shadow-sm">
+                  <svg className="w-4 h-4 text-accent" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 14l-7 7m0 0l-7-7m7 7V3" />
+                  </svg>
                 </div>
               </div>
 
-              {/* 指定のアクセントライン（上帯と下帯の間） */}
-              <div className="relative h-[3px]">
-                <span
-                  aria-hidden="true"
-                  className="absolute inset-x-0 top-0 block h-[3px] rounded-t-3xl bg-gradient-to-r from-primary/70 via-accent/60 to-primary/70 opacity-80"
-                />
-              </div>
-
-              {/* 下帯：強み（常時展開） */}
-              <div className="flex flex-col p-6">
-                {/* ラベル行：強みNo + バッジ */}
-                <div className="flex items-start gap-3">
-                  <span className="inline-flex flex-shrink-0 items-center justify-center rounded-full bg-primary/10 px-3 py-1 text-base font-semibold tracking-wide text-primary">
-                    {pair.strength.labelNo}
-                  </span>
-                  <h3 className="text-xl font-bold text-primary">
-                    {pair.strength.headline}
-                  </h3>
-                </div>
-
-                {/* 見出し・要約 */}
-                <p className="mt-6 text-base font-semibold text-text/80">
-                  {pair.strength.summary}
-                </p>
-
-                {/* 本文（詳細） */}
-                <div className="my-6 flex-1 text-sm leading-relaxed text-text/80">
-                  {pair.strength.detail}
+              {/* 解決策パート (Bottom) */}
+              <div className="p-8 pt-10 flex-1 flex flex-col">
+                <div className="text-xs font-bold text-accent uppercase tracking-wider mb-2">Solution 0{index + 1}</div>
+                <h4 className="text-xl font-bold text-primary mb-3">{pair.solution.title}</h4>
+                <p className="text-sm font-medium text-primary/80 mb-4">{pair.solution.description}</p>
+                <div className="text-sm text-text/70 leading-relaxed mt-auto pt-4 border-t border-dashed border-slate-200">
+                  {pair.solution.detail}
                 </div>
               </div>
-            </article>
+              
+              {/* ホバー時の枠線エフェクト */}
+              <div className="absolute inset-0 border-2 border-transparent group-hover:border-primary/10 rounded-3xl pointer-events-none transition-colors duration-300" />
+            </div>
           ))}
         </div>
       </div>

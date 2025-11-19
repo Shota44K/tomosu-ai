@@ -6,183 +6,108 @@ const USE_CASES = [
   {
     industry: "消費財メーカー",
     title: "消費者向けAIチャットボット",
-    description:
-      "商品の選び方や利用方法などの悩みを解決するAIチャットボットによりユーザー体験を向上。",
-    achievement: "ユーザー満足度・アプリの継続利用率向上",
+    desc: "商品の選び方や利用方法などの悩みを解決するAIチャットボットによりユーザー体験を向上。",
+    metrics: "満足度向上・継続率UP",
     icon: (
-      <svg
-        xmlns="http://www.w3.org/2000/svg"
-        viewBox="0 0 24 24"
-        fill="none"
-        stroke="currentColor"
-        strokeLinecap="round"
-        strokeLinejoin="round"
-        strokeWidth="1.5"
-        className="h-6 w-6"
-      >
-        <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z" />
-        <circle cx="9" cy="10" r="1" />
-        <circle cx="15" cy="10" r="1" />
-        <path d="M9 14a5 5 0 0 0 6 0" />
+      <svg className="h-full w-full text-primary/80" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M16 11V7a4 4 0 00-8 0v4M5 9h14l1 12H4L5 9z" />
       </svg>
-    ),
+    )
   },
   {
     industry: "一般財団法人",
-    title: "公共文章に関するQAチャット",
-    description:
-      "膨大な専門文章を扱う業務をRAGシステムで効率化。テキストだけでなく、図表を含めた正確な検索性能を実現。",
-    achievement: "専任要員の80%減を達成",
+    title: "公共文章QAシステム",
+    desc: "膨大な専門文章を扱う業務をRAGシステムで効率化。図表を含めた正確な検索性能を実現。",
+    metrics: "専任要員 80%削減",
     icon: (
-      <svg
-        xmlns="http://www.w3.org/2000/svg"
-        viewBox="0 0 24 24"
-        fill="none"
-        stroke="currentColor"
-        strokeLinecap="round"
-        strokeLinejoin="round"
-        strokeWidth="1.5"
-        className="h-6 w-6"
-      >
-        <path d="M3 3v18h18" />
-        <path d="M18 17V9" />
-        <path d="M13 17V5" />
-        <path d="M8 17v-3" />
+      <svg className="h-full w-full text-primary/80" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5M9 7h1m-1 4h1m4-4h1m-1 4h1m-5 10v-5a1 1 0 011-1h2a1 1 0 011 1v5m-4 0h4" />
       </svg>
-    ),
+    )
   },
   {
     industry: "工業製品メーカー",
     title: "社内ナレッジ検索AI",
-    description:
-      "膨大な技術文書や製品情報から必要な情報を検索。顧客対応業務の効率化を実現。",
-    achievement: "技術者の顧客対応時間削減",
+    desc: "技術文書や製品情報から必要な情報を即座に検索。ベテラン技術者の知見を社内で共有。",
+    metrics: "回答時間 65%短縮",
     icon: (
-      <svg
-        xmlns="http://www.w3.org/2000/svg"
-        viewBox="0 0 24 24"
-        fill="none"
-        stroke="currentColor"
-        strokeLinecap="round"
-        strokeLinejoin="round"
-        strokeWidth="1.5"
-        className="h-6 w-6"
-      >
-        <path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20" />
-        <path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z" />
-        <path d="M8 7h8" />
-        <path d="M8 11h8" />
-        <path d="M8 15h6" />
+      <svg className="h-full w-full text-primary/80" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M19.428 15.428a2 2 0 00-1.022-.547l-2.384-.477a6 6 0 00-3.86.517l-.318.158a6 6 0 01-3.86.517L6.05 15.21a2 2 0 00-1.806.547M8 4h8l-1 1v5.172a2 2 0 00.586 1.414l5 5c1.26 1.26.367 3.414-1.415 3.414H4.828c-1.782 0-2.674-2.154-1.414-3.414l5-5A2 2 0 009 10.172V5L8 4z" />
       </svg>
-    ),
+    )
   },
   {
     industry: "税理士法人",
     title: "財務申告業務効率化AI",
-    description:
-      "会計データに基づいて適用可能控除の抽出を担うAIソリューションを開発中。",
-    achievement: "現在、無償PoC推進中",
+    desc: "会計データに基づいて適用可能な控除を自動抽出するAIソリューション。",
+    metrics: "PoC実施中",
     icon: (
-      <svg
-        xmlns="http://www.w3.org/2000/svg"
-        viewBox="0 0 24 24"
-        fill="none"
-        stroke="currentColor"
-        strokeLinecap="round"
-        strokeLinejoin="round"
-        strokeWidth="1.5"
-        className="h-6 w-6"
-      >
-        <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z" />
-        <path d="M14 2v6h6" />
-        <path d="M8 13h8" />
-        <path d="M8 17h8" />
-        <path d="M8 9h2" />
+      <svg className="h-full w-full text-primary/80" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M9 7h6m0 10v-3m-3 3h.01M9 17h.01M9 14h.01M12 14h.01M15 11h.01M12 11h.01M9 11h.01M7 21h10a2 2 0 002-2V5a2 2 0 00-2-2H7a2 2 0 00-2 2v14a2 2 0 002 2z" />
       </svg>
-    ),
+    )
   },
 ];
 
 export default function UseCases() {
   return (
-    <section id="usecases" className="bg-white/90">
-      <div className="mx-auto max-w-7xl px-4 py-16 sm:px-6 md:px-8 lg:px-12">
-        <header className="text-center md:text-left mb-9">
-          <span className="inline-flex w-full max-w-[16rem] items-center justify-center gap-2 rounded-full bg-primary/10 px-4 py-1 text-sm font-medium text-primary mb-9">
-            開発実績
-          </span>
-          <h2 className="text-2xl font-bold text-primary md:text-3xl">
-            <span className="hidden md:inline">幅広い業界において、AIシステムを開発しています</span>
-            <span className="block md:hidden">幅広い業界において、</span>
-            <span className="block md:hidden">AIシステムを開発しています</span>
-          </h2>
-        </header>
-        
-        <div className="mt-10 grid gap-6 md:grid-cols-2 lg:gap-8">
-          {USE_CASES.map((useCase) => (
-            <article
-              key={useCase.title}
-              className="flex flex-col gap-5 rounded-2xl border border-primary/10 bg-white p-6 shadow-sm transition-shadow hover:shadow-md"
-              onClick={() =>
-                track('usecase_card_click', {
-                  title: useCase.title,
-                  industry: useCase.industry,
-                })
-              }
+    <section id="usecases" className="bg-white py-24">
+      <div className="mx-auto max-w-7xl px-4 sm:px-6 md:px-8 lg:px-12">
+        <div className="flex flex-col md:flex-row md:items-end justify-between mb-12">
+          <div>
+            <span className="inline-block py-1 px-3 rounded-full bg-primary/10 text-primary text-sm font-semibold mb-4">
+              Case Studies
+            </span>
+            <h2 className="text-3xl md:text-4xl font-bold text-primary">
+              業界を問わない開発実績
+            </h2>
+          </div>
+           <div className="hidden md:block">
+             <a href="#contact" className="text-primary font-bold hover:text-accent transition-colors flex items-center gap-2">
+               相談してみる <span aria-hidden="true">→</span>
+             </a>
+           </div>
+        </div>
+
+        <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-4">
+          {USE_CASES.map((item, i) => (
+            <article 
+              key={i}
+              className="group bg-slate-50 rounded-2xl p-6 border border-slate-100 hover:bg-white hover:shadow-xl hover:shadow-primary/5 hover:border-primary/10 transition-all duration-300 cursor-pointer flex flex-col h-full"
+              onClick={() => track('usecase_click', { title: item.title })}
             >
-              {/* ヘッダー部分 */}
-              <div className="flex items-center gap-4">
-                <div className="flex h-12.5 w-12.5 shrink-0 items-center justify-center rounded-full bg-primary/10 text-primary">
-                  {useCase.icon}
-                </div>
-                <div className="flex-1 min-w-0">
-                  <span className="inline-block rounded-full bg-accent/10 px-3 py-0.5 text-xs font-semibold text-accent mb-2">
-                    {useCase.industry}
-                  </span>
-                  <h3 className="text-lg font-bold leading-snug text-primary">
-                    {useCase.title}
-                  </h3>
-                </div>
+              <div className="flex justify-between items-start mb-4">
+                <div className="h-12 w-12 p-2 bg-white rounded-lg shadow-sm">{item.icon}</div>
+                <span className="text-xs font-bold text-slate-400 border border-slate-200 rounded-full px-2 py-1">
+                  {item.industry}
+                </span>
               </div>
-
-              {/* 説明文 */}
-              <p className="text-sm leading-relaxed text-text/80">
-                {useCase.description}
+              
+              <h3 className="text-lg font-bold text-primary mb-3 line-clamp-2 group-hover:text-accent transition-colors">
+                {item.title}
+              </h3>
+              <p className="text-sm text-text/70 mb-6 flex-1 leading-relaxed">
+                {item.desc}
               </p>
-
-              {/* 成果 */}
-              <div className="mt-auto pt-4 border-t border-primary/10">
-                <div className="flex items-start gap-2">
-                  <svg
-                    xmlns="http://www.w3.org/2000/svg"
-                    viewBox="0 0 24 24"
-                    fill="none"
-                    stroke="currentColor"
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                    strokeWidth="2"
-                    className="h-5 w-5 shrink-0 text-accent mt-0.5"
-                  >
-                    <path d="M20 6L9 17l-5-5" />
+              
+              <div className="mt-auto pt-4 border-t border-slate-200">
+                <div className="text-xs text-slate-500 font-semibold mb-1">成果</div>
+                <div className="text-sm font-bold text-primary flex items-center gap-2">
+                  <svg className="w-4 h-4 text-accent" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
                   </svg>
-                  <p className="text-sm font-semibold leading-relaxed text-primary">
-                    {useCase.achievement}
-                  </p>
+                  {item.metrics}
                 </div>
               </div>
             </article>
           ))}
         </div>
-
-        <div className="hidden mt-10 text-center md:block">
-          <a
-            href="#contact"
-            className="hidden min-w-[12rem] items-center justify-center rounded-full bg-primary px-8 py-3.5 text-base font-semibold text-white shadow transition hover:bg-primary/90 md:inline-flex"
-            onClick={() => track('cta_click', { location: 'usecases', to: '#contact' })}
-          >
-            無料で相談する（30分） &gt;
-          </a>
-        </div>
+        
+        <div className="mt-8 text-center md:hidden">
+           <a href="#contact" className="text-primary font-bold hover:text-accent transition-colors inline-flex items-center gap-2">
+             全ての事例について聞く <span aria-hidden="true">→</span>
+           </a>
+         </div>
       </div>
     </section>
   );
