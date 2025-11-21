@@ -48,13 +48,13 @@ export default function Hero() {
         repeat: -1,
         yoyo: true,
         ease: 'sine.inOut',
-        delay: 1.0, // 背景ロード待ちを考慮して少し遅らせる
+        delay: 1.0,
       });
 
       // テキスト要素のフェードイン
       gsap.fromTo("[data-animate='fade-in-up']", 
-        { opacity: 0, y: 20 },
-        { opacity: 1, y: 0, duration: 0.8, stagger: 0.1, delay: 0.2, ease: 'power2.out' }
+        { opacity: 0, y: 30 }, // 移動距離を少し大きくしてダイナミックに
+        { opacity: 1, y: 0, duration: 1.0, stagger: 0.15, delay: 0.3, ease: 'power3.out' } // イージングを変更して高級感を出す
       );
     }, sectionRef);
 
@@ -65,17 +65,17 @@ export default function Hero() {
     <section
       id="hero"
       ref={sectionRef}
-      className="relative -mt-28 overflow-hidden bg-base text-primary min-h-[100dvh] flex items-center"
+      className="relative -mt-28 overflow-hidden bg-gradient-to-b from-base/50 to-base text-primary min-h-[100dvh] flex items-center"
       aria-label="Hero"
     >
       {/* Three.js Background */}
       <HeroBackground />
 
-      <div className="relative z-10 mx-auto w-full max-w-7xl px-4 pt-20 sm:px-6 md:px-8 lg:px-12">
+      <div className="relative z-10 mx-auto w-full max-w-7xl px-4 pt-24 sm:px-6 sm:pt-32 md:px-8 lg:px-12">
         <div className="flex flex-col md:flex-row md:items-center">
           <div className="flex-[1.5] space-y-8 md:space-y-10">
             <div data-animate="fade-in-up" className="inline-flex opacity-0">
-              <span className="inline-flex items-center gap-2 rounded-full border border-primary/20 bg-white/60 backdrop-blur-sm px-4 py-1.5 text-sm font-medium text-primary shadow-sm">
+              <span className="inline-flex items-center gap-2 rounded-full border border-primary/20 bg-white/80 backdrop-blur-md px-4 py-1.5 text-xs sm:text-sm font-medium text-primary shadow-sm">
                 <span className="relative flex h-2 w-2">
                   <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-accent opacity-75"></span>
                   <span className="relative inline-flex rounded-full h-2 w-2 bg-accent"></span>
@@ -84,27 +84,28 @@ export default function Hero() {
               </span>
             </div>
 
-            <h1 ref={titleRef} data-animate="fade-in-up" className="font-bold leading-[1.15] tracking-tight text-primary opacity-0">
-              <span className="block text-3xl sm:text-4xl md:text-5xl lg:text-6xl mb-2 md:mb-4">
+            <h1 ref={titleRef} data-animate="fade-in-up" className="font-bold leading-[1.1] tracking-tight text-primary opacity-0 drop-shadow-sm">
+              <span className="block text-4xl sm:text-5xl md:text-6xl lg:text-7xl mb-3 md:mb-5">
                 AI開発のリスクを
-                <span className="relative whitespace-nowrap text-primary/90">
+                <br className="block sm:hidden" />
+                <span className="relative whitespace-nowrap text-primary ml-0 sm:ml-2">
                    ゼロにする
                   <svg className="absolute -bottom-2 left-0 w-full h-3 text-accent/40 -z-10" viewBox="0 0 100 10" preserveAspectRatio="none">
                     <path d="M0 5 Q 50 10 100 5" stroke="currentColor" strokeWidth="8" fill="none" />
                   </svg>
                 </span>
               </span>
-              <span className="block text-2xl sm:text-3xl md:text-4xl lg:text-5xl text-primary/80 font-medium">
+              <span className="block text-2xl sm:text-3xl md:text-4xl lg:text-5xl text-primary/80 font-medium mt-2">
                 効果が見えるまで費用負担なし
               </span>
             </h1>
 
-            <p data-animate="fade-in-up" className="max-w-xl text-base leading-relaxed text-text/80 md:text-lg opacity-0">
-              消費財メーカー・財団法人・税理士法人など実績多数。<br />
-              中堅・中小企業の経営課題を、リスクのないAI開発で解決します。
+            <p data-animate="fade-in-up" className="max-w-2xl text-base leading-relaxed text-text/90 md:text-lg lg:text-xl opacity-0 font-medium drop-shadow-sm">
+              消費財メーカー・財団法人・税理士法人など実績多数。<br className="hidden sm:block" />
+              中堅・中小企業の経営課題を、<span className="font-bold text-primary border-b border-accent/30">リスクのないAI開発</span>で解決します。
             </p>
 
-            <div data-animate="fade-in-up" className="flex flex-col gap-4 sm:flex-row opacity-0">
+            <div data-animate="fade-in-up" className="flex flex-col gap-4 sm:flex-row opacity-0 pt-2">
               <a
                 href={heroCtaHref}
                 className="group relative inline-flex w-full sm:w-auto items-center justify-center gap-2 overflow-hidden rounded-full bg-primary px-8 py-4 text-base font-bold text-white shadow-lg shadow-primary/20 transition-all duration-300 hover:bg-primary/90 hover:scale-[1.02] hover:shadow-xl focus:outline-none focus:ring-2 focus:ring-primary focus:ring-offset-2"
@@ -116,7 +117,7 @@ export default function Hero() {
                 </svg>
                 <div className="absolute inset-0 -translate-x-full bg-gradient-to-r from-transparent via-white/20 to-transparent group-hover:animate-[shimmer_1.5s_infinite]"></div>
               </a>
-              <a href="#usecases" className="group inline-flex w-full sm:w-auto items-center justify-center gap-2 rounded-full border border-primary/30 bg-white/50 backdrop-blur-sm px-8 py-4 text-base font-bold text-primary transition-all hover:bg-white/80 hover:border-primary/50">
+              <a href="#usecases" className="group inline-flex w-full sm:w-auto items-center justify-center gap-2 rounded-full border border-primary/30 bg-white/60 backdrop-blur-sm px-8 py-4 text-base font-bold text-primary transition-all hover:bg-white/90 hover:border-primary/50 shadow-sm">
                 事例を見る
               </a>
             </div>
@@ -125,7 +126,7 @@ export default function Hero() {
         </div>
       </div>
 
-      <div className="absolute bottom-8 left-1/2 -translate-x-1/2 flex flex-col items-center gap-2 text-xs font-medium tracking-widest text-primary/60 uppercase">
+      <div className="absolute bottom-8 left-1/2 -translate-x-1/2 flex flex-col items-center gap-2 text-xs font-medium tracking-widest text-primary/60 uppercase pointer-events-none">
         <span>Scroll</span>
         <div className="h-12 w-[1px] overflow-hidden bg-primary/20">
           <div data-animate="scroll-cue" className="h-1/2 w-full bg-primary"></div>
